@@ -15,8 +15,8 @@ public class Driver {
 
     public static void main(String[] args) throws SlickException{
         Game game = new Game();
-        AppGameContainer gc = new AppGameContainer(game);
-        gc.setDisplayMode(500,500,false);
+        AppGameContainer gc = new MyGameContainer(game,false);
+        gc.setDisplayMode(800,600,false);
         gc.setShowFPS(true);
         gc.start();
     }
