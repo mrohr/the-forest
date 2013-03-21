@@ -17,15 +17,40 @@ import java.util.List;
  */
 public class Map extends GameObject{
     TiledMapPlus tiled;
+    private int height;
+    private int width;
+
+
     List<Entity> entities;
+    Player player;
 
     public Map(String tiledFile)throws SlickException{
         tiled = new TiledMapPlus(tiledFile);
+        height = tiled.getHeight();
+        width = tiled.getWidth();
         entities = new ArrayList<Entity>();
     }
 
     public void addEntity(Entity e){
         entities.add(e);
+    }
+    public void setPlayer(Player p){
+        player = p;
+    }
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 
 
@@ -40,6 +65,7 @@ public class Map extends GameObject{
         for(Entity e:entities){
             e.update(gameContainer,i);
         }
+        player.update(gameContainer,i);
 
     }
 
@@ -50,5 +76,6 @@ public class Map extends GameObject{
         for(Entity e: entities){
             e.render(gameContainer,graphics);
         }
+        player.render(gameContainer,graphics);
     }
 }

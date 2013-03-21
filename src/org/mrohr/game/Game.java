@@ -12,18 +12,23 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class Game extends BasicGame {
     Map currentMap;
+    Player player;
     public Game(){
       super("Top-Down Shooter");
     }
     public void init(GameContainer gameContainer) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
         currentMap = new Map("res/maps/test.tmx");
+
+        Player player = new Player(currentMap.getHeight(),currentMap.getWidth());
+        currentMap.setPlayer(player);
         Block block1 = new Block(200,200);
-        block1.setHeading(45);
         Block block2 = new Block(400,400);
-        block2.setSpeed(1,2);
         currentMap.addEntity(block1);
         currentMap.addEntity(block2);
+
+        player.init((MyGameContainer)gameContainer);
+
     }
 
     public void update(GameContainer gameContainer, int i) throws SlickException {

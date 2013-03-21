@@ -16,6 +16,7 @@ public abstract class Entity extends GameObject {
     protected Image renderedImage;
     protected Color debugColor;
 
+
     public Entity(Shape bb){
         this.boundingBox = bb;
         img = null;
