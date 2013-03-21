@@ -18,8 +18,12 @@ public class Game extends BasicGame {
     public void init(GameContainer gameContainer) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
         currentMap = new Map("res/maps/test.tmx");
-        currentMap.addEntity(new Block(200,200));
-        currentMap.addEntity(new Block(210,200));
+        Block block1 = new Block(200,200);
+        block1.setHeading(45);
+        Block block2 = new Block(400,400);
+        block2.setSpeed(1,2);
+        currentMap.addEntity(block1);
+        currentMap.addEntity(block2);
     }
 
     public void update(GameContainer gameContainer, int i) throws SlickException {

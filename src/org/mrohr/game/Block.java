@@ -13,7 +13,7 @@ import org.newdawn.slick.geom.Rectangle;
  * Time: 11:42 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Block extends CollidableEntity {
+public class Block extends MoveableEntity {
     public static final float height = 16;
     public static final float width = 16;
 
@@ -29,13 +29,8 @@ public class Block extends CollidableEntity {
 
     }
 
-    public void render(MyGameContainer gc, Graphics graphics) throws SlickException {
-       if(this.img == null){
-           graphics.setColor(Color.lightGray);
-           graphics.fill(boundingBox);
-       }else{
-           super.render(gc,graphics);
-       }
-
+    @Override
+    public void init(MyGameContainer gameContainer) throws SlickException {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

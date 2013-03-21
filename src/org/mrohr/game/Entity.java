@@ -10,7 +10,7 @@ import org.newdawn.slick.geom.Shape;
  * Time: 5:00 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Entity extends GameObject {
+public abstract class Entity extends GameObject {
     protected Shape boundingBox;
     protected Image img;
     protected Image renderedImage;
@@ -33,27 +33,13 @@ public class Entity extends GameObject {
     public void setDebugColor(Color color){
         debugColor = color;
     }
-
-
-
-    @Override
-    public void init(MyGameContainer gc) throws SlickException {
-
-    }
-
-    @Override
-    public void update(MyGameContainer gc, int i) throws SlickException {
-
-    }
-
     @Override
     public void render(MyGameContainer gc, Graphics graphics) throws SlickException {
         if(gc.debug){
             graphics.setColor(debugColor);
             graphics.fill(boundingBox);
         }
-        if(renderedImage != null){
-            System.out.println("HAS RENDERED");
+        else if(renderedImage != null){
             graphics.drawImage(renderedImage,boundingBox.getX(),boundingBox.getY());
         }
 

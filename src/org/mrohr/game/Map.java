@@ -36,7 +36,10 @@ public class Map extends GameObject{
 
     @Override
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
-        //To change body of implemented methods use File | Settings | File Templates.
+
+        for(Entity e:entities){
+            e.update(gameContainer,i);
+        }
 
     }
 
