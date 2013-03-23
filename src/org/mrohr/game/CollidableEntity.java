@@ -30,6 +30,7 @@ public abstract class CollidableEntity extends Entity {
     public void testCollision(CollidableEntity other){
       if(this.boundingBox.intersects(other.boundingBox)){
           onCollision(other);
+          other.onCollision(this);
       }
     }
 

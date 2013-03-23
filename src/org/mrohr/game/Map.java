@@ -62,10 +62,14 @@ public class Map extends GameObject{
     @Override
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
 
+        player.update(gameContainer,i);
         for(Entity e:entities){
             e.update(gameContainer,i);
+            if(e instanceof CollidableEntity){
+                player.testCollision((CollidableEntity)e);
+            }
         }
-        player.update(gameContainer,i);
+
 
     }
 

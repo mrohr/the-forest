@@ -17,12 +17,16 @@ import org.newdawn.slick.geom.Transform;
 public abstract class MoveableEntity extends CollidableEntity {
     protected float xspeed;
     protected float yspeed;
+    protected float prevX;
+    protected float prevY;
     protected float heading;//0-360, degree that this object is facing. 0 north, 90 east, 180 south, 270 west
+    protected Shape previousBB;
 
 
 
     public MoveableEntity(Shape bb,boolean solid){
         super(bb,solid);
+
         xspeed = 0;
         yspeed = 0;
         heading = 0;
@@ -45,6 +49,8 @@ public abstract class MoveableEntity extends CollidableEntity {
     }
 
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
+        prevX = this.boundingBox.getX();
+        prevY = this.boundingBox.getY();
         float newX = this.boundingBox.getX() + xspeed;
         float newY = this.boundingBox.getY() + yspeed;
         this.boundingBox.setX(newX);
@@ -64,5 +70,19 @@ public abstract class MoveableEntity extends CollidableEntity {
         else if(renderedImage != null){
             graphics.drawImage(renderedImage,boundingBox.getX(),boundingBox.getY());
         }
+    }
+
+    public void onCollision(CollidableEntity other){
+        System.out.println(this.solid);
+        System.out.println(other.solid);
+        if(this.solid && other.solid){
+            System.out.println("Correcting");
+            this.boundingBox.setX(prevX);
+            this.boundingBox.setY(prevY);
+        }
+    }
+
+    public void correctPosition(){
+
     }
 }

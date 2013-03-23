@@ -25,7 +25,7 @@ public class Block extends MoveableEntity {
     }
 
     public void onCollision(CollidableEntity other) {
-        System.out.println("Colliding!");
+        //System.out.println("Colliding!");
 
     }
 
