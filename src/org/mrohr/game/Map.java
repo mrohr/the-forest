@@ -1,7 +1,9 @@
 package org.mrohr.game;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.tiled.TiledMapPlus;
 
 import java.util.ArrayList;
@@ -81,5 +83,12 @@ public class Map extends GameObject{
             e.render(gameContainer,graphics);
         }
         player.render(gameContainer,graphics);
+        Circle cursor = new Circle(player.mousex,player.mousey,5f);
+        graphics.setColor(Color.red);
+        graphics.draw(cursor);
+        graphics.drawLine(cursor.getCenterX() - 10,cursor.getCenterY(),
+                cursor.getCenterX() +10,cursor.getCenterY());
+        graphics.drawLine(cursor.getCenterX(),cursor.getCenterY() - 10,
+                cursor.getCenterX(),cursor.getCenterY() + 10);
     }
 }

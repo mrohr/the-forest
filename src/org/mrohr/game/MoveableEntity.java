@@ -81,7 +81,6 @@ public abstract class MoveableEntity extends CollidableEntity {
             this.boundingBox.setY(prevY);
         }
     }
-
     public void correctPosition(){
 
     }

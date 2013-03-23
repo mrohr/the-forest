@@ -1,5 +1,6 @@
 package org.mrohr.game;
 
+import org.lwjgl.input.Cursor;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -13,6 +14,7 @@ import org.newdawn.slick.geom.Rectangle;
 public class Game extends BasicGame {
     Map currentMap;
     Player player;
+    Camera cam;
     public Game(){
       super("Top-Down Shooter");
     }
@@ -29,15 +31,18 @@ public class Game extends BasicGame {
 
         player.init((MyGameContainer)gameContainer);
 
+        cam = new Camera(player);
     }
 
     public void update(GameContainer gameContainer, int i) throws SlickException {
         currentMap.update((MyGameContainer)gameContainer,i);
+        cam.update((MyGameContainer)gameContainer
+        ,i);
     }
 
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
-        graphics.drawString("Hello World!",0,0);
+        graphics.translate(-cam.getX(),-cam.getY());
         currentMap.render((MyGameContainer)gameContainer,graphics);
     }
 }
