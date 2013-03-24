@@ -14,7 +14,6 @@ import org.newdawn.slick.geom.Rectangle;
 public class Game extends BasicGame {
     Map currentMap;
     Player player;
-    Camera cam;
     public Game(){
       super("Top-Down Shooter");
     }
@@ -24,25 +23,18 @@ public class Game extends BasicGame {
 
         Player player = new Player(currentMap.getHeight(),currentMap.getWidth());
         currentMap.setPlayer(player);
-        Block block1 = new Block(200,200);
-        Block block2 = new Block(400,400);
-        currentMap.addEntity(block1);
-        currentMap.addEntity(block2);
+
 
         player.init((MyGameContainer)gameContainer);
-
-        cam = new Camera(player);
+        currentMap.init((MyGameContainer)gameContainer);
     }
 
     public void update(GameContainer gameContainer, int i) throws SlickException {
         currentMap.update((MyGameContainer)gameContainer,i);
-        cam.update((MyGameContainer)gameContainer
-        ,i);
     }
 
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
-        graphics.translate(-cam.getX(),-cam.getY());
         currentMap.render((MyGameContainer)gameContainer,graphics);
     }
 }
