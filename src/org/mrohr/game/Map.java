@@ -64,7 +64,7 @@ public class Map extends GameObject implements MouseListener {
         Layer collisions = tiled.getLayer("Collision");
         for(int i = 0;i<tiled.getWidth();i++){
             for(int k = 0;k<tiled.getHeight();k++){
-                String prop = tiled.getTileProperty(tiled.getTileId(i,k,1),"solid","false");
+                String prop = tiled.getTileProperty(collisions.getTileID(i,k),"solid","false");
                 System.out.println(prop);
                 if(Boolean.parseBoolean(prop)){
                    Block block = new Block(tiled.getTileWidth()*i,tiled.getTileWidth()*k);
@@ -96,11 +96,13 @@ public class Map extends GameObject implements MouseListener {
     public void render(MyGameContainer gameContainer, Graphics graphics) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
         graphics.translate(-cam.getX(),-cam.getY());
-        tiled.render(0,0,0);
+        tiled.render(0,0,tiled.getLayerID("Main"));
+        tiled.render(0,0,tiled.getLayerID("Under"));
         for(Entity e: blocks){
             e.render(gameContainer,graphics);
         }
         player.render(gameContainer,graphics);
+        tiled.render(0,0,tiled.getLayerID("Over"));
 
 
         Circle cursor = new Circle(mousex,mousey,5f);

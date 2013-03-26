@@ -19,7 +19,7 @@ public class Game extends BasicGame {
     }
     public void init(GameContainer gameContainer) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
-        currentMap = new Map("res/maps/test.tmx");
+        currentMap = new Map("res/maps/test2.tmx");
 
         Player player = new Player(currentMap.getHeight(),currentMap.getWidth());
         currentMap.setPlayer(player);

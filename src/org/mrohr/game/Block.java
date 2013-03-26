@@ -14,8 +14,8 @@ import org.newdawn.slick.geom.Rectangle;
  * To change this template use File | Settings | File Templates.
  */
 public class Block extends MoveableEntity {
-    public static final float height = 16;
-    public static final float width = 16;
+    public static final float height = 32;
+    public static final float width = 32;
 
     public Block(float x, float y, Image img){
         super(new Rectangle(x,y,height,width),img,true);

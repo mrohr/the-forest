@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="80" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="dark_forest" tilewidth="32" tileheight="32">
+  <image source="../tilesets/dark_forest.png" trans="ffffff" width="256" height="608"/>
+ </tileset>
+ <tileset firstgid="153" name="collisions" tilewidth="32" tileheight="32">
+  <image source="../tilesets/collisions.png" width="32" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="solid" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Main" width="100" height="80">
+  <data encoding="base64" compression="zlib">
+   eJztw0EJAAAIBLDL4NM29i9lDcENNklGVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX10fLU9tQFV+HOEg==
+  </data>
+ </layer>
+ <layer name="Under" width="100" height="80">
+  <data encoding="base64" compression="zlib">
+   eJztzjEKwDAQA0F9JPizTmf/2c2lS39gZkBsqySZtVdb+1m1ra0FAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOBuo/sAeboP8OsAo0dovQ==
+  </data>
+ </layer>
+ <layer name="Over" width="100" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt07FtAkAQRcFtABwZMvoyCeDEbsK9cxLCLdwLZqSfr7R6t5n5G3b7Wruu/az9br6Fmcfa99pt7b73FEYfNfpo0UeLPlr00aKPFn206KNFHy36aNFHiz5a9NGijxZ9tOijRR8t+mjRR4s+WvTRoo8WfbToo0UfLfpo0UeLPlr00aKPFn206KNFHy36aNFHiz5a9NGijxZ9tOijRR8t+mjRR4s+WvTRoo8WfbToo0UfLfpo0UeLPlr00aKPFn206KNFHy36aNFHiz5a9NGijxZ9tOijRR8t+mjRR4s+WvTRoo8WfbToo0UfLe8+jmsfm29h5jCvX5zWzptvYeZzXr+47D6Ef37R8wSZyXOC
+  </data>
+ </layer>
+ <layer name="Collision" width="100" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt0UENAAAMhLD5d3BuZ6MPmqCA3d2KKoZ+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WPph6YelH5Z+WFZcDwwB1MU=
+  </data>
+ </layer>
+</map>

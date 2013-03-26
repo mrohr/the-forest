@@ -13,8 +13,8 @@ import org.newdawn.slick.geom.Rectangle;
 public class Player extends LivingEntity implements KeyListener {
     private final float SPEED = 2f;
     private Map currentMap;
-    public Player(int x, int y){
-        super(new Rectangle(x,y,32,32),true,100);
+    public Player(int x, int y)throws SlickException{
+        super(new Rectangle(x,y,32,32),new Image("res/images/player.png"),true,100);
         this.setDebugColor(Color.pink);
     }
 
@@ -52,7 +52,7 @@ public class Player extends LivingEntity implements KeyListener {
 
     }
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
-        this.heading = currentMap.calculatePlayerHeading();
+        setHeading((float)Math.toDegrees(currentMap.calculatePlayerHeading()));
         super.update(gameContainer,i);
 
     }
