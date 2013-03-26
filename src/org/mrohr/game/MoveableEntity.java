@@ -43,9 +43,6 @@ public abstract class MoveableEntity extends CollidableEntity {
 
     public void setHeading(float h){
         this.heading = h;
-        if(renderedImage != null){
-            renderedImage.setRotation(h);
-        }
     }
 
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
@@ -58,18 +55,9 @@ public abstract class MoveableEntity extends CollidableEntity {
     }
 
     public void render(MyGameContainer gc, Graphics graphics) throws SlickException {
-        if(gc.debug){
-            graphics.setColor(debugColor);
-            Shape rotatedShape = this.boundingBox;
-            if(heading != 0){
-                rotatedShape = boundingBox.transform(Transform.createRotateTransform(heading,
-                        this.boundingBox.getCenterX(),this.boundingBox.getCenterY()));
-            }
-            graphics.fill(rotatedShape);
-        }
-        else if(renderedImage != null){
-            graphics.drawImage(renderedImage,boundingBox.getX(),boundingBox.getY());
-        }
+        graphics.rotate(this.boundingBox.getCenterX(),this.boundingBox.getCenterY(),heading);
+        super.render(gc,graphics);
+        graphics.rotate(this.boundingBox.getCenterX(),this.boundingBox.getCenterY(),-heading);
     }
 
     public void onCollision(CollidableEntity other){

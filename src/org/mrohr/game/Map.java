@@ -75,7 +75,7 @@ public class Map extends GameObject implements MouseListener {
             }
         }
         alphamap = new Image("res/alphamap/flashlight.png");
-        alphamap = alphamap.getScaledCopy(4);
+        alphamap = alphamap.getScaledCopy(6);
 
 
 
@@ -112,23 +112,28 @@ public class Map extends GameObject implements MouseListener {
         player.render(gameContainer,graphics);
         tiled.render(0,0,tiled.getLayerID("Over"));
 
-        graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
 
+        graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
         float alphaW = alphamap.getWidth();
         float alphaH = alphamap.getHeight();
         float alphaX = player.boundingBox.getX() - (alphaW/2);
         float alphaY = player.boundingBox.getY() - (alphaH/2);
+        graphics.rotate(player.boundingBox.getCenterX(),player.boundingBox.getCenterY(),player.heading);
+
         graphics.drawImage(alphamap,alphaX,alphaY);
+        graphics.rotate(player.boundingBox.getCenterX(),player.boundingBox.getCenterY(),-player.heading);
         graphics.setDrawMode(Graphics.MODE_ALPHA_BLEND);
         graphics.setColor(Color.black);
-        graphics.fillRect(0,0,tiled.getWidth()*tiled.getTileWidth(),tiled.getHeight()*tiled.getTileHeight());
+        graphics.translate(cam.getX(),cam.getY());
+        graphics.fillRect(0,0,gameContainer.getScreenWidth(),gameContainer.getScreenHeight());
+        //graphics.fillRect(0,0,tiled.getWidth()*tiled.getTileWidth(),tiled.getHeight()*tiled.getTileHeight());
         graphics.setDrawMode(Graphics.MODE_NORMAL);
 
 
 
 
 
-
+        graphics.translate(-cam.getX(),-cam.getY());
         Circle cursor = new Circle(mousex,mousey,5f);
         graphics.setColor(Color.red);
         graphics.draw(cursor);
