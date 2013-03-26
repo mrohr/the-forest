@@ -13,6 +13,10 @@ import org.newdawn.slick.geom.Rectangle;
 public class Player extends LivingEntity implements KeyListener {
     private final float SPEED = 2f;
     private Map currentMap;
+    boolean upPressed;
+    boolean downPressed;
+    boolean leftPressed;
+    boolean rightPressed;
     public Player(int x, int y)throws SlickException{
         super(new Rectangle(x,y,32,32),new Image("res/images/player.png"),true,100);
         this.setDebugColor(Color.pink);
@@ -63,15 +67,19 @@ public class Player extends LivingEntity implements KeyListener {
         float currentY = this.yspeed;
         if(key ==Input.KEY_W){
             currentY = -SPEED;
+            upPressed = true;
         }
         if(key ==Input.KEY_S){
             currentY = SPEED;
+            downPressed = true;
         }
         if(key ==Input.KEY_A){
             currentX = -SPEED;
+            leftPressed = true;
         }
         if(key ==Input.KEY_D){
             currentX = SPEED;
+            rightPressed = true;
         }
         setSpeed(currentX,currentY);
     }
@@ -81,15 +89,31 @@ public class Player extends LivingEntity implements KeyListener {
         float currentY = this.yspeed;
         if(key ==Input.KEY_W){
             currentY = 0;
+            upPressed = false;
+            if(downPressed){
+                currentY = SPEED;
+            }
         }
         if(key ==Input.KEY_S){
             currentY = 0;
+            downPressed = false;
+            if(upPressed){
+                currentY = -SPEED;
+            }
         }
         if(key ==Input.KEY_A){
             currentX = 0;
+            leftPressed = false;
+            if(rightPressed){
+                currentX = SPEED;
+            }
         }
         if(key ==Input.KEY_D){
             currentX = 0;
+            rightPressed = false;
+            if(leftPressed){
+                currentX = -SPEED;
+            }
         }
         setSpeed(currentX,currentY);
     }
