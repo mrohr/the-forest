@@ -39,6 +39,7 @@ public class Map extends GameObject implements MouseListener {
         player = p;
         p.setCurrentMap(this);
         cam = new Camera(player);
+        cam.setMap(this);
     }
     public int getHeight() {
         return height;

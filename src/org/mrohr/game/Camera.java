@@ -16,6 +16,9 @@ public class Camera extends GameObject {
     private float x;
     private float y;
 
+    public void setMap(Map map){
+        this.map = map;
+    }
     public float getX() {
         return x;
     }
@@ -53,16 +56,26 @@ public class Camera extends GameObject {
     @Override
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
-        float minX = gameContainer.getWidth() / 2;
-        float minY = gameContainer.getHeight() / 2;
-        this.x = poi.boundingBox.getCenterX() - minX;
-        this.y = poi.boundingBox.getCenterY() - minY;
+        float camSizeX = gameContainer.getWidth() / 2;
+        float camSizeY = gameContainer.getHeight() / 2;
+        this.x = poi.boundingBox.getCenterX() - camSizeX;
+        this.y = poi.boundingBox.getCenterY() - camSizeY;
         if(this.x < 0){
             this.x = 0;
         }
         if(this.y < 0){
             this.y = 0;
         }
+
+        float maxX = map.getWidth() * map.tiled.getTileWidth() - camSizeX * 2;
+        float maxY = map.getHeight() * map.tiled.getTileHeight() - camSizeY * 2;
+        if(this.x > maxX){
+            this.x = maxX;
+        }
+        if(this.y > maxY){
+            this.y = maxY;
+        }
+
     }
 
     @Override
