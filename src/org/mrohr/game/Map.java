@@ -2,6 +2,7 @@ package org.mrohr.game;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.Tile;
 import org.newdawn.slick.tiled.TiledMapPlus;
@@ -24,6 +25,7 @@ public class Map extends GameObject implements MouseListener {
     public Camera cam;
     int mousex;
     int mousey;
+    Image alphamap;
 
     List<Entity> blocks;
     Player player;
@@ -66,13 +68,15 @@ public class Map extends GameObject implements MouseListener {
         for(int i = 0;i<tiled.getWidth();i++){
             for(int k = 0;k<tiled.getHeight();k++){
                 String prop = tiled.getTileProperty(collisions.getTileID(i,k),"solid","false");
-                System.out.println(prop);
                 if(Boolean.parseBoolean(prop)){
                    Block block = new Block(tiled.getTileWidth()*i,tiled.getTileWidth()*k);
                    blocks.add(block);
                 }
             }
         }
+        alphamap = new Image("res/alphamap/flashlight.png");
+        alphamap = alphamap.getScaledCopy(4);
+
 
 
     }
@@ -91,19 +95,38 @@ public class Map extends GameObject implements MouseListener {
         }
 
 
+
+
     }
 
     @Override
     public void render(MyGameContainer gameContainer, Graphics graphics) throws SlickException {
-        //To change body of implemented methods use File | Settings | File Templates.
+
         graphics.translate(-cam.getX(),-cam.getY());
-        tiled.render(0,0,tiled.getLayerID("Main"));
+
+        tiled.render(0, 0, tiled.getLayerID("Main"));
         tiled.render(0,0,tiled.getLayerID("Under"));
         for(Entity e: blocks){
             e.render(gameContainer,graphics);
         }
         player.render(gameContainer,graphics);
         tiled.render(0,0,tiled.getLayerID("Over"));
+
+        graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
+
+        float alphaW = alphamap.getWidth();
+        float alphaH = alphamap.getHeight();
+        float alphaX = player.boundingBox.getX() - (alphaW/2);
+        float alphaY = player.boundingBox.getY() - (alphaH/2);
+        graphics.drawImage(alphamap,alphaX,alphaY);
+        graphics.setDrawMode(Graphics.MODE_ALPHA_BLEND);
+        graphics.setColor(Color.black);
+        graphics.fillRect(0,0,tiled.getWidth()*tiled.getTileWidth(),tiled.getHeight()*tiled.getTileHeight());
+        graphics.setDrawMode(Graphics.MODE_NORMAL);
+
+
+
+
 
 
         Circle cursor = new Circle(mousex,mousey,5f);
@@ -113,7 +136,9 @@ public class Map extends GameObject implements MouseListener {
                 cursor.getCenterX() +10,cursor.getCenterY());
         graphics.drawLine(cursor.getCenterX(),cursor.getCenterY() - 10,
                 cursor.getCenterX(),cursor.getCenterY() + 10);
+
     }
+
 
     public float calculatePlayerHeading(){
         float dx = player.boundingBox.getX() - mousex;

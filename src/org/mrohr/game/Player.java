@@ -11,7 +11,7 @@ import org.newdawn.slick.geom.Rectangle;
  * To change this template use File | Settings | File Templates.
  */
 public class Player extends LivingEntity implements KeyListener {
-    private final float SPEED = 2f;
+    private final float SPEED = 1f;
     private Map currentMap;
     boolean upPressed;
     boolean downPressed;
