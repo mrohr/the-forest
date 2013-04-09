@@ -7,9 +7,10 @@ import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.Tile;
 import org.newdawn.slick.tiled.TiledMapPlus;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,13 +29,15 @@ public class Map extends GameObject implements MouseListener {
     Image alphamap;
 
     List<Entity> blocks;
+    public List<Item> worldItems;
     Player player;
 
     public Map(String tiledFile)throws SlickException{
         tiled = new TiledMapPlus(tiledFile);
         height = tiled.getHeight();
         width = tiled.getWidth();
-        blocks = new ArrayList<Entity>();
+        blocks = new LinkedList<Entity>();
+        worldItems = new LinkedList<Item>();
     }
 
     public void setPlayer(Player p){
@@ -87,10 +90,20 @@ public class Map extends GameObject implements MouseListener {
         mousey = gameContainer.getInput().getMouseY() + (int)cam.getY();
         player.update(gameContainer,i);
         cam.update(gameContainer,i);
-        for(Entity e:blocks){
+        ListIterator<Entity> blockItr = blocks.listIterator();
+        while(blockItr.hasNext()){
+            Entity e = blockItr.next();
             e.update(gameContainer,i);
             if(e instanceof CollidableEntity){
                 player.testCollision((CollidableEntity)e);
+            }
+        }
+
+        ListIterator<Item> itemItr = worldItems.listIterator();
+        while(itemItr.hasNext()){
+            Item item = itemItr.next();
+            if(player.testCollision(item)){
+                itemItr.remove();
             }
         }
 
@@ -102,17 +115,21 @@ public class Map extends GameObject implements MouseListener {
     @Override
     public void render(MyGameContainer gameContainer, Graphics graphics) throws SlickException {
 
+        //draw the map/any entities
+        //translate graphics for camera
         graphics.translate(-cam.getX(),-cam.getY());
-
         tiled.render(0, 0, tiled.getLayerID("Main"));
         tiled.render(0,0,tiled.getLayerID("Under"));
         for(Entity e: blocks){
             e.render(gameContainer,graphics);
         }
+        for(Item i: worldItems){
+            i.render(gameContainer, graphics);
+        }
         player.render(gameContainer,graphics);
         tiled.render(0,0,tiled.getLayerID("Over"));
 
-
+        //lighting
         graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
         float alphaW = alphamap.getWidth();
         float alphaH = alphamap.getHeight();
@@ -122,18 +139,17 @@ public class Map extends GameObject implements MouseListener {
 
         graphics.drawImage(alphamap,alphaX,alphaY);
         graphics.rotate(player.boundingBox.getCenterX(),player.boundingBox.getCenterY(),-player.heading);
+
         graphics.setDrawMode(Graphics.MODE_ALPHA_BLEND);
         graphics.setColor(Color.black);
         graphics.translate(cam.getX(),cam.getY());
         graphics.fillRect(0,0,gameContainer.getScreenWidth(),gameContainer.getScreenHeight());
         //graphics.fillRect(0,0,tiled.getWidth()*tiled.getTileWidth(),tiled.getHeight()*tiled.getTileHeight());
         graphics.setDrawMode(Graphics.MODE_NORMAL);
-
-
-
-
-
         graphics.translate(-cam.getX(),-cam.getY());
+
+
+        //aiming cursor
         Circle cursor = new Circle(mousex,mousey,5f);
         graphics.setColor(Color.red);
         graphics.draw(cursor);
@@ -142,6 +158,9 @@ public class Map extends GameObject implements MouseListener {
         graphics.drawLine(cursor.getCenterX(),cursor.getCenterY() - 10,
                 cursor.getCenterX(),cursor.getCenterY() + 10);
 
+
+        //restore translation
+        graphics.translate(cam.getX(),cam.getY());
     }
 
 

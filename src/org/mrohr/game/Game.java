@@ -21,9 +21,13 @@ public class Game extends BasicGame {
         //To change body of implemented methods use File | Settings | File Templates.
         currentMap = new Map("res/maps/test2.tmx");
 
-        Player player = new Player(currentMap.getHeight(),currentMap.getWidth());
+        Player player = new Player(100,100);
+        this.player = player;
+        player.currentHealth = 20;
         currentMap.setPlayer(player);
 
+        Herb herb = new Herb(300,300);
+        currentMap.worldItems.add(herb);
 
         player.init((MyGameContainer)gameContainer);
         currentMap.init((MyGameContainer)gameContainer);
@@ -36,5 +40,7 @@ public class Game extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
         currentMap.render((MyGameContainer)gameContainer,graphics);
+        graphics.setColor(Color.white);
+        graphics.drawString("Health:" +player.currentHealth,5,gameContainer.getHeight() - 20);
     }
 }

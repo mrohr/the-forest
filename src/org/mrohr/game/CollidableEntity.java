@@ -27,11 +27,13 @@ public abstract class CollidableEntity extends Entity {
         this.setDebugColor(new Color(0,255,0,200));
     }
 
-    public void testCollision(CollidableEntity other){
+    public boolean testCollision(CollidableEntity other){
       if(this.boundingBox.intersects(other.boundingBox)){
           onCollision(other);
           other.onCollision(this);
+          return true;
       }
+        return false;
     }
 
     public abstract void onCollision(CollidableEntity other);
