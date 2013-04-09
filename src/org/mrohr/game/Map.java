@@ -25,11 +25,14 @@ public class Map extends GameObject implements MouseListener {
     int mousex;
     int mousey;
     Image alphamap;
-
+    SpriteSheet tileset;
     List<Entity> blocks;
     List<Tree> trees;
+    List<Doodad> doodads;
     public List<Item> worldItems;
     Player player;
+    static final int NUM_TREES = 150;
+    static final int NUM_DOODADS = 300;
 
     public Map(String tiledFile)throws SlickException{
         tiled = new TiledMapPlus(tiledFile);
@@ -37,6 +40,7 @@ public class Map extends GameObject implements MouseListener {
         width = tiled.getWidth();
         blocks = new LinkedList<Entity>();
         trees = new LinkedList<Tree>();
+        doodads = new LinkedList<Doodad>();
         worldItems = new LinkedList<Item>();
     }
 
@@ -80,18 +84,22 @@ public class Map extends GameObject implements MouseListener {
         alphamap = new Image("res/alphamap/flashlight.png");
         alphamap = alphamap.getScaledCopy(6);
 
+        tileset = new SpriteSheet("res/tilesets/dark_forest.png",(int)Block.height,(int)Block.width);
+
         generateTrees();
         for(Tree t: trees){
             t.init(gameContainer);
             blocks.add(t.treeBlock);
         }
 
+        generateDoodads();
+
 
 
     }
 
     private void generateTrees(){
-        for(int i=0; i<100; i++){
+        for(int i=0; i<NUM_TREES; i++){
             trees.add(generateTree(trees));
         }
     }
@@ -106,13 +114,38 @@ public class Map extends GameObject implements MouseListener {
 
         int x = random.nextInt(maxX - minX) + minX;
         int y = random.nextInt(maxY - minY) + minY;
-        Tree tree = new Tree(x,y);
+        Tree tree = new Tree(x,y,tileset);
         for(Tree t :existingTrees){
             if(tree.fullTreeBB().intersects(t.fullTreeBB())){
                 return generateTree(existingTrees);
             }
         }
         return tree;
+    }
+
+    private void generateDoodads(){
+        for(int i=0; i<NUM_DOODADS; i++){
+            doodads.add(generateDoodad(doodads));
+        }
+    }
+
+    private Doodad generateDoodad(List<Doodad> existingDoodads){
+        Random random = new Random();
+        int minX = 2;
+        int maxX = getWidth() - minX;
+
+        int minY = 2;
+        int maxY = getHeight() - minY;
+
+        int x = random.nextInt(maxX - minX) + minX;
+        int y = random.nextInt(maxY - minY) + minY;
+        Doodad doodad = new Doodad(Block.width *x,Block.height * y,tileset);
+        for(Doodad d :existingDoodads){
+            if(doodad.x == d.x && doodad.y == d.y){
+                return generateDoodad(existingDoodads);
+            }
+        }
+        return doodad;
     }
 
     @Override
@@ -151,6 +184,9 @@ public class Map extends GameObject implements MouseListener {
         graphics.translate(-cam.getX(),-cam.getY());
         tiled.render(0, 0, tiled.getLayerID("Main"));
         tiled.render(0,0,tiled.getLayerID("Under"));
+        for(Doodad d: doodads){
+            d.render(gameContainer,graphics);
+        }
         for(Entity e: blocks){
             e.render(gameContainer,graphics);
         }

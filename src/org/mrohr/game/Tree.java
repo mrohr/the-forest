@@ -21,16 +21,17 @@ public class Tree extends GameObject{
     SpriteSheet sheet;
     int sheetXOffset = 4;
     int sheetYOffset = 0;
-    public Tree(float x, float y){
+
+    public Tree(float x, float y,SpriteSheet tileset){
       this.x = x;
       this.y = y;
       this.treeBlock = new Block(x +(Block.width),y +(Block.height * 2));
+      sheet = tileset;
     }
 
     @Override
     public void init(MyGameContainer gameContainer) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
-        sheet = new SpriteSheet("res/tilesets/dark_forest.png",32,32);
     }
 
     @Override
