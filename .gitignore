@@ -1,4 +1,5 @@
 *.iml
 .idea
 out
+bin
 .DS_Store

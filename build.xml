@@ -4,7 +4,7 @@
   
   <property file="topdownshooter.properties"/>
   <!-- Uncomment the following property if no tests compilation is needed -->
-  <!-- 
+  <!--                         w
   <property name="skip.tests" value="true"/>
    -->
   
@@ -55,8 +55,7 @@
     <exclude name="**/?*.kt"/>
     <exclude name="**/?*.clj"/>
   </patternset>
-  
-  
+
   <!-- Project Libraries -->
   
   <path id="library.lib.classpath">
@@ -76,8 +75,8 @@
   
   <property name="compiler.args.topdownshooter" value="${compiler.args}"/>
   
-  <property name="topdownshooter.output.dir" value="${module.topdownshooter.basedir}/out/production/TopDownShooter"/>
-  <property name="topdownshooter.testoutput.dir" value="${module.topdownshooter.basedir}/out/test/TopDownShooter"/>
+  <property name="topdownshooter.output.dir" value="${module.topdownshooter.basedir}/bin"/>
+  <property name="topdownshooter.testoutput.dir" value="${module.topdownshooter.basedir}/bin"/>
   
   <path id="topdownshooter.module.bootclasspath">
     <!-- Paths to be included in compilation bootclasspath -->
@@ -145,6 +144,22 @@
     <delete dir="${topdownshooter.output.dir}"/>
     <delete dir="${topdownshooter.testoutput.dir}"/>
   </target>
+
+    <target name="jar" depends="build.modules">
+        <mkdir dir="${topdownshooter.output.dir}"/>
+        <jar destfile="${topdownshooter.output.dir}/TopDownShooter.jar" basedir="${topdownshooter.output.dir}">
+            <zipgroupfileset dir="${basedir}/lib" includes="*.jar"/>
+            <manifest>
+                <attribute name="Main-Class" value="org.mrohr.game.Driver"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java jar="${topdownshooter.output.dir}/TopDownShooter.jar" fork="true">
+            <sysproperty key="java.library.path" value='lib/natives/'/>
+        </java>
+    </target>
   
   <target name="init" description="Build initialization">
     <!-- Perform any build initialization in this target -->
