@@ -6,3 +6,12 @@ Individual Project for Radford University's Spring 2013 ITEC480 Advanced Game De
 Build/run using:
 
 ./run.sh
+
+Controls:
+  Movement:
+  W - up
+  A - left
+  S - down
+  D - right
+
+  Mouse to aim
