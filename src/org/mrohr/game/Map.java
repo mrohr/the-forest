@@ -1,5 +1,6 @@
 package org.mrohr.game;
 
+import com.sun.source.util.Trees;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
@@ -7,10 +8,7 @@ import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.Tile;
 import org.newdawn.slick.tiled.TiledMapPlus;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,6 +27,7 @@ public class Map extends GameObject implements MouseListener {
     Image alphamap;
 
     List<Entity> blocks;
+    List<Tree> trees;
     public List<Item> worldItems;
     Player player;
 
@@ -37,6 +36,7 @@ public class Map extends GameObject implements MouseListener {
         height = tiled.getHeight();
         width = tiled.getWidth();
         blocks = new LinkedList<Entity>();
+        trees = new LinkedList<Tree>();
         worldItems = new LinkedList<Item>();
     }
 
@@ -80,8 +80,39 @@ public class Map extends GameObject implements MouseListener {
         alphamap = new Image("res/alphamap/flashlight.png");
         alphamap = alphamap.getScaledCopy(6);
 
+        generateTrees();
+        for(Tree t: trees){
+            t.init(gameContainer);
+            blocks.add(t.treeBlock);
+        }
 
 
+
+    }
+
+    private void generateTrees(){
+        for(int i=0; i<100; i++){
+            trees.add(generateTree(trees));
+        }
+    }
+
+    private Tree generateTree(List<Tree> existingTrees){
+        Random random = new Random();
+        int minX = (int)Block.width * 2;
+        int maxX = (int)(getWidth() * Block.width) - minX - (int)(Block.width * 3);
+
+        int minY = (int)Block.height * 2;
+        int maxY = (int)(getHeight() * Block.height) - minY - (int)(Block.height * 4);
+
+        int x = random.nextInt(maxX - minX) + minX;
+        int y = random.nextInt(maxY - minY) + minY;
+        Tree tree = new Tree(x,y);
+        for(Tree t :existingTrees){
+            if(tree.fullTreeBB().intersects(t.fullTreeBB())){
+                return generateTree(existingTrees);
+            }
+        }
+        return tree;
     }
 
     @Override
@@ -126,8 +157,14 @@ public class Map extends GameObject implements MouseListener {
         for(Item i: worldItems){
             i.render(gameContainer, graphics);
         }
+        for(Tree t: trees){
+            t.renderBottom(gameContainer,graphics);
+        }
         player.render(gameContainer,graphics);
         tiled.render(0,0,tiled.getLayerID("Over"));
+        for(Tree t: trees){
+            t.renderTop(gameContainer, graphics);
+        }
 
         //lighting
         graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
