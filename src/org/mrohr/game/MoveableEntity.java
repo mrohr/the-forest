@@ -48,8 +48,8 @@ public abstract class MoveableEntity extends CollidableEntity {
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
         prevX = this.boundingBox.getX();
         prevY = this.boundingBox.getY();
-        float newX = this.boundingBox.getX() + xspeed;
-        float newY = this.boundingBox.getY() + yspeed;
+        float newX = this.boundingBox.getX() + (xspeed * i);
+        float newY = this.boundingBox.getY() + (yspeed * i);
         this.boundingBox.setX(newX);
         this.boundingBox.setY(newY);
     }
