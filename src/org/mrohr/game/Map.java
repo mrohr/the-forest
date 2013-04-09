@@ -31,8 +31,8 @@ public class Map extends GameObject implements MouseListener {
     List<Doodad> doodads;
     public List<Item> worldItems;
     Player player;
-    static final int NUM_TREES = 150;
-    static final int NUM_DOODADS = 300;
+    static final int NUM_TREES = 200;
+    static final int NUM_DOODADS = 400;
 
     public Map(String tiledFile)throws SlickException{
         tiled = new TiledMapPlus(tiledFile);
