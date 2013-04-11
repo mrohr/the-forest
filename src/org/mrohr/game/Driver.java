@@ -4,6 +4,8 @@ package org.mrohr.game;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
+import java.lang.reflect.Field;
+
 /**
  * Created with IntelliJ IDEA.
  * User: mjrohr
@@ -14,6 +16,14 @@ import org.newdawn.slick.SlickException;
 public class Driver {
 
     public static void main(String[] args) throws SlickException{
+        try{
+        System.setProperty("java.library.path","natives");
+        Field fieldSysPath = ClassLoader.class.getDeclaredField( "sys_paths" );
+        fieldSysPath.setAccessible( true );
+        fieldSysPath.set( null, null );
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         Game game = new Game();
         boolean debug = false;
         AppGameContainer gc = new MyGameContainer(game,debug);

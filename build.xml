@@ -147,18 +147,34 @@
 
     <target name="jar" depends="build.modules">
         <mkdir dir="${topdownshooter.output.dir}"/>
+        <copy todir="${topdownshooter.output.dir}/res">
+            <fileset dir="${basedir}/res"/>
+        </copy>
+        <copy todir="${topdownshooter.output.dir}/natives">
+            <fileset dir="${basedir}/natives"/>
+        </copy>
         <jar destfile="${topdownshooter.output.dir}/TopDownShooter.jar" basedir="${topdownshooter.output.dir}">
             <zipgroupfileset dir="${basedir}/lib" includes="*.jar"/>
             <manifest>
                 <attribute name="Main-Class" value="org.mrohr.game.Driver"/>
             </manifest>
         </jar>
+        <delete>
+            <fileset dir="${topdownshooter.output.dir}/res"/>
+            <fileset dir="${topdownshooter.output.dir}/org"/>
+        </delete>
     </target>
 
     <target name="run" depends="jar">
         <java jar="${topdownshooter.output.dir}/TopDownShooter.jar" fork="true">
-            <sysproperty key="java.library.path" value='lib/natives/'/>
+            <sysproperty key="java.library.path" value='natives/'/>
         </java>
+    </target>
+
+    <target name="zip" depends="jar">
+        <zip destfile="${topdownshooter.output.dir}/TopDownShooter.zip">
+            <fileset dir="${topdownshooter.output.dir}" excludes="*.zip"/>
+        </zip>
     </target>
   
   <target name="init" description="Build initialization">
@@ -169,5 +185,5 @@
   
   <target name="build.modules" depends="init, clean, compile.module.topdownshooter" description="build all modules"/>
   
-  <target name="all" depends="build.modules" description="build all"/>
+  <target name="all" depends="jar" description="build all and generate jar"/>
 </project>
