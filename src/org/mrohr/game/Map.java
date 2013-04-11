@@ -7,6 +7,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.Tile;
 import org.newdawn.slick.tiled.TiledMapPlus;
+import org.newdawn.slick.util.ResourceLoader;
 
 import java.util.*;
 
@@ -35,7 +36,7 @@ public class Map extends GameObject implements MouseListener {
     static final int NUM_DOODADS = 400;
 
     public Map(String tiledFile)throws SlickException{
-        tiled = new TiledMapPlus(tiledFile);
+        tiled = new TiledMapPlus(ResourceLoader.getResourceAsStream(tiledFile),"res/tilesets");
         height = tiled.getHeight();
         width = tiled.getWidth();
         blocks = new LinkedList<Entity>();

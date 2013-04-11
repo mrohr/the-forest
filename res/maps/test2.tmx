@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="100" height="80" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="dark_forest" tilewidth="32" tileheight="32">
-  <image source="../tilesets/dark_forest.png" width="256" height="608"/>
+  <image source="dark_forest.png" width="256" height="608"/>
  </tileset>
  <tileset firstgid="153" name="collisions" tilewidth="32" tileheight="32">
-  <image source="../tilesets/collisions.png" width="32" height="32"/>
+  <image source="collisions.png" width="32" height="32"/>
   <tile id="0">
    <properties>
     <property name="solid" value="true"/>
