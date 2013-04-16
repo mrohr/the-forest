@@ -138,11 +138,12 @@ public class Map extends GameObject implements MouseListener {
     }
     private Key generateKey(List<CollidableEntity> things,Key.KeyColor color){
         Random random = new Random();
-        int minX = (int)Block.width * 2;
-        int maxX = (int)(getWidth() * Block.width) - minX - (int)(Block.width * 2);
+        int minX = (int)cam.cameraBB.getWidth();
 
-        int minY = (int)Block.height * 2;
-        int maxY = (int)(getHeight() * Block.height) - minY - (int)(Block.height * 2);
+        int maxX = (int)(getWidth() * Block.width) - (int)Block.width * 2 - (int)(Block.width * 2);
+
+        int minY = (int)cam.cameraBB.getHeight();
+        int maxY = (int)(getHeight() * Block.height) - (int)Block.height * 2 - (int)(Block.height * 2);
 
         int x = random.nextInt(maxX - minX) + minX;
         int y = random.nextInt(maxY - minY) + minY;
@@ -157,11 +158,12 @@ public class Map extends GameObject implements MouseListener {
     }
     private void generateCaveEnterance(){
         Random random = new Random();
-        int minX = (int)Block.width * 2;
-        int maxX = (int)(getWidth() * Block.width) - minX - (int)(Block.width * 7);
+        int minX = (int)cam.cameraBB.getWidth();
 
-        int minY = (int)Block.height * 2;
-        int maxY = (int)(getHeight() * Block.height) - minY - (int)(Block.height * 4);
+        int maxX = (int)(getWidth() * Block.width) - (int)Block.width * 2 - (int)(Block.width * 7);
+
+        int minY = (int)cam.cameraBB.getHeight();
+        int maxY = (int)(getHeight() * Block.height) - (int)Block.height * 2 - (int)(Block.height * 4);
 
         int x = random.nextInt(maxX - minX) + minX;
         int y = random.nextInt(maxY - minY) + minY;
