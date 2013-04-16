@@ -5,6 +5,9 @@ import org.mrohr.game.MyGameContainer;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: mjrohr
@@ -19,11 +22,23 @@ public class Player extends LivingEntity implements KeyListener {
     boolean downPressed;
     boolean leftPressed;
     boolean rightPressed;
+
+
+
+    private List<Item> inventory;
     public Player(int x, int y)throws SlickException{
         super(new Rectangle(x,y,32,32),new Image("res/images/player.png"),true,100);
         this.setDebugColor(Color.pink);
+        inventory = new ArrayList<Item>();
     }
 
+    public List<Item> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(List<Item> inventory) {
+        this.inventory = inventory;
+    }
     public void setCurrentMap(Map map){
         currentMap = map;
     }
