@@ -37,6 +37,7 @@ public class Map extends GameObject implements MouseListener {
 
     boolean seenKey  = false;
     boolean seenCave = false;
+    boolean pickedKey = false;
     static final int NUM_TREES = 200;
     static final int NUM_DOODADS = 400;
 
@@ -229,6 +230,7 @@ public class Map extends GameObject implements MouseListener {
         cam.update(gameContainer,i);
         if(!seenCave){
             if(cam.isVisible(caveEntrance.getBoundingBox())){
+
                 Game.message = "Is that cave locked?";
                 seenCave = true;
             }
@@ -263,6 +265,14 @@ public class Map extends GameObject implements MouseListener {
             Item item = itemItr.next();
             if(player.testCollision(item)){
                 if(item instanceof Key){
+                    if(!pickedKey && !seenCave){
+                        Game.message = "I wonder what this goes to...";
+                        pickedKey = true;
+                    }
+                    if(!pickedKey && seenCave){
+                        Game.message = "This must go to that cave";
+                        pickedKey = true;
+                    }
                     player.getInventory().add(item);
                 }
                 itemItr.remove();
@@ -304,7 +314,7 @@ public class Map extends GameObject implements MouseListener {
         }
 
         //lighting
-        /*
+
         graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
         float alphaW = alphamap.getWidth();
         float alphaH = alphamap.getHeight();
@@ -322,7 +332,7 @@ public class Map extends GameObject implements MouseListener {
         //graphics.fillRect(0,0,tiled.getWidth()*tiled.getTileWidth(),tiled.getHeight()*tiled.getTileHeight());
         graphics.setDrawMode(Graphics.MODE_NORMAL);
         graphics.translate(-cam.getX(),-cam.getY());
-        */
+
 
         //aiming cursor
         Circle cursor = new Circle(mousex,mousey,5f);
