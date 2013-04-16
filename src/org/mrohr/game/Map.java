@@ -25,10 +25,12 @@ public class Map extends GameObject implements MouseListener {
     int mousey;
     Image alphamap;
     SpriteSheet tileset;
+
     List<Entity> blocks;
     List<Tree> trees;
     List<Doodad> doodads;
     public List<Item> worldItems;
+
     CaveEntrance caveEntrance;
     Player player;
     static final int NUM_TREES = 200;
@@ -86,6 +88,11 @@ public class Map extends GameObject implements MouseListener {
 
         tileset = new SpriteSheet("res/tilesets/dark_forest.png",(int)Block.height,(int)Block.width);
 
+        Herb herb = new Herb(300,300);
+        worldItems.add(herb);
+
+        Key key = new Key(400,400, Key.KeyColor.RED,tileset);
+        worldItems.add(key);
 
         generateCaveEnterance();
         generateTrees();
@@ -192,7 +199,11 @@ public class Map extends GameObject implements MouseListener {
         while(itemItr.hasNext()){
             Item item = itemItr.next();
             if(player.testCollision(item)){
+                if(item instanceof Key){
+                    player.getInventory().add(item);
+                }
                 itemItr.remove();
+
             }
         }
         caveEntrance.testCollision(player);

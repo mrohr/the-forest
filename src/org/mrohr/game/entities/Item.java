@@ -21,5 +21,4 @@ public abstract class Item extends CollidableEntity {
 
     }
 
-    public abstract void use();
 }

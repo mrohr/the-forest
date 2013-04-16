@@ -28,5 +28,4 @@ public class Herb extends Food {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void use(){}
 }
