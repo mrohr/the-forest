@@ -3,6 +3,8 @@ package org.mrohr.game;
 import org.mrohr.game.entities.Entity;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,26 +16,25 @@ import org.newdawn.slick.SlickException;
 public class Camera extends GameObject {
     private Entity poi;
     private Map map;
-    private float x;
-    private float y;
+    Shape cameraBB;
 
     public void setMap(Map map){
         this.map = map;
     }
     public float getX() {
-        return x;
+        return cameraBB.getCenterX();
     }
 
     public void setX(float x) {
-        this.x = x;
+        cameraBB.setCenterX(x);
     }
 
     public float getY() {
-        return y;
+        return cameraBB.getCenterY();
     }
 
     public void setY(float y) {
-        this.y = y;
+        cameraBB.setCenterX(y);
     }
 
     public Entity getPoi() {
@@ -52,30 +53,35 @@ public class Camera extends GameObject {
     @Override
     public void init(MyGameContainer gameContainer) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
+        cameraBB = new Rectangle(0,0,gameContainer.getWidth() / 2,gameContainer.getHeight() / 2);
     }
 
+    public boolean isVisible(Shape thing){
+       return cameraBB.intersects(thing);
+
+    }
     @Override
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
-        float camSizeX = gameContainer.getWidth() / 2;
-        float camSizeY = gameContainer.getHeight() / 2;
-        this.x = poi.getBoundingBox().getCenterX() - camSizeX;
-        this.y = poi.getBoundingBox().getCenterY() - camSizeY;
-        if(this.x < 0){
-            this.x = 0;
+
+        cameraBB.setCenterX(poi.getBoundingBox().getCenterX() - cameraBB.getWidth());
+        cameraBB.setCenterY(poi.getBoundingBox().getCenterY() - cameraBB.getHeight());
+        if(cameraBB.getCenterX() < 0){
+            cameraBB.setCenterX(0);
         }
-        if(this.y < 0){
-            this.y = 0;
+        if(cameraBB.getCenterY() < 0){
+            cameraBB.setCenterY(0);
         }
 
-        float maxX = map.getWidth() * map.tiled.getTileWidth() - camSizeX * 2;
-        float maxY = map.getHeight() * map.tiled.getTileHeight() - camSizeY * 2;
-        if(this.x > maxX){
-            this.x = maxX;
+        float maxX = map.getWidth() * map.tiled.getTileWidth() - cameraBB.getWidth() * 2;
+        float maxY = map.getHeight() * map.tiled.getTileHeight() - cameraBB.getHeight() * 2;
+        if(cameraBB.getCenterX() > maxX){
+            cameraBB.setCenterX(maxX);
         }
-        if(this.y > maxY){
-            this.y = maxY;
+        if(cameraBB.getCenterY() > maxY){
+            cameraBB.setCenterY(maxY);
         }
+
 
     }
 
