@@ -16,25 +16,25 @@ import org.newdawn.slick.geom.Shape;
 public class Camera extends GameObject {
     private Entity poi;
     private Map map;
-    Shape cameraBB;
+    public Shape cameraBB;
 
     public void setMap(Map map){
         this.map = map;
     }
     public float getX() {
-        return cameraBB.getCenterX();
+        return cameraBB.getX();
     }
 
     public void setX(float x) {
-        cameraBB.setCenterX(x);
+        cameraBB.setX(x);
     }
 
     public float getY() {
-        return cameraBB.getCenterY();
+        return cameraBB.getY();
     }
 
     public void setY(float y) {
-        cameraBB.setCenterX(y);
+        cameraBB.setX(y);
     }
 
     public Entity getPoi() {
@@ -53,7 +53,7 @@ public class Camera extends GameObject {
     @Override
     public void init(MyGameContainer gameContainer) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
-        cameraBB = new Rectangle(0,0,gameContainer.getWidth() / 2,gameContainer.getHeight() / 2);
+        cameraBB = new Rectangle(gameContainer.getWidth()/2,gameContainer.getHeight()/2,gameContainer.getWidth(),gameContainer.getHeight());
     }
 
     public boolean isVisible(Shape thing){
@@ -63,23 +63,23 @@ public class Camera extends GameObject {
     @Override
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
+        cameraBB.setCenterX(poi.getBoundingBox().getCenterX());
+        cameraBB.setCenterY(poi.getBoundingBox().getCenterY());
+        if(cameraBB.getX() < 0){
+            cameraBB.setX(0);
+        }
+        if(cameraBB.getY() < 0){
+            cameraBB.setY(0);
+        }
 
-        cameraBB.setCenterX(poi.getBoundingBox().getCenterX() - cameraBB.getWidth());
-        cameraBB.setCenterY(poi.getBoundingBox().getCenterY() - cameraBB.getHeight());
-        if(cameraBB.getCenterX() < 0){
-            cameraBB.setCenterX(0);
-        }
-        if(cameraBB.getCenterY() < 0){
-            cameraBB.setCenterY(0);
-        }
 
-        float maxX = map.getWidth() * map.tiled.getTileWidth() - cameraBB.getWidth() * 2;
-        float maxY = map.getHeight() * map.tiled.getTileHeight() - cameraBB.getHeight() * 2;
-        if(cameraBB.getCenterX() > maxX){
-            cameraBB.setCenterX(maxX);
+        float maxX = map.getWidth() * map.tiled.getTileWidth() - cameraBB.getWidth();
+        float maxY = map.getHeight() * map.tiled.getTileHeight() - cameraBB.getHeight();
+        if(cameraBB.getX() > maxX){
+            cameraBB.setX(maxX);
         }
-        if(cameraBB.getCenterY() > maxY){
-            cameraBB.setCenterY(maxY);
+        if(cameraBB.getY() > maxY){
+            cameraBB.setY(maxY);
         }
 
 
