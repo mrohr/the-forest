@@ -91,7 +91,7 @@ public class Map extends GameObject implements MouseListener {
         alphamap = alphamap.getScaledCopy(6);
 
         tileset = new SpriteSheet("res/tilesets/dark_forest.png",(int)Block.height,(int)Block.width);
-
+        cam.init(gameContainer);
         generateCaveEnterance();
         generateTrees();
         for(Tree t: trees){
@@ -285,6 +285,7 @@ public class Map extends GameObject implements MouseListener {
         }
 
         //lighting
+
         graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
         float alphaW = alphamap.getWidth();
         float alphaH = alphamap.getHeight();
