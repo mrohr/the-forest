@@ -29,6 +29,7 @@ public class Map extends GameObject implements MouseListener {
     List<Tree> trees;
     List<Doodad> doodads;
     public List<Item> worldItems;
+    CaveEntrance caveEntrance;
     Player player;
     static final int NUM_TREES = 200;
     static final int NUM_DOODADS = 400;
@@ -85,6 +86,8 @@ public class Map extends GameObject implements MouseListener {
 
         tileset = new SpriteSheet("res/tilesets/dark_forest.png",(int)Block.height,(int)Block.width);
 
+
+        generateCaveEnterance();
         generateTrees();
         for(Tree t: trees){
             t.init(gameContainer);
@@ -94,6 +97,23 @@ public class Map extends GameObject implements MouseListener {
 
 
 
+
+    }
+
+    private void generateCaveEnterance(){
+        Random random = new Random();
+        int minX = (int)Block.width * 2;
+        int maxX = (int)(getWidth() * Block.width) - minX - (int)(Block.width * 7);
+
+        int minY = (int)Block.height * 2;
+        int maxY = (int)(getHeight() * Block.height) - minY - (int)(Block.height * 4);
+
+        int x = random.nextInt(maxX - minX) + minX;
+        int y = random.nextInt(maxY - minY) + minY;
+        caveEntrance = new CaveEntrance(x,y,tileset,this);
+        if(debugging){
+            System.out.println("Enterance at " + x + "," + y);
+        }
     }
 
     private void generateTrees(){
@@ -114,7 +134,8 @@ public class Map extends GameObject implements MouseListener {
         int y = random.nextInt(maxY - minY) + minY;
         Tree tree = new Tree(x,y,tileset);
         for(Tree t :existingTrees){
-            if(tree.getBoundingBox().intersects(t.getBoundingBox())){
+            if(tree.getBoundingBox().intersects(t.getBoundingBox()) ||
+               tree.getBoundingBox().intersects(caveEntrance.getBoundingBox())){
                 return generateTree(existingTrees);
             }
         }
@@ -174,6 +195,7 @@ public class Map extends GameObject implements MouseListener {
                 itemItr.remove();
             }
         }
+        caveEntrance.testCollision(player);
 
 
 
@@ -200,6 +222,7 @@ public class Map extends GameObject implements MouseListener {
         for(Tree t: trees){
             t.renderBottom(gameContainer,graphics);
         }
+        caveEntrance.render(gameContainer,graphics);
         player.render(gameContainer,graphics);
         tiled.render(0,0,tiled.getLayerID("Over"));
         for(Tree t: trees){
@@ -319,5 +342,9 @@ public class Map extends GameObject implements MouseListener {
     @Override
     public void inputStarted() {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void finishMap(){
+
     }
 }
