@@ -1,5 +1,7 @@
-package org.mrohr.game;
+package org.mrohr.game.entities;
 
+import org.mrohr.game.Map;
+import org.mrohr.game.MyGameContainer;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 

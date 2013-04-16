@@ -1,11 +1,10 @@
-package org.mrohr.game;
+package org.mrohr.game.entities;
 
+import org.mrohr.game.MyGameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,7 +20,7 @@ public class Tree extends CollidableEntity{
     float x;
     float y;
     public Tree(float x, float y,SpriteSheet tileset){
-      super(new Rectangle(x,y,Block.width * 3,Block.height * 4),true);
+      super(new Rectangle(x, y, Block.width * 3, Block.height * 4), true);
       this.x = x;
       this.y = y;
       Rectangle collidable = new Rectangle(x+Block.width,y+(Block.height *2) ,Block.width,Block.height);

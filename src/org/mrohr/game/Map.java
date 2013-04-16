@@ -1,11 +1,9 @@
 package org.mrohr.game;
 
-import com.sun.source.util.Trees;
+import org.mrohr.game.entities.*;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.tiled.Layer;
-import org.newdawn.slick.tiled.Tile;
 import org.newdawn.slick.tiled.TiledMapPlus;
 import org.newdawn.slick.util.ResourceLoader;
 
@@ -116,7 +114,7 @@ public class Map extends GameObject implements MouseListener {
         int y = random.nextInt(maxY - minY) + minY;
         Tree tree = new Tree(x,y,tileset);
         for(Tree t :existingTrees){
-            if(tree.boundingBox.intersects(t.boundingBox)){
+            if(tree.getBoundingBox().intersects(t.getBoundingBox())){
                 return generateTree(existingTrees);
             }
         }
@@ -212,12 +210,12 @@ public class Map extends GameObject implements MouseListener {
         graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
         float alphaW = alphamap.getWidth();
         float alphaH = alphamap.getHeight();
-        float alphaX = player.boundingBox.getX() - (alphaW/2);
-        float alphaY = player.boundingBox.getY() - (alphaH/2);
-        graphics.rotate(player.boundingBox.getCenterX(),player.boundingBox.getCenterY(),player.heading);
+        float alphaX = player.getBoundingBox().getX() - (alphaW/2);
+        float alphaY = player.getBoundingBox().getY() - (alphaH/2);
+        graphics.rotate(player.getBoundingBox().getCenterX(),player.getBoundingBox().getCenterY(),player.getHeading());
 
         graphics.drawImage(alphamap,alphaX,alphaY);
-        graphics.rotate(player.boundingBox.getCenterX(),player.boundingBox.getCenterY(),-player.heading);
+        graphics.rotate(player.getBoundingBox().getCenterX(),player.getBoundingBox().getCenterY(),-player.getHeading());
 
         graphics.setDrawMode(Graphics.MODE_ALPHA_BLEND);
         graphics.setColor(Color.black);
@@ -244,9 +242,9 @@ public class Map extends GameObject implements MouseListener {
 
 
     public float calculatePlayerHeading(){
-        float dx = player.boundingBox.getX() - mousex;
-        float dy = player.boundingBox.getY() - mousey;
-        return (float)Math.toRadians(getTargetAngle(player.boundingBox.getX(),player.boundingBox.getY(),mousex,mousey));
+        float dx = player.getBoundingBox().getX() - mousex;
+        float dy = player.getBoundingBox().getY() - mousey;
+        return (float)Math.toRadians(getTargetAngle(player.getBoundingBox().getX(),player.getBoundingBox().getY(),mousex,mousey));
 
     }
     public double getDistanceBetween(float startX, float startY, float endX, float endY) {

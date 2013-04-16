@@ -1,4 +1,4 @@
-package org.mrohr.game;
+package org.mrohr.game.entities;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
@@ -11,8 +11,8 @@ import org.newdawn.slick.geom.Shape;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class LivingEntity extends MoveableEntity {
-    int maxHealth;
-    int currentHealth;
+    private int maxHealth;
+    private int currentHealth;
 
     public LivingEntity(Shape bb, boolean solid,int health){
         super(bb,solid);
@@ -24,6 +24,14 @@ public abstract class LivingEntity extends MoveableEntity {
         super(bb,img,solid);
         maxHealth = health;
         currentHealth = health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
     public int getHealth(){

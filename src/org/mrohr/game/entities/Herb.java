@@ -1,9 +1,9 @@
-package org.mrohr.game;
+package org.mrohr.game.entities;
 
+import org.mrohr.game.MyGameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 
 /**
  * Created with IntelliJ IDEA.

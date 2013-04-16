@@ -1,5 +1,6 @@
 package org.mrohr.game;
 
+import org.mrohr.game.entities.Entity;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
@@ -58,8 +59,8 @@ public class Camera extends GameObject {
         //To change body of implemented methods use File | Settings | File Templates.
         float camSizeX = gameContainer.getWidth() / 2;
         float camSizeY = gameContainer.getHeight() / 2;
-        this.x = poi.boundingBox.getCenterX() - camSizeX;
-        this.y = poi.boundingBox.getCenterY() - camSizeY;
+        this.x = poi.getBoundingBox().getCenterX() - camSizeX;
+        this.y = poi.getBoundingBox().getCenterY() - camSizeY;
         if(this.x < 0){
             this.x = 0;
         }

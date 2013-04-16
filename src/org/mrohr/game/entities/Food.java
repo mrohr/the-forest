@@ -1,7 +1,6 @@
-package org.mrohr.game;
+package org.mrohr.game.entities;
 
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 
 /**
