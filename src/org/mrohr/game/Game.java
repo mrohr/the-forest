@@ -19,16 +19,20 @@ import org.newdawn.slick.util.ResourceLoader;
  * Time: 4:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Game extends BasicGame {
+public class Game extends BasicGame implements KeyListener{
     Map currentMap;
     Player player;
     Image ui;
     TrueTypeFont font;
+    boolean hasPressedEsc;
+    boolean toggleFullscreen;
     public String message;
     public Game(){
       super("Top-Down Shooter");
     }
     public void init(GameContainer gameContainer) throws SlickException {
+        hasPressedEsc = false;
+        toggleFullscreen = false;
         //To change body of implemented methods use File | Settings | File Templates.
         currentMap = new Map("res/maps/test2.tmx");
         ui = new Image("res/images/ui.png");
@@ -61,7 +65,12 @@ public class Game extends BasicGame {
     }
 
     public void update(GameContainer gameContainer, int i) throws SlickException {
+
         currentMap.update((MyGameContainer)gameContainer,i);
+        if(toggleFullscreen){
+            toggleFullscreen = false;
+            gameContainer.setFullscreen(!gameContainer.isFullscreen());
+        }
     }
 
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
@@ -70,14 +79,53 @@ public class Game extends BasicGame {
         graphics.drawImage(ui, 0, 0);
         graphics.setColor(Color.white);
         graphics.setFont(font);
-        graphics.drawString(message,Block.width*1 + 10, gameContainer.getHeight() - (Block.height * 2) + 2);
-        graphics.drawString("Health : " +player.getHealth(),Block.width * 1 + 10,gameContainer.getHeight() - Block.height + 2);
-        graphics.drawString("Hunger : 100",Block.width * 6 + 10,gameContainer.getHeight() - Block.height + 2);
-        graphics.drawString("Battery:100%",Block.width * 11 + 10,gameContainer.getHeight() - Block.height + 2);
+        graphics.drawString(message,Block.width*1 + 10, gameContainer.getHeight() - (Block.height * 2) + 2 + 8);
+        graphics.drawString("Health : " +player.getHealth(),Block.width * 1 + 10,gameContainer.getHeight() - Block.height + 2 + 8);
+        graphics.drawString("Hunger : 100",Block.width * 6 + 10,gameContainer.getHeight() - Block.height + 2 + 8);
+        graphics.drawString("Battery:100%",Block.width * 11 + 10,gameContainer.getHeight() - Block.height + 2 + 8);
         List<Item> inventory = player.getInventory();
         int i = 0;
         for(Item item : inventory){
-            graphics.drawImage(item.getRenderedImage(),(Block.width *16) + (Block.width * i),gameContainer.getHeight() - (Block.height * 2));
+            graphics.drawImage(item.getRenderedImage(),(Block.width *16) + (Block.width * i),gameContainer.getHeight() - (Block.height * 2) + 8);
         }
+    }
+
+
+    public void keyPressed(int key,char c){
+       if(key == Input.KEY_ESCAPE){
+        if(!hasPressedEsc){
+            hasPressedEsc = true;
+            message = "Giving up? (esc again to quit)";
+        }else{
+            System.exit(0);
+        }
+       }
+       if(key == Input.KEY_TAB){
+         toggleFullscreen = true;
+       }
+    }
+
+    public void keyReleased(int key,char c){
+
+    }
+    public void setInput(Input input) {
+    }
+    @Override
+    public boolean isAcceptingInput() {
+        return true;
+    }
+
+    /**
+     * unused
+     */
+    @Override
+    public void inputEnded() {
+    }
+
+    /**
+     * unused
+     */
+    @Override
+    public void inputStarted() {
     }
 }
