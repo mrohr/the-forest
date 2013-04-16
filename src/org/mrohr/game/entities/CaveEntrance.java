@@ -88,6 +88,7 @@ public class CaveEntrance extends CollidableEntity{
         graphics.drawImage(sheet.getSubImage(3,0),x + (Block.width * 3),y + (Block.height * 2));
         if(locked){
             //draw bars
+            graphics.drawImage(sheet.getSubImage(4,0),x + (Block.width * 3),y + (Block.height * 2));
         }
 
         graphics.drawImage(sheet.getSubImage(1,3),x + (Block.width * 4),y + (Block.height * 2));
@@ -104,6 +105,7 @@ public class CaveEntrance extends CollidableEntity{
         graphics.drawImage(sheet.getSubImage(3,1),x + (Block.width * 3),y + (Block.height * 3));
         if(locked){
             //draw bars
+            graphics.drawImage(sheet.getSubImage(4,0),x + (Block.width * 3),y + (Block.height * 3));
         }
 
         graphics.drawImage(sheet.getSubImage(1,5),x + (Block.width * 4),y + (Block.height * 3));
