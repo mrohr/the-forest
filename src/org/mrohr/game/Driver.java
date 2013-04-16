@@ -25,7 +25,7 @@ public class Driver {
             e.printStackTrace();
         }
         Game game = new Game();
-        boolean debug = true;
+        boolean debug = false;
         AppGameContainer gc = new MyGameContainer(game,debug);
         gc.setDisplayMode(800,600,false);
         gc.setShowFPS(true);

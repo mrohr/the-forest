@@ -111,7 +111,7 @@ public class CaveEntrance extends CollidableEntity{
 
         graphics.drawImage(sheet.getSubImage(2,5),x + (Block.width * 6),y + (Block.height * 3));
 
-        if(debugging){
+        if(gameContainer.debug){
            graphics.setColor(Color.orange);
            graphics.fill(entrance);
         }
