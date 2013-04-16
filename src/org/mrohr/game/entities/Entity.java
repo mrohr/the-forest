@@ -1,5 +1,7 @@
-package org.mrohr.game;
+package org.mrohr.game.entities;
 
+import org.mrohr.game.GameObject;
+import org.mrohr.game.MyGameContainer;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Shape;
 
@@ -11,10 +13,11 @@ import org.newdawn.slick.geom.Shape;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Entity extends GameObject {
-    protected Shape boundingBox;
-    protected Image img;
-    protected Image renderedImage;
-    protected Color debugColor;
+
+    private Shape boundingBox;
+    private Image img;
+    private Image renderedImage;
+    private Color debugColor;
 
 
     public Entity(Shape bb){
@@ -44,5 +47,29 @@ public abstract class Entity extends GameObject {
             graphics.drawImage(renderedImage,boundingBox.getX(),boundingBox.getY());
         }
 
+    }
+
+    public Shape getBoundingBox() {
+        return boundingBox;
+    }
+
+    public void setBoundingBox(Shape boundingBox) {
+        this.boundingBox = boundingBox;
+    }
+
+    public Image getImg() {
+        return img;
+    }
+
+    public void setImg(Image img) {
+        this.img = img;
+    }
+
+    public Image getRenderedImage() {
+        return renderedImage;
+    }
+
+    public void setRenderedImage(Image renderedImage) {
+        this.renderedImage = renderedImage;
     }
 }

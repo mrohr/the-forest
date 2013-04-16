@@ -1,8 +1,8 @@
 package org.mrohr.game;
 
-import org.lwjgl.input.Cursor;
+import org.mrohr.game.entities.Herb;
+import org.mrohr.game.entities.Player;
 import org.newdawn.slick.*;
-import org.newdawn.slick.geom.Rectangle;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,7 +23,7 @@ public class Game extends BasicGame {
 
         Player player = new Player(100,100);
         this.player = player;
-        player.currentHealth = 20;
+        player.damage(30);
         currentMap.setPlayer(player);
 
         Herb herb = new Herb(300,300);
@@ -41,6 +41,6 @@ public class Game extends BasicGame {
         //To change body of implemented methods use File | Settings | File Templates.
         currentMap.render((MyGameContainer)gameContainer,graphics);
         graphics.setColor(Color.white);
-        graphics.drawString("Health:" +player.currentHealth,5,gameContainer.getHeight() - 20);
+        graphics.drawString("Health:" +player.getHealth(),5,gameContainer.getHeight() - 20);
     }
 }

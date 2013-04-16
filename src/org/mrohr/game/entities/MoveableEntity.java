@@ -1,11 +1,10 @@
-package org.mrohr.game;
+package org.mrohr.game.entities;
 
-import org.newdawn.slick.Color;
+import org.mrohr.game.MyGameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Transform;
 
 /**
  * Created with IntelliJ IDEA.
@@ -45,19 +44,23 @@ public abstract class MoveableEntity extends CollidableEntity {
         this.heading = h;
     }
 
+    public float getHeading(){
+        return this.heading;
+    }
+
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
-        prevX = this.boundingBox.getX();
-        prevY = this.boundingBox.getY();
-        float newX = this.boundingBox.getX() + (xspeed * i);
-        float newY = this.boundingBox.getY() + (yspeed * i);
-        this.boundingBox.setX(newX);
-        this.boundingBox.setY(newY);
+        prevX = this.getBoundingBox().getX();
+        prevY = this.getBoundingBox().getY();
+        float newX = this.getBoundingBox().getX() + (xspeed * i);
+        float newY = this.getBoundingBox().getY() + (yspeed * i);
+        this.getBoundingBox().setX(newX);
+        this.getBoundingBox().setY(newY);
     }
 
     public void render(MyGameContainer gc, Graphics graphics) throws SlickException {
-        graphics.rotate(this.boundingBox.getCenterX(),this.boundingBox.getCenterY(),heading);
+        graphics.rotate(this.getBoundingBox().getCenterX(),this.getBoundingBox().getCenterY(),heading);
         super.render(gc,graphics);
-        graphics.rotate(this.boundingBox.getCenterX(),this.boundingBox.getCenterY(),-heading);
+        graphics.rotate(this.getBoundingBox().getCenterX(),this.getBoundingBox().getCenterY(),-heading);
     }
 
     public void onCollision(CollidableEntity other){
@@ -65,8 +68,8 @@ public abstract class MoveableEntity extends CollidableEntity {
         System.out.println(other.solid);
         if(this.solid && other.solid){
             System.out.println("Correcting");
-            this.boundingBox.setX(prevX);
-            this.boundingBox.setY(prevY);
+            this.getBoundingBox().setX(prevX);
+            this.getBoundingBox().setY(prevY);
         }
     }
     public void correctPosition(){

@@ -1,4 +1,4 @@
-package org.mrohr.game;
+package org.mrohr.game.entities;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
