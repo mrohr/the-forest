@@ -87,6 +87,7 @@ public class Game extends BasicGame implements KeyListener{
         int i = 0;
         for(Item item : inventory){
             graphics.drawImage(item.getRenderedImage(),(Block.width *16) + (Block.width * i),gameContainer.getHeight() - (Block.height * 2) + 8);
+            i++;
         }
     }
 

@@ -88,12 +88,6 @@ public class Map extends GameObject implements MouseListener {
 
         tileset = new SpriteSheet("res/tilesets/dark_forest.png",(int)Block.height,(int)Block.width);
 
-        Herb herb = new Herb(300,300);
-        worldItems.add(herb);
-
-        Key key = new Key(400,400, Key.KeyColor.RED,tileset);
-        worldItems.add(key);
-
         generateCaveEnterance();
         generateTrees();
         for(Tree t: trees){
@@ -102,11 +96,60 @@ public class Map extends GameObject implements MouseListener {
 
         generateDoodads();
 
+        List<Key> keys = generateKeys();
+        worldItems.addAll(keys);
+
 
 
 
     }
 
+    private List<Key> generateKeys(){
+        ArrayList<Key> keys = new ArrayList<Key>();
+        ArrayList<CollidableEntity> things = new ArrayList<CollidableEntity>();
+
+        things.addAll(trees);
+        things.addAll(worldItems);
+        things.add(player);
+        things.add(caveEntrance);
+
+        Key blue = generateKey(things, Key.KeyColor.BLUE);
+        keys.add(blue);
+        things.add(blue);
+
+        Key red = generateKey(things, Key.KeyColor.RED);
+        keys.add(red);
+        things.add(red);
+
+        Key yellow = generateKey(things, Key.KeyColor.YELLOW);
+        keys.add(yellow);
+        things.add(yellow);
+
+        Key orange = generateKey(things, Key.KeyColor.ORANGE);
+        keys.add(orange);
+        things.add(orange);
+
+        return keys;
+    }
+    private Key generateKey(List<CollidableEntity> things,Key.KeyColor color){
+        Random random = new Random();
+        int minX = (int)Block.width * 2;
+        int maxX = (int)(getWidth() * Block.width) - minX - (int)(Block.width * 2);
+
+        int minY = (int)Block.height * 2;
+        int maxY = (int)(getHeight() * Block.height) - minY - (int)(Block.height * 2);
+
+        int x = random.nextInt(maxX - minX) + minX;
+        int y = random.nextInt(maxY - minY) + minY;
+        Key key = new Key(x,y,color,tileset);
+        for(CollidableEntity t :things){
+            if(key.getBoundingBox().intersects(t.getBoundingBox()) ||
+                    key.getBoundingBox().intersects(caveEntrance.getBoundingBox())){
+                return generateKey(things, color);
+            }
+        }
+        return key;
+    }
     private void generateCaveEnterance(){
         Random random = new Random();
         int minX = (int)Block.width * 2;
