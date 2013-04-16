@@ -34,6 +34,9 @@ public class Map extends GameObject implements MouseListener {
 
     CaveEntrance caveEntrance;
     Player player;
+
+    boolean seenKey  = false;
+    boolean seenCave = false;
     static final int NUM_TREES = 200;
     static final int NUM_DOODADS = 400;
 
@@ -224,6 +227,22 @@ public class Map extends GameObject implements MouseListener {
         mousey = gameContainer.getInput().getMouseY() + (int)cam.getY();
         player.update(gameContainer,i);
         cam.update(gameContainer,i);
+        if(!seenCave){
+            if(cam.isVisible(caveEntrance.getBoundingBox())){
+                Game.message = "Is that cave locked?";
+                seenCave = true;
+            }
+        }
+
+        if(!seenKey){
+            Key[] keys =caveEntrance.getKeys();
+            for(int j=0;j<keys.length;j++){
+                if(cam.isVisible(keys[j].getBoundingBox())){
+                    Game.message = "Is that a key? Why is that here?";
+                    seenKey = true;
+                }
+            }
+        }
         ListIterator<Entity> blockItr = blocks.listIterator();
         while(blockItr.hasNext()){
             Entity e = blockItr.next();
@@ -285,7 +304,7 @@ public class Map extends GameObject implements MouseListener {
         }
 
         //lighting
-
+        /*
         graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
         float alphaW = alphamap.getWidth();
         float alphaH = alphamap.getHeight();
@@ -303,7 +322,7 @@ public class Map extends GameObject implements MouseListener {
         //graphics.fillRect(0,0,tiled.getWidth()*tiled.getTileWidth(),tiled.getHeight()*tiled.getTileHeight());
         graphics.setDrawMode(Graphics.MODE_NORMAL);
         graphics.translate(-cam.getX(),-cam.getY());
-
+        */
 
         //aiming cursor
         Circle cursor = new Circle(mousex,mousey,5f);
@@ -314,9 +333,9 @@ public class Map extends GameObject implements MouseListener {
         graphics.drawLine(cursor.getCenterX(),cursor.getCenterY() - 10,
                 cursor.getCenterX(),cursor.getCenterY() + 10);
 
-
         //restore translation
         graphics.translate(cam.getX(),cam.getY());
+
     }
 
 

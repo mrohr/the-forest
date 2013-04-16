@@ -64,10 +64,10 @@ public abstract class MoveableEntity extends CollidableEntity {
     }
 
     public void onCollision(CollidableEntity other){
-        System.out.println(this.solid);
-        System.out.println(other.solid);
+
+
         if(this.solid && other.solid){
-            System.out.println("Correcting");
+
             this.getBoundingBox().setX(prevX);
             this.getBoundingBox().setY(prevY);
         }

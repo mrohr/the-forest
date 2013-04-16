@@ -50,6 +50,10 @@ public class CaveEntrance extends CollidableEntity{
         }
     }
 
+    public Key[] getKeys(){
+        return keys;
+    }
+
     @Override
     public void init(MyGameContainer gameContainer) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
