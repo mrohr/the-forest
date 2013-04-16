@@ -7,6 +7,7 @@ import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.TiledMapPlus;
 import org.newdawn.slick.util.ResourceLoader;
 
+import javax.swing.*;
 import java.util.*;
 
 /**
@@ -52,6 +53,9 @@ public class Map extends GameObject implements MouseListener {
         cam = new Camera(player);
         cam.setMap(this);
     }
+    public Player getPlayer(){
+        return this.player;
+    }
     public int getHeight() {
         return height;
     }
@@ -96,16 +100,19 @@ public class Map extends GameObject implements MouseListener {
 
         generateDoodads();
 
-        List<Key> keys = generateKeys();
-        worldItems.addAll(keys);
+        Key[] keys = generateKeys();
+        for(int i=0; i< keys.length; i++){
+            worldItems.add(keys[i]);
+        }
+        caveEntrance.setKeys(keys);
 
 
 
 
     }
 
-    private List<Key> generateKeys(){
-        ArrayList<Key> keys = new ArrayList<Key>();
+    private Key[] generateKeys(){
+        Key[] keys = new Key[4];
         ArrayList<CollidableEntity> things = new ArrayList<CollidableEntity>();
 
         things.addAll(trees);
@@ -113,21 +120,15 @@ public class Map extends GameObject implements MouseListener {
         things.add(player);
         things.add(caveEntrance);
 
-        Key blue = generateKey(things, Key.KeyColor.BLUE);
-        keys.add(blue);
-        things.add(blue);
+        for(int i=0;i<4;i++){
+            Key.KeyColor color = Key.KeyColor.values()[i];
+            Key key = generateKey(things,color);
+            keys[i] = key;
+            things.add(key);
 
-        Key red = generateKey(things, Key.KeyColor.RED);
-        keys.add(red);
-        things.add(red);
-
-        Key yellow = generateKey(things, Key.KeyColor.YELLOW);
-        keys.add(yellow);
-        things.add(yellow);
-
-        Key orange = generateKey(things, Key.KeyColor.ORANGE);
-        keys.add(orange);
-        things.add(orange);
+            System.out.println(color.name() + " Key at " + key.getBoundingBox().getCenterX() + "," + key.getBoundingBox().getCenterY());
+        }
+        System.out.println(keys.length);
 
         return keys;
     }
@@ -161,9 +162,9 @@ public class Map extends GameObject implements MouseListener {
         int x = random.nextInt(maxX - minX) + minX;
         int y = random.nextInt(maxY - minY) + minY;
         caveEntrance = new CaveEntrance(x,y,tileset,this);
-        if(debugging){
+        //if(debugging){
             System.out.println("Enterance at " + x + "," + y);
-        }
+        //}
     }
 
     private void generateTrees(){
@@ -399,6 +400,7 @@ public class Map extends GameObject implements MouseListener {
     }
 
     public void finishMap(){
-
+        JOptionPane.showMessageDialog(null, "You did it! :3");
+        System.exit(0);
     }
 }

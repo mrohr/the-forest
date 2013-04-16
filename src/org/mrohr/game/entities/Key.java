@@ -18,12 +18,29 @@ public class Key extends Item{
     public enum KeyColor{
         RED, BLUE, YELLOW, ORANGE
     }
+    KeyColor color;
+    SpriteSheet sheet;
     public Key(int x, int y, KeyColor color,SpriteSheet sheetRef){
         //this.sheet = sheetRef;
         super(new Rectangle(x, y, Block.width, Block.height), colorToImage(color,sheetRef));
+        this.color = color;
+        this.sheet = sheetRef;
 
     }
 
+    public Image lockImage(){
+        switch(color){
+            case RED:
+                return sheet.getSubImage(3,18);
+            case BLUE:
+                return sheet.getSubImage(5,18);
+            case YELLOW:
+                return sheet.getSubImage(7,18);
+            case ORANGE:
+                return sheet.getSubImage(7,17);
+        }
+        return null;
+    }
     private static Image colorToImage(KeyColor color,SpriteSheet sheet){
         switch(color){
             case RED:
