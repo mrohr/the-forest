@@ -14,18 +14,19 @@ import org.newdawn.slick.geom.Shape;
  * Time: 9:02 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Tree extends GameObject{
-    float x;
-    float y;
-    public Block treeBlock;
+public class Tree extends CollidableEntity{
     SpriteSheet sheet;
     int sheetXOffset = 4;
     int sheetYOffset = 0;
-
+    float x;
+    float y;
     public Tree(float x, float y,SpriteSheet tileset){
+      super(new Rectangle(x,y,Block.width * 3,Block.height * 4),true);
       this.x = x;
       this.y = y;
-      this.treeBlock = new Block(x +(Block.width),y +(Block.height * 2));
+      Rectangle collidable = new Rectangle(x+Block.width,y+(Block.height *2) ,Block.width,Block.height);
+      this.setCollidableShape(collidable);
+
       sheet = tileset;
     }
 
@@ -37,10 +38,6 @@ public class Tree extends GameObject{
     @Override
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public Shape fullTreeBB(){
-        return new Rectangle(x,y,Block.width*3,Block.height*4);
     }
 
     @Override
@@ -65,5 +62,10 @@ public class Tree extends GameObject{
         graphics.drawImage(sheet.getSubImage(sheetXOffset ,sheetYOffset + 3),   x+Block.width *0,y+ Block.height *3);
         graphics.drawImage(sheet.getSubImage(sheetXOffset +1,sheetYOffset + 3), x+Block.width *1,y+ Block.height *3);
         graphics.drawImage(sheet.getSubImage(sheetXOffset +2,sheetYOffset + 3), x+Block.width *2,y+ Block.height *3);
+    }
+
+    @Override
+    public void onCollision(CollidableEntity other) {
+
     }
 }
