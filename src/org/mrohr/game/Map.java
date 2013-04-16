@@ -90,7 +90,6 @@ public class Map extends GameObject implements MouseListener {
         generateTrees();
         for(Tree t: trees){
             t.init(gameContainer);
-            blocks.add(t.treeBlock);
         }
 
         generateDoodads();
@@ -117,7 +116,7 @@ public class Map extends GameObject implements MouseListener {
         int y = random.nextInt(maxY - minY) + minY;
         Tree tree = new Tree(x,y,tileset);
         for(Tree t :existingTrees){
-            if(tree.fullTreeBB().intersects(t.fullTreeBB())){
+            if(tree.boundingBox.intersects(t.boundingBox)){
                 return generateTree(existingTrees);
             }
         }
@@ -162,6 +161,12 @@ public class Map extends GameObject implements MouseListener {
             if(e instanceof CollidableEntity){
                 player.testCollision((CollidableEntity)e);
             }
+        }
+
+        ListIterator<Tree> treeItr = trees.listIterator();
+        while(treeItr.hasNext()){
+            Tree e = treeItr.next();
+            player.testCollision(e);
         }
 
         ListIterator<Item> itemItr = worldItems.listIterator();

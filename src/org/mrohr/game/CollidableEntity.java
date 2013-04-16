@@ -13,9 +13,12 @@ import org.newdawn.slick.geom.Shape;
  */
 public abstract class CollidableEntity extends Entity {
     boolean solid;
+    private Shape collidableShape;
+
 
     public CollidableEntity(Shape bb,boolean solid){
         super(bb);
+        collidableShape = bb;
         this.solid = solid;
         this.setDebugColor(new Color(0,255,0,200));
     }
@@ -23,12 +26,13 @@ public abstract class CollidableEntity extends Entity {
 
     public CollidableEntity(Shape bb,Image img, boolean solid){
         super(bb,img);
+        collidableShape = bb;
         this.solid = solid;
         this.setDebugColor(new Color(0,255,0,200));
     }
 
     public boolean testCollision(CollidableEntity other){
-      if(this.boundingBox.intersects(other.boundingBox)){
+      if(this.collidableShape.intersects(other.collidableShape)){
           onCollision(other);
           other.onCollision(this);
           return true;
@@ -37,4 +41,12 @@ public abstract class CollidableEntity extends Entity {
     }
 
     public abstract void onCollision(CollidableEntity other);
+
+    public Shape getCollidableShape() {
+        return collidableShape;
+    }
+
+    public void setCollidableShape(Shape collidableShape) {
+        this.collidableShape = collidableShape;
+    }
 }
