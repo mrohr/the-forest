@@ -26,7 +26,7 @@ public class Game extends BasicGame implements KeyListener{
     TrueTypeFont font;
     boolean hasPressedEsc;
     boolean toggleFullscreen;
-    public String message;
+    public static String message;
     public Game(){
       super("Top-Down Shooter");
     }
@@ -89,6 +89,9 @@ public class Game extends BasicGame implements KeyListener{
             graphics.drawImage(item.getRenderedImage(),(Block.width *16) + (Block.width * i),gameContainer.getHeight() - (Block.height * 2) + 8);
             i++;
         }
+
+        graphics.drawString(String.valueOf((int)player.getBoundingBox().getCenterX()) + "," +
+                String.valueOf((int)player.getBoundingBox().getCenterY()),5,20);
     }
 
 
