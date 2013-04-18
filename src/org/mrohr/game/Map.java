@@ -432,7 +432,6 @@ public class Map extends GameObject implements MouseListener {
     }
 
     public void finishMap(){
-        JOptionPane.showMessageDialog(null, "You did it! :3");
         System.exit(0);
     }
 }
