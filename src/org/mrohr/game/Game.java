@@ -90,8 +90,8 @@ public class Game extends BasicGame implements KeyListener{
             i++;
         }
 
-        graphics.drawString(String.valueOf((int)player.getBoundingBox().getCenterX()) + "," +
-                String.valueOf((int)player.getBoundingBox().getCenterY()),5,20);
+       // graphics.drawString(String.valueOf((int)player.getBoundingBox().getCenterX()) + "," +
+       //         String.valueOf((int)player.getBoundingBox().getCenterY()),5,20);
     }
 
 
