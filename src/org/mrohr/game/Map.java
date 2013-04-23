@@ -29,6 +29,7 @@ public class Map extends GameObject implements MouseListener {
 
     List<Entity> blocks;
     List<Tree> trees;
+    List<LivingTree> livingTrees;
     List<Doodad> doodads;
     public List<Item> worldItems;
 
@@ -47,6 +48,7 @@ public class Map extends GameObject implements MouseListener {
         width = tiled.getWidth();
         blocks = new LinkedList<Entity>();
         trees = new LinkedList<Tree>();
+        livingTrees = new LinkedList<LivingTree>();
         doodads = new LinkedList<Doodad>();
         worldItems = new LinkedList<Item>();
     }
@@ -101,6 +103,10 @@ public class Map extends GameObject implements MouseListener {
         for(Tree t: trees){
             t.init(gameContainer);
         }
+
+
+        LivingTree livingTree = new LivingTree(2000,1500,tileset,player);
+        livingTrees.add(livingTree);
 
         generateDoodads();
 
@@ -262,6 +268,13 @@ public class Map extends GameObject implements MouseListener {
             player.testCollision(e);
         }
 
+        ListIterator<LivingTree> livingTreeItr = livingTrees.listIterator();
+        while(livingTreeItr.hasNext()){
+            LivingTree e = livingTreeItr.next();
+            e.update(gameContainer, i);
+            player.testCollision(e);
+        }
+
         ListIterator<Item> itemItr = worldItems.listIterator();
         while(itemItr.hasNext()){
             Item item = itemItr.next();
@@ -308,11 +321,18 @@ public class Map extends GameObject implements MouseListener {
         for(Tree t: trees){
             t.renderBottom(gameContainer,graphics);
         }
+
+        for(LivingTree t: livingTrees){
+            t.renderBottom(gameContainer,graphics);
+        }
         caveEntrance.render(gameContainer,graphics);
         player.render(gameContainer,graphics);
         tiled.render(0,0,tiled.getLayerID("Over"));
         for(Tree t: trees){
             t.renderTop(gameContainer, graphics);
+        }
+        for(LivingTree t: livingTrees){
+            t.renderTop(gameContainer,graphics);
         }
 
         //lighting
