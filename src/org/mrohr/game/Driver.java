@@ -27,7 +27,7 @@ public class Driver {
         Game game = new Game();
         boolean debug = false;
         AppGameContainer gc = new MyGameContainer(game,debug);
-        gc.setDisplayMode(800,600,true);
+        gc.setDisplayMode(800,600,false);
         //gc.setShowFPS(true);
         gc.start();
     }
