@@ -36,7 +36,7 @@ public class Map extends GameObject implements MouseListener {
 
     CaveEntrance caveEntrance;
     Player player;
-
+    Animation rain;
     boolean seenKey  = false;
     boolean seenCave = false;
     boolean pickedKey = false;
@@ -107,6 +107,8 @@ public class Map extends GameObject implements MouseListener {
 
         noLightMap = new Image("res/alphamap/nolight.png");
         noLightMap = noLightMap.getScaledCopy(6);
+
+        rain = new Animation(new SpriteSheet(new Image("res/images/rainss.tga"),32,32),200);
 
         tileset = new SpriteSheet("res/tilesets/dark_forest.png",(int)Block.height,(int)Block.width);
         cam.init(gameContainer);
@@ -431,7 +433,7 @@ public class Map extends GameObject implements MouseListener {
             livingTimer = livingTimerPeriod;
             turnLivingTree();
         }
-
+        rain.update(i);
 
 
 
@@ -471,6 +473,17 @@ public class Map extends GameObject implements MouseListener {
             t.renderTop(gameContainer,graphics);
         }
 
+        //restore translation
+        graphics.translate(cam.getX(),cam.getY());
+        //render rain
+        for(int i =0;i<gameContainer.getWidth();i+=32){
+         for(int j=0;j<gameContainer.getHeight();j+=32){
+             graphics.drawAnimation(rain,i,j);
+         }
+        }
+
+        //reset translation
+        graphics.translate(-cam.getX(),-cam.getY());
         //lighting
 
         graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
