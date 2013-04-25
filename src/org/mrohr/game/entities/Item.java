@@ -14,11 +14,4 @@ public abstract class Item extends CollidableEntity {
     public Item(Shape bb, Image img) {
         super(bb, img, false);
     }
-
-
-
-    public void onCollision(CollidableEntity other){
-
-    }
-
 }

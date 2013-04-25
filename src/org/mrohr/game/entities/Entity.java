@@ -53,8 +53,20 @@ public abstract class Entity extends GameObject {
         return boundingBox;
     }
 
-    public void setBoundingBox(Shape boundingBox) {
-        this.boundingBox = boundingBox;
+    public void setX(float x){
+        boundingBox.setX(x);
+    }
+
+    public void setY(float y){
+        boundingBox.setY(y);
+    }
+
+    public void setCenterX(float x){
+        boundingBox.setCenterX(x);
+    }
+
+    public void setCenterY(float y){
+        boundingBox.setCenterY(y);
     }
 
     public Image getImg() {
@@ -63,13 +75,11 @@ public abstract class Entity extends GameObject {
 
     public void setImg(Image img) {
         this.img = img;
+        this.renderedImage = img.getScaledCopy((int)boundingBox.getHeight(),(int)boundingBox.getWidth());
     }
 
     public Image getRenderedImage() {
         return renderedImage;
     }
 
-    public void setRenderedImage(Image renderedImage) {
-        this.renderedImage = renderedImage;
-    }
 }

@@ -12,7 +12,7 @@ import org.newdawn.slick.geom.Shape;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class CollidableEntity extends Entity {
-    boolean solid;
+    private boolean solid;
     private Shape collidableShape;
 
 
@@ -31,6 +31,10 @@ public abstract class CollidableEntity extends Entity {
         this.setDebugColor(new Color(0,255,0,200));
     }
 
+    public boolean isSolid(){
+        return solid;
+    }
+
     public boolean testCollision(CollidableEntity other){
       if(this.collidableShape.intersects(other.collidableShape)){
           onCollision(other);
@@ -46,7 +50,35 @@ public abstract class CollidableEntity extends Entity {
         return collidableShape;
     }
 
-    public void setCollidableShape(Shape collidableShape) {
-        this.collidableShape = collidableShape;
+    protected void setCollidableShape(Shape shape){
+        this.collidableShape = shape;
+    }
+
+    public void setX(float x){
+        float prevX = getBoundingBox().getX();
+        super.setX(x);
+        float newX = getBoundingBox().getX();
+        collidableShape.setX(collidableShape.getX() + (newX - prevX));
+    }
+
+    public void setY(float y){
+        float prevY = getBoundingBox().getY();
+        super.setY(y);
+        float newY = getBoundingBox().getY();
+        collidableShape.setY(collidableShape.getY() + (newY - prevY));
+    }
+
+    public void setCenterX(float x){
+        float prevX = getBoundingBox().getCenterX();
+        super.setX(x);
+        float newX = getBoundingBox().getCenterX();
+        collidableShape.setCenterX(collidableShape.getCenterX() + (newX - prevX));
+    }
+
+    public void setCenterY(float y){
+        float prevY = getBoundingBox().getCenterY();
+        super.setY(y);
+        float newY = getBoundingBox().getCenterY();
+        collidableShape.setCenterY(collidableShape.getCenterY() + (newY - prevY));
     }
 }

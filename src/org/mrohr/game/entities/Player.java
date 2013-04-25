@@ -16,16 +16,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class Player extends LivingEntity implements KeyListener {
-    private final float SPEED = 0.1f;
+    private final float SPEED = 0.05f;
     private Map currentMap;
-    boolean upPressed;
-    boolean downPressed;
-    boolean leftPressed;
-    boolean rightPressed;
-
-
-
+    private boolean upPressed;
+    private boolean downPressed;
+    private boolean leftPressed;
+    private boolean rightPressed;
     private List<Item> inventory;
+
     public Player(int x, int y)throws SlickException{
         super(new Rectangle(x,y,32,32),new Image("res/images/player.png"),true,100);
         this.setDebugColor(Color.pink);
@@ -80,8 +78,8 @@ public class Player extends LivingEntity implements KeyListener {
 
 
     public void keyPressed(int key,char c){
-        float currentX = this.xspeed;
-        float currentY = this.yspeed;
+        float currentX = this.getXSpeed();
+        float currentY = this.getYSpeed();
         if(key ==Input.KEY_W){
             currentY = -SPEED;
             upPressed = true;
@@ -102,8 +100,8 @@ public class Player extends LivingEntity implements KeyListener {
     }
 
     public void keyReleased(int key,char c){
-        float currentX = this.xspeed;
-        float currentY = this.yspeed;
+        float currentX = this.getXSpeed();
+        float currentY = this.getYSpeed();
         if(key ==Input.KEY_W){
             currentY = 0;
             upPressed = false;

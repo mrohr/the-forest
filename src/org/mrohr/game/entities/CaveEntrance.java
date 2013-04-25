@@ -18,15 +18,16 @@ import org.newdawn.slick.geom.Shape;
  * To change this template use File | Settings | File Templates.
  */
 public class CaveEntrance extends CollidableEntity{
-    SpriteSheet sheet;
-    float x;
-    float y;
-    Shape entrance;
-    Map map;
-    boolean locked;
-    Key[] keys;
-    int locksLeft;
-    Shape[] keysBB;
+    private SpriteSheet sheet;
+    private float x;
+    private float y;
+    private Shape entrance;
+    private Map map;
+    private boolean locked;
+    private Key[] keys;
+    private int locksLeft;
+    private Shape[] keysBB;
+
     public CaveEntrance(float x, float y, SpriteSheet tileset,Map map){
       super(new Rectangle(x, y, Block.width * 7, Block.height * 4), true);
       this.x = x;

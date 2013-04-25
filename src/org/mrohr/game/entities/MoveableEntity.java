@@ -14,12 +14,11 @@ import org.newdawn.slick.geom.Shape;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class MoveableEntity extends CollidableEntity {
-    protected float xspeed;
-    protected float yspeed;
-    protected float prevX;
-    protected float prevY;
-    protected float heading;//0-360, degree that this object is facing. 0 north, 90 east, 180 south, 270 west
-    protected Shape previousBB;
+    private float xspeed;
+    private float yspeed;
+    private float prevX;
+    private float prevY;
+    private float heading;//0-360, degree that this object is facing. 0 north, 90 east, 180 south, 270 west
 
 
 
@@ -40,6 +39,14 @@ public abstract class MoveableEntity extends CollidableEntity {
        this.yspeed = y;
     }
 
+    public float getXSpeed(){
+        return this.xspeed;
+    }
+
+    public float getYSpeed(){
+        return this.yspeed;
+    }
+
     public void setHeading(float h){
         this.heading = h;
     }
@@ -53,8 +60,8 @@ public abstract class MoveableEntity extends CollidableEntity {
         prevY = this.getBoundingBox().getY();
         float newX = this.getBoundingBox().getX() + (xspeed * i);
         float newY = this.getBoundingBox().getY() + (yspeed * i);
-        this.getBoundingBox().setX(newX);
-        this.getBoundingBox().setY(newY);
+        this.setX(newX);
+        this.setY(newY);
     }
 
     public void render(MyGameContainer gc, Graphics graphics) throws SlickException {
@@ -66,10 +73,10 @@ public abstract class MoveableEntity extends CollidableEntity {
     public void onCollision(CollidableEntity other){
 
 
-        if(this.solid && other.solid){
+        if(this.isSolid() && other.isSolid()){
 
-            this.getBoundingBox().setX(prevX);
-            this.getBoundingBox().setY(prevY);
+            this.setX(prevX);
+            this.setY(prevY);
         }
     }
 
