@@ -92,7 +92,6 @@ public class Player extends LivingEntity implements KeyListener {
     public void init(MyGameContainer gameContainer) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
         //super.init(gameContainer);
-        gameContainer.getInput().addKeyListener(this);
 
 
     }
@@ -145,41 +144,41 @@ public class Player extends LivingEntity implements KeyListener {
 
 
     public void keyPressed(int key,char c){
-        if(key ==Input.KEY_LSHIFT){
+        if(key ==Input.KEY_LSHIFT || key == Input.KEY_RSHIFT){
             sprinting = true;
         }
-        if(key ==Input.KEY_SPACE && battery > 0){
+        if((key ==Input.KEY_SPACE  || key==Input.KEY_ENTER )&& battery > 0){
             flashlightOn = !flashlightOn;
         }
 
-        if(key ==Input.KEY_W){
+        if(key ==Input.KEY_W || key == Input.KEY_UP){
             upPressed = true;
         }
-        if(key ==Input.KEY_S){
+        if(key ==Input.KEY_S || key == Input.KEY_DOWN){
             downPressed = true;
         }
-        if(key ==Input.KEY_A){
+        if(key ==Input.KEY_A || key == Input.KEY_LEFT){
             leftPressed = true;
         }
-        if(key ==Input.KEY_D){
+        if(key ==Input.KEY_D || key == Input.KEY_RIGHT){
             rightPressed = true;
         }
     }
 
     public void keyReleased(int key,char c){
-        if(key ==Input.KEY_LSHIFT){
+        if(key ==Input.KEY_LSHIFT || key == Input.KEY_RSHIFT){
             sprinting = false;
         }
-        if(key ==Input.KEY_W){
+        if(key ==Input.KEY_W || key == Input.KEY_UP){
             upPressed = false;
         }
-        if(key ==Input.KEY_S){
+        if(key ==Input.KEY_S || key == Input.KEY_DOWN){
             downPressed = false;
         }
-        if(key ==Input.KEY_A){
+        if(key ==Input.KEY_A || key == Input.KEY_LEFT){
             leftPressed = false;
         }
-        if(key ==Input.KEY_D){
+        if(key ==Input.KEY_D || key == Input.KEY_RIGHT){
             rightPressed = false;
         }
     }

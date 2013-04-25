@@ -8,6 +8,10 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.newdawn.slick.*;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.util.ResourceLoader;
 
 /**
@@ -17,20 +21,24 @@ import org.newdawn.slick.util.ResourceLoader;
  * Time: 4:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Game extends BasicGame implements KeyListener{
+public class GameplayState extends BasicGameState implements KeyListener{
     Map currentMap;
     Player player;
     Image ui;
     TrueTypeFont font;
-    boolean hasPressedEsc;
-    boolean toggleFullscreen;
     public static String message;
-    public Game(){
-      super("Top-Down Shooter");
+    boolean showMenu;
+    public GameplayState(){
+      super();
     }
-    public void init(GameContainer gameContainer) throws SlickException {
-        hasPressedEsc = false;
-        toggleFullscreen = false;
+
+    @Override
+    public int getID() {
+        return Driver.GameStates.GAMEPLAY.ordinal();  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void init(GameContainer gameContainer,StateBasedGame game) throws SlickException {
+
         //To change body of implemented methods use File | Settings | File Templates.
         currentMap = new Map("res/maps/test2.tmx");
         ui = new Image("res/images/ui.png");
@@ -61,16 +69,18 @@ public class Game extends BasicGame implements KeyListener{
         }
     }
 
-    public void update(GameContainer gameContainer, int i) throws SlickException {
+    public void update(GameContainer gameContainer,StateBasedGame game, int i) throws SlickException {
 
         currentMap.update((MyGameContainer)gameContainer,i);
-        if(toggleFullscreen){
-            toggleFullscreen = false;
-            gameContainer.setFullscreen(!gameContainer.isFullscreen());
+        if(showMenu){
+            showMenu = false;
+            game.enterState(Driver.GameStates.MAIN_MENU.ordinal(),
+                    new FadeOutTransition(Color.black, 200), new FadeInTransition(Color.black, 200));
         }
+
     }
 
-    public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
+    public void render(GameContainer gameContainer,StateBasedGame game, Graphics graphics) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
         currentMap.render((MyGameContainer)gameContainer,graphics);
         graphics.drawImage(ui, 0, 0);
@@ -91,22 +101,23 @@ public class Game extends BasicGame implements KeyListener{
        //         String.valueOf((int)player.getBoundingBox().getCenterY()),5,20);
     }
 
+    public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
+        container.getInput().addKeyListener(this);
+    }
+
+    public void leave(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
+        container.getInput().removeKeyListener(this);
+    }
 
     public void keyPressed(int key,char c){
-       if(key == Input.KEY_ESCAPE){
-        if(!hasPressedEsc){
-            hasPressedEsc = true;
-            message = "Giving up? (esc again to quit)";
-        }else{
-            System.exit(0);
+        player.keyPressed(key,c);
+        if(key == Input.KEY_ESCAPE){
+            showMenu = true;
         }
-       }
-       if(key == Input.KEY_TAB){
-         toggleFullscreen = true;
-       }
     }
 
     public void keyReleased(int key,char c){
+        player.keyReleased(key,c);
 
     }
     public void setInput(Input input) {
@@ -123,10 +134,14 @@ public class Game extends BasicGame implements KeyListener{
     public void inputEnded() {
     }
 
+
     /**
      * unused
      */
     @Override
     public void inputStarted() {
     }
+
+
+
 }

@@ -1,6 +1,6 @@
 package org.mrohr.game.entities;
 
-import org.mrohr.game.Game;
+import org.mrohr.game.GameplayState;
 import org.mrohr.game.Map;
 import org.mrohr.game.MyGameContainer;
 import org.newdawn.slick.Color;
@@ -78,16 +78,16 @@ public class CaveEntrance extends CollidableEntity{
                 keysBB[i] = null;
                 locksLeft--;
                 if(locksLeft == 3){
-                    Game.message = "One down, three to go";
+                    GameplayState.message = "One down, three to go";
                 }
                 if(locksLeft == 2){
-                    Game.message = "Half way there..";
+                    GameplayState.message = "Half way there..";
                 }
                 if(locksLeft == 1){
-                    Game.message = "Better find the last one quick!";
+                    GameplayState.message = "Better find the last one quick!";
                 }
                 if(locksLeft <= 0){
-                    Game.message = "I wonder what's inside...";
+                    GameplayState.message = "I wonder what's inside...";
                     locked = false;
                 }
             }

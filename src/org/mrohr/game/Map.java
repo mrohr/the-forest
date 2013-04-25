@@ -2,12 +2,10 @@ package org.mrohr.game;
 
 import org.mrohr.game.entities.*;
 import org.newdawn.slick.*;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.TiledMapPlus;
 import org.newdawn.slick.util.ResourceLoader;
 
-import javax.swing.*;
 import java.util.*;
 
 /**
@@ -331,7 +329,7 @@ public class Map extends GameObject implements MouseListener {
             livingTrees.add(livingTree);
         }
         if(!treeTurned){
-            Game.message = "What was that? I saw something move...";
+            GameplayState.message = "What was that? I saw something move...";
             treeTurned = true;
         }
     }
@@ -345,7 +343,7 @@ public class Map extends GameObject implements MouseListener {
         if(!seenCave){
             if(cam.isVisible(caveEntrance.getBoundingBox())){
 
-                Game.message = "Is that cave locked?";
+                GameplayState.message = "Is that cave locked?";
                 seenCave = true;
             }
         }
@@ -354,7 +352,7 @@ public class Map extends GameObject implements MouseListener {
             Key[] keys =caveEntrance.getKeys();
             for(int j=0;j<keys.length;j++){
                 if(cam.isVisible(keys[j].getBoundingBox())){
-                    Game.message = "Is that a key? Why is that here?";
+                    GameplayState.message = "Is that a key? Why is that here?";
                     seenKey = true;
                 }
             }
@@ -400,23 +398,23 @@ public class Map extends GameObject implements MouseListener {
             if(player.testCollision(item)){
                 if(item instanceof Key){
                     if(!pickedKey && !seenCave){
-                        Game.message = "I wonder what this goes to...";
+                        GameplayState.message = "I wonder what this goes to...";
                         pickedKey = true;
                     }
                     if(!pickedKey && seenCave){
-                        Game.message = "This must go to that cave";
+                        GameplayState.message = "This must go to that cave";
                         pickedKey = true;
                     }
                     if(pickedKey){
-                        Game.message = "Another key!";
+                        GameplayState.message = "Another key!";
                     }
                     player.getInventory().add(item);
                 }
                 if(item instanceof Food){
-                    Game.message = "Mmm, I was getting hungry";
+                    GameplayState.message = "Mmm, I was getting hungry";
                 }
                 if(item instanceof Medkit){
-                    Game.message = "Ahh, that feels much better";
+                    GameplayState.message = "Ahh, that feels much better";
 
                 }
                 itemItr.remove();
