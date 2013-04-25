@@ -45,7 +45,6 @@ public class Map extends GameObject implements MouseListener {
 
     int livingTimer;
     public final int livingTimerPeriod = 30000;
-    public long timeTest;
 
     public Map(String tiledFile)throws SlickException{
         tiled = new TiledMapPlus(ResourceLoader.getResourceAsStream(tiledFile),"res/tilesets");
@@ -57,7 +56,6 @@ public class Map extends GameObject implements MouseListener {
         doodads = new LinkedList<Doodad>();
         worldItems = new LinkedList<Item>();
         livingTimer = livingTimerPeriod;
-        timeTest = System.currentTimeMillis();
     }
 
     public void setPlayer(Player p){
