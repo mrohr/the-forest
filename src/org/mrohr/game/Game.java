@@ -81,8 +81,8 @@ public class Game extends BasicGame implements KeyListener{
         graphics.setFont(font);
         graphics.drawString(message,Block.width*1 + 10, gameContainer.getHeight() - (Block.height * 2) + 2 + 8);
         graphics.drawString("Health : " +player.getHealth(),Block.width * 1 + 10,gameContainer.getHeight() - Block.height + 2 + 8);
-        graphics.drawString("Hunger : 100",Block.width * 6 + 10,gameContainer.getHeight() - Block.height + 2 + 8);
-        graphics.drawString("Battery:100%",Block.width * 11 + 10,gameContainer.getHeight() - Block.height + 2 + 8);
+        graphics.drawString("Hunger : " +player.getHunger(),Block.width * 6 + 10,gameContainer.getHeight() - Block.height + 2 + 8);
+        graphics.drawString("Battery: "+player.getBattery(),Block.width * 11 + 10,gameContainer.getHeight() - Block.height + 2 + 8);
         List<Item> inventory = player.getInventory();
         int i = 0;
         for(Item item : inventory){

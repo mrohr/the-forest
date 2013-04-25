@@ -1,6 +1,8 @@
 package org.mrohr.game.entities;
 
+import org.mrohr.game.MyGameContainer;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 
 /**
@@ -14,16 +16,22 @@ public abstract class LivingEntity extends MoveableEntity {
     private int maxHealth;
     private int currentHealth;
 
+    private int damageTimer;
+    private final int damageTimerPeriod = 1000;
+    private boolean damaged = false;
+
     public LivingEntity(Shape bb, boolean solid,int health){
         super(bb,solid);
         maxHealth = health;
         currentHealth = health;
+        damageTimer = damageTimerPeriod;
     }
 
     public LivingEntity(Shape bb, Image img, boolean solid,int health){
         super(bb,img,solid);
         maxHealth = health;
         currentHealth = health;
+        damageTimer = damageTimerPeriod;
     }
 
     public int getMaxHealth() {
@@ -39,10 +47,13 @@ public abstract class LivingEntity extends MoveableEntity {
     }
 
     public void damage(int amount){
-        currentHealth -= amount;
-        onDamaged(amount);
-        if(currentHealth <= 0){
-            onDeath();
+        if(!damaged){
+            currentHealth -= amount;
+            damaged = true;
+            onDamaged(amount);
+            if(currentHealth <= 0){
+                onDeath();
+            }
         }
     }
 
@@ -50,6 +61,18 @@ public abstract class LivingEntity extends MoveableEntity {
         currentHealth += amount;
         currentHealth = currentHealth > maxHealth? maxHealth : currentHealth;
         onHealed(amount);
+    }
+
+    public void update(MyGameContainer gameContainer, int i) throws SlickException {
+        super.update(gameContainer, i);
+        if(damaged){
+            damageTimer -= i;
+            if(damageTimer < 0){
+                damaged = false;
+                damageTimer = damageTimerPeriod;
+            }
+        }
+
     }
 
     public abstract void onDamaged(int amount);
