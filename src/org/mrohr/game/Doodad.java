@@ -14,11 +14,11 @@ import java.util.Random;
  * To change this template use File | Settings | File Templates.
  */
 public class Doodad extends GameObject {
-    float x;
-    float y;
-    SpriteSheet sheet;
-    int tileX;
-    int tileY;
+    private float x;
+    private float y;
+    private SpriteSheet sheet;
+    private int tileX;
+    private int tileY;
 
     public static final int[] choices = {71,72,73,76,33,34,44,54,35,45,55,26,27,37,47,57};
     public Doodad(float x, float y,SpriteSheet sheet){
@@ -29,6 +29,22 @@ public class Doodad extends GameObject {
         int choice = choices[random.nextInt(choices.length)];
         tileX = choice / 10;
         tileY = choice % 10;
+    }
+
+    public float getX(){
+        return x;
+    }
+
+    public void setX(float x){
+        this.x = x;
+    }
+
+    public float getY(){
+        return y;
+    }
+
+    public void setY(float y){
+        this.y = y;
     }
     @Override
     public void init(MyGameContainer gameContainer) throws SlickException {

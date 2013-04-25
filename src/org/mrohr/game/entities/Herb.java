@@ -13,9 +13,8 @@ import org.newdawn.slick.geom.Rectangle;
  * To change this template use File | Settings | File Templates.
  */
 public class Herb extends Food {
-    public static final int HEALING_AMOUNT = 15;
     public Herb(int x,int y) throws SlickException {
-        super(new Rectangle(x,y,32,32), new Image("res/images/herb.png"), HEALING_AMOUNT);
+        super(new Rectangle(x,y,32,32), new Image("res/images/herb.png"), 15);
     }
 
     @Override

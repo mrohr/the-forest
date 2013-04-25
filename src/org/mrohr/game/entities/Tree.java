@@ -14,11 +14,12 @@ import org.newdawn.slick.geom.Rectangle;
  * To change this template use File | Settings | File Templates.
  */
 public class Tree extends CollidableEntity{
-    SpriteSheet sheet;
-    int sheetXOffset = 4;
-    int sheetYOffset = 0;
-    float x;
-    float y;
+    private SpriteSheet sheet;
+    private int sheetXOffset = 4;
+    private int sheetYOffset = 0;
+    private float x;
+    private float y;
+
     public Tree(float x, float y,SpriteSheet tileset){
       super(new Rectangle(x, y, Block.width * 3, Block.height * 4), true);
       this.x = x;

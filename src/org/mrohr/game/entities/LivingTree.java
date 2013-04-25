@@ -15,11 +15,11 @@ import org.newdawn.slick.geom.Rectangle;
  * To change this template use File | Settings | File Templates.
  */
 public class LivingTree extends EntityFollower{
-    SpriteSheet sheet;
-    int sheetXOffset = 4;
-    int sheetYOffset = 0;
-    float x;
-    float y;
+    private SpriteSheet sheet;
+    private int sheetXOffset = 4;
+    private int sheetYOffset = 0;
+    private float x;
+    private float y;
     public LivingTree(float x, float y,SpriteSheet tileset,MoveableEntity poi){
         super(new Rectangle(x, y, Block.width * 3, Block.height * 4), true,poi);
         this.x = x;
@@ -36,7 +36,8 @@ public class LivingTree extends EntityFollower{
     }
 
     public boolean facingPoi(){
-        double heading = -(Math.toDegrees(this.movementHeading) - 180) % 360;
+        MoveableEntity poi = getPoi();
+        double heading = -(Math.toDegrees(this.getMovementHeading()) - 180) % 360;
         heading = (heading + 180) %360;
         int diff = 60;
         if(heading > poi.getHeading() - diff &&
@@ -51,8 +52,7 @@ public class LivingTree extends EntityFollower{
             calcSpeeds();
         }
         else{
-            this.xspeed = 0f;
-            this.yspeed = 0f;
+            this.setSpeed(0,0);
         }
         super.update(gameContainer, i);
 

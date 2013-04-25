@@ -15,17 +15,27 @@ import org.newdawn.slick.geom.Shape;
  * To change this template use File | Settings | File Templates.
  */
 public class Key extends Item{
+
+
     public enum KeyColor{
         RED, BLUE, YELLOW, ORANGE
     }
-    KeyColor color;
-    SpriteSheet sheet;
+    private KeyColor color;
+    private SpriteSheet sheet;
     public Key(int x, int y, KeyColor color,SpriteSheet sheetRef){
         //this.sheet = sheetRef;
         super(new Rectangle(x, y, Block.width, Block.height), colorToImage(color,sheetRef));
         this.color = color;
         this.sheet = sheetRef;
 
+    }
+
+    public KeyColor getColor(){
+        return color;
+    }
+
+    public void setColor(KeyColor color){
+        this.color = color;
     }
 
     public Image lockImage(){
@@ -56,11 +66,16 @@ public class Key extends Item{
 
     }
     public void init(MyGameContainer gameContainer) throws SlickException {
-
     }
 
     @Override
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
 
     }
+
+    @Override
+    public void onCollision(CollidableEntity other) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
+

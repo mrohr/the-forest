@@ -39,8 +39,13 @@ public class Map extends GameObject implements MouseListener {
     boolean seenKey  = false;
     boolean seenCave = false;
     boolean pickedKey = false;
+    boolean treeTurned = false;
     static final int NUM_TREES = 200;
     static final int NUM_DOODADS = 400;
+
+    int livingTimer;
+    public final int livingTimerPeriod = 30000;
+    public long timeTest;
 
     public Map(String tiledFile)throws SlickException{
         tiled = new TiledMapPlus(ResourceLoader.getResourceAsStream(tiledFile),"res/tilesets");
@@ -51,6 +56,8 @@ public class Map extends GameObject implements MouseListener {
         livingTrees = new LinkedList<LivingTree>();
         doodads = new LinkedList<Doodad>();
         worldItems = new LinkedList<Item>();
+        livingTimer = livingTimerPeriod;
+        timeTest = System.currentTimeMillis();
     }
 
     public void setPlayer(Player p){
@@ -103,10 +110,6 @@ public class Map extends GameObject implements MouseListener {
         for(Tree t: trees){
             t.init(gameContainer);
         }
-
-
-        LivingTree livingTree = new LivingTree(2000,1500,tileset,player);
-        livingTrees.add(livingTree);
 
         generateDoodads();
 
@@ -223,11 +226,25 @@ public class Map extends GameObject implements MouseListener {
         int y = random.nextInt(maxY - minY) + minY;
         Doodad doodad = new Doodad(Block.width *x,Block.height * y,tileset);
         for(Doodad d :existingDoodads){
-            if(doodad.x == d.x && doodad.y == d.y){
+            if(doodad.getX() == d.getX() && doodad.getY() == d.getY()){
                 return generateDoodad(existingDoodads);
             }
         }
         return doodad;
+    }
+
+    public void turnLivingTree(){
+        int numTrees = trees.size();
+        if(numTrees > 0){
+            Random r = new Random();
+            Tree tree = trees.remove(r.nextInt(numTrees));
+            LivingTree livingTree = new LivingTree(tree.getBoundingBox().getX(),tree.getBoundingBox().getY(),tileset,player);
+            livingTrees.add(livingTree);
+        }
+        if(!treeTurned){
+            Game.message = "What was that? I saw something move...";
+            treeTurned = true;
+        }
     }
 
     @Override
@@ -273,6 +290,12 @@ public class Map extends GameObject implements MouseListener {
             LivingTree e = livingTreeItr.next();
             e.update(gameContainer, i);
             player.testCollision(e);
+            caveEntrance.testCollision(e);
+            treeItr = trees.listIterator();
+            while(treeItr.hasNext()){
+                Tree tree = treeItr.next();
+                e.testCollision(tree);
+            }
         }
 
         ListIterator<Item> itemItr = worldItems.listIterator();
@@ -295,6 +318,13 @@ public class Map extends GameObject implements MouseListener {
             }
         }
         caveEntrance.testCollision(player);
+
+        livingTimer -= i;
+        if(livingTimer < 0){
+            System.out.println("Spawn a tree");
+            livingTimer = livingTimerPeriod;
+            turnLivingTree();
+        }
 
 
 
