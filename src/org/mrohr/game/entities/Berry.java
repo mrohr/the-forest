@@ -12,9 +12,9 @@ import org.newdawn.slick.geom.Rectangle;
  * Time: 4:12 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Herb extends Food {
-    public Herb(int x,int y) throws SlickException {
-        super(new Rectangle(x,y,32,32), new Image("res/images/herb.png"), 15);
+public class Berry extends Food {
+    public Berry(int x, int y) throws SlickException {
+        super(new Rectangle(x,y,32,32), new Image("res/images/berry.png"), 15);
     }
 
     @Override

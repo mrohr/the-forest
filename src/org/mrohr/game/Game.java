@@ -1,7 +1,6 @@
 package org.mrohr.game;
 
 import org.mrohr.game.entities.Block;
-import org.mrohr.game.entities.Herb;
 import org.mrohr.game.entities.Item;
 import org.mrohr.game.entities.Player;
 import java.awt.Font;
@@ -9,7 +8,6 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.newdawn.slick.*;
-import org.newdawn.slick.tiled.Base64;
 import org.newdawn.slick.util.ResourceLoader;
 
 /**

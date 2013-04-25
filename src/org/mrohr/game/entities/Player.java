@@ -44,6 +44,9 @@ public class Player extends LivingEntity implements KeyListener {
         batteryTimer = batteryTimerPeriod;
     }
 
+    public void eat(Food item){
+        hunger += item.getHungerAmount();
+    }
     public List<Item> getInventory() {
         return inventory;
     }
@@ -109,7 +112,7 @@ public class Player extends LivingEntity implements KeyListener {
             currentX = speed;
         }
 
-        hungerTimer -= sprinting? i * 2: i;
+        hungerTimer -= sprinting? i * 3: i;
         if(hungerTimer < 0){
             hunger --;
             hungerTimer = hungerTimerPeriod;
