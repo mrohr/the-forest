@@ -24,10 +24,15 @@ public class Player extends LivingEntity implements KeyListener {
     private boolean rightPressed;
     private List<Item> inventory;
 
+    private int hunger;
+    private int battery;
+
     public Player(int x, int y)throws SlickException{
         super(new Rectangle(x,y,32,32),new Image("res/images/player.png"),true,100);
         this.setDebugColor(Color.pink);
         inventory = new ArrayList<Item>();
+        hunger = 100;
+        battery = 100;
     }
 
     public List<Item> getInventory() {
@@ -54,12 +59,15 @@ public class Player extends LivingEntity implements KeyListener {
     @Override
     public void onDeath() {
         //To change body of implemented methods use File | Settings | File Templates.
+        System.exit(0);
     }
 
     @Override
     public void onCollision(CollidableEntity other) {
         super.onCollision(other);
-        //To change body of implemented methods use File | Settings | File Templates.
+        if(other instanceof LivingTree){
+            this.damage(10);
+        }
     }
 
     @Override
@@ -154,4 +162,19 @@ public class Player extends LivingEntity implements KeyListener {
     }
 
 
+    public int getHunger() {
+        return hunger;
+    }
+
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    public int getBattery() {
+        return battery;
+    }
+
+    public void setBattery(int battery) {
+        this.battery = battery;
+    }
 }
