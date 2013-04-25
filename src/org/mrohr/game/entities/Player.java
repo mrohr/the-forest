@@ -40,6 +40,7 @@ public class Player extends LivingEntity implements KeyListener {
         inventory = new ArrayList<Item>();
         hunger = 100;
         battery = 100;
+        damage(10);
         hungerTimer = hungerTimerPeriod;
         batteryTimer = batteryTimerPeriod;
     }
