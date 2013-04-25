@@ -1,7 +1,10 @@
-package org.mrohr.game;
+package org.mrohr.game.states;
 
+import org.mrohr.game.Driver;
+import org.mrohr.game.Map;
+import org.mrohr.game.MyGameContainer;
 import org.mrohr.game.entities.Block;
-import org.mrohr.game.entities.Item;
+import org.mrohr.game.entities.items.Item;
 import org.mrohr.game.entities.Player;
 import java.awt.Font;
 import java.io.InputStream;

@@ -2,6 +2,8 @@ package org.mrohr.game.entities;
 
 import org.mrohr.game.Map;
 import org.mrohr.game.MyGameContainer;
+import org.mrohr.game.entities.items.Food;
+import org.mrohr.game.entities.items.Item;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 

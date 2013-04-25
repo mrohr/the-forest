@@ -1,4 +1,4 @@
-package org.mrohr.game.entities;
+package org.mrohr.game.entities.items;
 
 import org.mrohr.game.MyGameContainer;
 import org.newdawn.slick.Image;
@@ -9,26 +9,12 @@ import org.newdawn.slick.geom.Rectangle;
  * Created with IntelliJ IDEA.
  * User: mjrohr
  * Date: 3/26/13
- * Time: 4:09 PM
+ * Time: 4:12 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Battery extends Item {
-    private int charge;
-
-    public Battery(float x, float y) throws SlickException{
-        super(new Rectangle(x,y,32,32), new Image("res/images/battery.png"));
-        this.charge = 15;
-    }
-
-    public int getCharge(){
-        return this.charge;
-    }
-
-    public void onCollision(CollidableEntity other){
-        if(other instanceof Player){
-            ((Player)other).charge(charge);
-        }
-
+public class Berry extends Food {
+    public Berry(int x, int y) throws SlickException {
+        super(new Rectangle(x,y,32,32), new Image("res/images/berry.png"), 15);
     }
 
     @Override
@@ -40,4 +26,5 @@ public class Battery extends Item {
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
 }

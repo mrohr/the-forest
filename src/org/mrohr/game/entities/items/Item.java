@@ -1,5 +1,6 @@
-package org.mrohr.game.entities;
+package org.mrohr.game.entities.items;
 
+import org.mrohr.game.entities.CollidableEntity;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
 

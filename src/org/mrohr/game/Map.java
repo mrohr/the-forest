@@ -1,6 +1,8 @@
 package org.mrohr.game;
 
 import org.mrohr.game.entities.*;
+import org.mrohr.game.entities.items.*;
+import org.mrohr.game.states.GameplayState;
 import org.newdawn.slick.*;
 import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.TiledMapPlus;
