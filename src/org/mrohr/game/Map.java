@@ -43,6 +43,7 @@ public class Map extends GameObject implements MouseListener {
     static final int NUM_TREES = 200;
     static final int NUM_DOODADS = 400;
     static final int NUM_BERRIES = 20;
+    static final int NUM_MEDKITS = 20;
 
     int livingTimer;
     public final int livingTimerPeriod = 30000;
@@ -113,9 +114,6 @@ public class Map extends GameObject implements MouseListener {
         generateDoodads();
 
         Key[] keys = generateKeys();
-        for(int i=0; i< keys.length; i++){
-            worldItems.add(keys[i]);
-        }
         caveEntrance.setKeys(keys);
 
         generateFood();
@@ -139,6 +137,7 @@ public class Map extends GameObject implements MouseListener {
             Key key = generateKey(things,color);
             keys[i] = key;
             things.add(key);
+            worldItems.add(key);
 
             System.out.println(color.name() + " Key at " + key.getBoundingBox().getCenterX() + "," + key.getBoundingBox().getCenterY());
         }
@@ -174,18 +173,39 @@ public class Map extends GameObject implements MouseListener {
         things.addAll(worldItems);
         things.add(player);
         things.add(caveEntrance);
-        Key[] keys = caveEntrance.getKeys();
-        for(int i=0;i<keys.length;i++){
-            things.add(keys[i]);
-        }
 
         for(int i=0;i<NUM_BERRIES;i++){
             Berry berry = generateBerry(things);
             worldItems.add(berry);
             things.add(berry);
         }
+
+        for(int i=0;i<NUM_MEDKITS;i++){
+            Medkit medkit = generateMedkit(things);
+            worldItems.add(medkit);
+            things.add(medkit);
+        }
     }
 
+    private Medkit generateMedkit(List<CollidableEntity> things) throws SlickException{
+        Random random = new Random();
+        int minX = (int)cam.cameraBB.getWidth();
+
+        int maxX = (int)(getWidth() * Block.width) - (int)Block.width * 2 - (int)(Block.width * 2);
+
+        int minY = (int)cam.cameraBB.getHeight();
+        int maxY = (int)(getHeight() * Block.height) - (int)Block.height * 2 - (int)(Block.height * 2);
+
+        int x = random.nextInt(maxX - minX) + minX;
+        int y = random.nextInt(maxY - minY) + minY;
+        Medkit medkit = new Medkit(x,y);
+        for(CollidableEntity t :things){
+            if(medkit.getBoundingBox().intersects(t.getBoundingBox())){
+                return generateMedkit(things);
+            }
+        }
+        return medkit;
+    }
     private Berry generateBerry(List<CollidableEntity> things) throws SlickException{
         Random random = new Random();
         int minX = (int)cam.cameraBB.getWidth();
@@ -199,8 +219,7 @@ public class Map extends GameObject implements MouseListener {
         int y = random.nextInt(maxY - minY) + minY;
         Berry berry = new Berry(x,y);
         for(CollidableEntity t :things){
-            if(berry.getBoundingBox().intersects(t.getBoundingBox()) ||
-                    berry.getBoundingBox().intersects(caveEntrance.getBoundingBox())){
+            if(berry.getBoundingBox().intersects(t.getBoundingBox())){
                 return generateBerry(things);
             }
         }
@@ -241,8 +260,7 @@ public class Map extends GameObject implements MouseListener {
         int y = random.nextInt(maxY - minY) + minY;
         Tree tree = new Tree(x,y,tileset);
         for(Tree t :existingTrees){
-            if(tree.getBoundingBox().intersects(t.getBoundingBox()) ||
-               tree.getBoundingBox().intersects(caveEntrance.getBoundingBox())){
+            if(tree.getBoundingBox().intersects(t.getBoundingBox())){
                 return generateTree(existingTrees);
             }
         }
@@ -352,7 +370,17 @@ public class Map extends GameObject implements MouseListener {
                         Game.message = "This must go to that cave";
                         pickedKey = true;
                     }
+                    if(pickedKey){
+                        Game.message = "Another key!";
+                    }
                     player.getInventory().add(item);
+                }
+                if(item instanceof Food){
+                    Game.message = "Mmm, I was getting hungry";
+                }
+                if(item instanceof Medkit){
+                    Game.message = "Ahh, that feels much better";
+
                 }
                 itemItr.remove();
 
