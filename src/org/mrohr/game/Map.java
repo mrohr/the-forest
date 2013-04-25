@@ -385,6 +385,13 @@ public class Map extends GameObject implements MouseListener {
                 Tree tree = treeItr.next();
                 e.testCollision(tree);
             }
+            ListIterator<LivingTree> otherLivingItr = livingTrees.listIterator();
+            while(otherLivingItr.hasNext()){
+                LivingTree lt = otherLivingItr.next();
+                if(!e.equals(lt)){
+                    e.testCollision(lt);
+                }
+            }
         }
 
         ListIterator<Item> itemItr = worldItems.listIterator();
@@ -492,7 +499,6 @@ public class Map extends GameObject implements MouseListener {
 
         //restore translation
         graphics.translate(cam.getX(),cam.getY());
-
     }
 
 
