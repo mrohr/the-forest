@@ -42,6 +42,7 @@ public class Map extends GameObject implements MouseListener {
     boolean treeTurned = false;
     static final int NUM_TREES = 200;
     static final int NUM_DOODADS = 400;
+    static final int NUM_BERRIES = 20;
 
     int livingTimer;
     public final int livingTimerPeriod = 30000;
@@ -117,6 +118,8 @@ public class Map extends GameObject implements MouseListener {
         }
         caveEntrance.setKeys(keys);
 
+        generateFood();
+
 
 
 
@@ -162,6 +165,46 @@ public class Map extends GameObject implements MouseListener {
             }
         }
         return key;
+    }
+
+    private void generateFood() throws SlickException{
+        ArrayList<CollidableEntity> things = new ArrayList<CollidableEntity>();
+
+        things.addAll(trees);
+        things.addAll(worldItems);
+        things.add(player);
+        things.add(caveEntrance);
+        Key[] keys = caveEntrance.getKeys();
+        for(int i=0;i<keys.length;i++){
+            things.add(keys[i]);
+        }
+
+        for(int i=0;i<NUM_BERRIES;i++){
+            Berry berry = generateBerry(things);
+            worldItems.add(berry);
+            things.add(berry);
+        }
+    }
+
+    private Berry generateBerry(List<CollidableEntity> things) throws SlickException{
+        Random random = new Random();
+        int minX = (int)cam.cameraBB.getWidth();
+
+        int maxX = (int)(getWidth() * Block.width) - (int)Block.width * 2 - (int)(Block.width * 2);
+
+        int minY = (int)cam.cameraBB.getHeight();
+        int maxY = (int)(getHeight() * Block.height) - (int)Block.height * 2 - (int)(Block.height * 2);
+
+        int x = random.nextInt(maxX - minX) + minX;
+        int y = random.nextInt(maxY - minY) + minY;
+        Berry berry = new Berry(x,y);
+        for(CollidableEntity t :things){
+            if(berry.getBoundingBox().intersects(t.getBoundingBox()) ||
+                    berry.getBoundingBox().intersects(caveEntrance.getBoundingBox())){
+                return generateBerry(things);
+            }
+        }
+        return berry;
     }
     private void generateCaveEnterance(){
         Random random = new Random();

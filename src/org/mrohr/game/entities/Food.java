@@ -11,20 +11,20 @@ import org.newdawn.slick.geom.Shape;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Food extends Item {
-    private int healingAmount;
+    private int hungerAmount;
 
-    public Food(Shape bb, Image img,int healingAmount) {
+    public Food(Shape bb, Image img,int hungerAmount) {
         super(bb, img);
-        this.healingAmount = healingAmount;
+        this.hungerAmount = hungerAmount;
     }
 
-    public int getHealingAmount(){
-        return this.healingAmount;
+    public int getHungerAmount(){
+        return this.hungerAmount;
     }
 
     public void onCollision(CollidableEntity other){
         if(other instanceof Player){
-            ((Player)other).heal(healingAmount);
+            ((Player)other).eat(this);
         }
 
     }
