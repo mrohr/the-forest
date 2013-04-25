@@ -37,7 +37,6 @@ public class Game extends BasicGame implements KeyListener{
 
         Player player = new Player(100,100);
         this.player = player;
-        //player.damage(30);
         currentMap.setPlayer(player);
         message = "Where am I? (WASD to move, look with mouse)";
 

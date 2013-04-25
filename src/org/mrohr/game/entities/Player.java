@@ -23,6 +23,7 @@ public class Player extends LivingEntity implements KeyListener {
     private boolean leftPressed;
     private boolean rightPressed;
     private boolean sprinting;
+    public boolean flashlightOn;
     private List<Item> inventory;
 
     private int hunger;
@@ -32,7 +33,7 @@ public class Player extends LivingEntity implements KeyListener {
     public final int hungerTimerPeriod = 2000;
 
     int batteryTimer;
-    public final int batteryTimerPeriod = 30000;
+    public final int batteryTimerPeriod = 2000;
 
     public Player(int x, int y)throws SlickException{
         super(new Rectangle(x,y,32,32),new Image("res/images/player.png"),true,100);
@@ -41,12 +42,16 @@ public class Player extends LivingEntity implements KeyListener {
         hunger = 100;
         battery = 100;
         damage(10);
+        flashlightOn = true;
         hungerTimer = hungerTimerPeriod;
         batteryTimer = batteryTimerPeriod;
     }
 
     public void eat(Food item){
         hunger += item.getHungerAmount();
+    }
+    public void charge(int amount){
+        battery += amount;
     }
     public List<Item> getInventory() {
         return inventory;
@@ -122,6 +127,17 @@ public class Player extends LivingEntity implements KeyListener {
             }
         }
 
+        if(flashlightOn){
+            batteryTimer -=  i;
+            if(batteryTimer < 0){
+                battery --;
+                batteryTimer = batteryTimerPeriod;
+                if(battery <= 0){
+                    flashlightOn = false;
+                }
+            }
+        }
+
         setSpeed(currentX,currentY);
         super.update(gameContainer,i);
 
@@ -131,6 +147,9 @@ public class Player extends LivingEntity implements KeyListener {
     public void keyPressed(int key,char c){
         if(key ==Input.KEY_LSHIFT){
             sprinting = true;
+        }
+        if(key ==Input.KEY_SPACE && battery > 0){
+            flashlightOn = !flashlightOn;
         }
 
         if(key ==Input.KEY_W){

@@ -20,7 +20,7 @@ public class LivingTree extends EntityFollower{
     private int sheetYOffset = 0;
     private float x;
     private float y;
-    public LivingTree(float x, float y,SpriteSheet tileset,MoveableEntity poi){
+    public LivingTree(float x, float y,SpriteSheet tileset,Player poi){
         super(new Rectangle(x, y, Block.width * 3, Block.height * 4), true,poi);
         this.x = x;
         this.y = y;
@@ -47,8 +47,8 @@ public class LivingTree extends EntityFollower{
     }
     public void update(MyGameContainer gameContainer, int i) throws SlickException {
 
-        calcMovementHeading();
-        if(!facingPoi()){
+        if(!this.getPoi().flashlightOn  || !facingPoi()){
+            calcMovementHeading();
             calcSpeeds();
         }
         else{

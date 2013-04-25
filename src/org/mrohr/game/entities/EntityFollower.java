@@ -13,16 +13,16 @@ import org.newdawn.slick.geom.Shape;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class EntityFollower extends MoveableEntity{
-    private MoveableEntity poi;
+    private Player poi;
     private float movementHeading;
     public float SPEED = 0f;
 
-    public EntityFollower(Shape bb, Image img, boolean solid,MoveableEntity poi){
+    public EntityFollower(Shape bb, Image img, boolean solid,Player poi){
         super(bb,img,solid);
         this.poi = poi;
     }
 
-    public EntityFollower(Shape bb, boolean solid,MoveableEntity poi){
+    public EntityFollower(Shape bb, boolean solid,Player poi){
         super(bb,solid);
         this.poi = poi;
     }
@@ -35,11 +35,11 @@ public abstract class EntityFollower extends MoveableEntity{
         this.movementHeading = mh;
     }
 
-    public void setPoi(MoveableEntity entity){
+    public void setPoi(Player entity){
         this.poi = entity;
     }
 
-    public MoveableEntity getPoi(){
+    public Player getPoi(){
         return poi;
     }
     public void calcMovementHeading(){

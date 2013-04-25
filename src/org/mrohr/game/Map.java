@@ -24,7 +24,8 @@ public class Map extends GameObject implements MouseListener {
     public Camera cam;
     int mousex;
     int mousey;
-    Image alphamap;
+    Image flashlightMap;
+    Image noLightMap;
     SpriteSheet tileset;
 
     List<Entity> blocks;
@@ -42,8 +43,9 @@ public class Map extends GameObject implements MouseListener {
     boolean treeTurned = false;
     static final int NUM_TREES = 200;
     static final int NUM_DOODADS = 400;
-    static final int NUM_BERRIES = 20;
-    static final int NUM_MEDKITS = 20;
+    static final int NUM_BERRIES = 5;
+    static final int NUM_MEDKITS = 5;
+    static final int NUM_BATTERIES = 5;
 
     int livingTimer;
     public final int livingTimerPeriod = 30000;
@@ -100,8 +102,11 @@ public class Map extends GameObject implements MouseListener {
                 }
             }
         }
-        alphamap = new Image("res/alphamap/flashlight.png");
-        alphamap = alphamap.getScaledCopy(6);
+        flashlightMap = new Image("res/alphamap/flashlight.png");
+        flashlightMap = flashlightMap.getScaledCopy(6);
+
+        noLightMap = new Image("res/alphamap/nolight.png");
+        noLightMap = noLightMap.getScaledCopy(6);
 
         tileset = new SpriteSheet("res/tilesets/dark_forest.png",(int)Block.height,(int)Block.width);
         cam.init(gameContainer);
@@ -185,8 +190,33 @@ public class Map extends GameObject implements MouseListener {
             worldItems.add(medkit);
             things.add(medkit);
         }
+
+        for(int i=0;i<NUM_BATTERIES;i++){
+            Battery battery = generateBattery(things);
+            worldItems.add(battery);
+            things.add(battery);
+        }
     }
 
+    private Battery generateBattery(List<CollidableEntity> things) throws SlickException{
+        Random random = new Random();
+        int minX = (int)cam.cameraBB.getWidth();
+
+        int maxX = (int)(getWidth() * Block.width) - (int)Block.width * 2 - (int)(Block.width * 2);
+
+        int minY = (int)cam.cameraBB.getHeight();
+        int maxY = (int)(getHeight() * Block.height) - (int)Block.height * 2 - (int)(Block.height * 2);
+
+        int x = random.nextInt(maxX - minX) + minX;
+        int y = random.nextInt(maxY - minY) + minY;
+        Battery battery = new Battery(x,y);
+        for(CollidableEntity t :things){
+            if(battery.getBoundingBox().intersects(t.getBoundingBox())){
+                return generateBattery(things);
+            }
+        }
+        return battery;
+    }
     private Medkit generateMedkit(List<CollidableEntity> things) throws SlickException{
         Random random = new Random();
         int minX = (int)cam.cameraBB.getWidth();
@@ -437,6 +467,12 @@ public class Map extends GameObject implements MouseListener {
         //lighting
 
         graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
+        Image alphamap;
+        if(player.flashlightOn){
+            alphamap = flashlightMap;
+        }else{
+            alphamap = noLightMap;
+        }
         float alphaW = alphamap.getWidth();
         float alphaH = alphamap.getHeight();
         float alphaX = player.getBoundingBox().getX() - (alphaW/2);
@@ -453,16 +489,6 @@ public class Map extends GameObject implements MouseListener {
         //graphics.fillRect(0,0,tiled.getWidth()*tiled.getTileWidth(),tiled.getHeight()*tiled.getTileHeight());
         graphics.setDrawMode(Graphics.MODE_NORMAL);
         graphics.translate(-cam.getX(),-cam.getY());
-
-
-        //aiming cursor
-        Circle cursor = new Circle(mousex,mousey,5f);
-        graphics.setColor(Color.red);
-        graphics.draw(cursor);
-        graphics.drawLine(cursor.getCenterX() - 10,cursor.getCenterY(),
-                cursor.getCenterX() +10,cursor.getCenterY());
-        graphics.drawLine(cursor.getCenterX(),cursor.getCenterY() - 10,
-                cursor.getCenterX(),cursor.getCenterY() + 10);
 
         //restore translation
         graphics.translate(cam.getX(),cam.getY());
