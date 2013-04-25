@@ -112,32 +112,22 @@ public class Map extends GameObject implements MouseListener {
 
         tileset = new SpriteSheet("res/tilesets/dark_forest.png",(int)Block.height,(int)Block.width);
         cam.init(gameContainer);
-        generateCaveEnterance();
-        generateTrees();
+
+        generateDoodads();
+        caveEntrance = generateCaveEnterance();
+        List<CollidableEntity> things = generateKeys(caveEntrance);
+        things = generateTrees(things);
         for(Tree t: trees){
             t.init(gameContainer);
         }
-
-        generateDoodads();
-
-        Key[] keys = generateKeys();
-        caveEntrance.setKeys(keys);
-
-        generateFood();
-
-
-
-
+        things = generateItems(things);
     }
 
-    private Key[] generateKeys(){
+    private List<CollidableEntity> generateKeys(CaveEntrance cave){
         Key[] keys = new Key[4];
         ArrayList<CollidableEntity> things = new ArrayList<CollidableEntity>();
 
-        things.addAll(trees);
-        things.addAll(worldItems);
-        things.add(player);
-        things.add(caveEntrance);
+        things.add(cave);
 
         for(int i=0;i<4;i++){
             Key.KeyColor color = Key.KeyColor.values()[i];
@@ -146,11 +136,14 @@ public class Map extends GameObject implements MouseListener {
             things.add(key);
             worldItems.add(key);
 
-            System.out.println(color.name() + " Key at " + key.getBoundingBox().getCenterX() + "," + key.getBoundingBox().getCenterY());
+            if(debugging){
+                System.out.println(color.name() + " Key at " + key.getBoundingBox().getCenterX() + "," + key.getBoundingBox().getCenterY());
+            }
         }
+        cave.setKeys(keys);
         System.out.println(keys.length);
 
-        return keys;
+        return things;
     }
     private Key generateKey(List<CollidableEntity> things,Key.KeyColor color){
         Random random = new Random();
@@ -173,13 +166,7 @@ public class Map extends GameObject implements MouseListener {
         return key;
     }
 
-    private void generateFood() throws SlickException{
-        ArrayList<CollidableEntity> things = new ArrayList<CollidableEntity>();
-
-        things.addAll(trees);
-        things.addAll(worldItems);
-        things.add(player);
-        things.add(caveEntrance);
+    private List<CollidableEntity> generateItems(List<CollidableEntity> things) throws SlickException{
 
         for(int i=0;i<NUM_BERRIES;i++){
             Berry berry = generateBerry(things);
@@ -198,6 +185,7 @@ public class Map extends GameObject implements MouseListener {
             worldItems.add(battery);
             things.add(battery);
         }
+        return things;
     }
 
     private Battery generateBattery(List<CollidableEntity> things) throws SlickException{
@@ -257,7 +245,7 @@ public class Map extends GameObject implements MouseListener {
         }
         return berry;
     }
-    private void generateCaveEnterance(){
+    private CaveEntrance generateCaveEnterance(){
         Random random = new Random();
         int minX = (int)cam.cameraBB.getWidth();
 
@@ -268,19 +256,23 @@ public class Map extends GameObject implements MouseListener {
 
         int x = random.nextInt(maxX - minX) + minX;
         int y = random.nextInt(maxY - minY) + minY;
-        caveEntrance = new CaveEntrance(x,y,tileset,this);
-        //if(debugging){
+        CaveEntrance caveEntrance = new CaveEntrance(x,y,tileset,this);
+        if(debugging){
             System.out.println("Enterance at " + x + "," + y);
-        //}
-    }
-
-    private void generateTrees(){
-        for(int i=0; i<NUM_TREES; i++){
-            trees.add(generateTree(trees));
         }
+        return caveEntrance;
     }
 
-    private Tree generateTree(List<Tree> existingTrees){
+    private List<CollidableEntity> generateTrees(List<CollidableEntity> things){
+        for(int i=0; i<NUM_TREES; i++){
+            Tree tree = generateTree(things);
+            trees.add(tree);
+            things.add(tree);
+        }
+        return things;
+    }
+
+    private Tree generateTree(List<CollidableEntity> things){
         Random random = new Random();
         int minX = (int)Block.width * 2;
         int maxX = (int)(getWidth() * Block.width) - minX - (int)(Block.width * 3);
@@ -291,9 +283,9 @@ public class Map extends GameObject implements MouseListener {
         int x = random.nextInt(maxX - minX) + minX;
         int y = random.nextInt(maxY - minY) + minY;
         Tree tree = new Tree(x,y,tileset);
-        for(Tree t :existingTrees){
+        for(CollidableEntity t :things){
             if(tree.getBoundingBox().intersects(t.getBoundingBox())){
-                return generateTree(existingTrees);
+                return generateTree(things);
             }
         }
         return tree;
