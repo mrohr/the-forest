@@ -1,6 +1,7 @@
 package org.mrohr.game.entities;
 
-import org.mrohr.game.GameplayState;
+import org.mrohr.game.entities.items.Key;
+import org.mrohr.game.states.GameplayState;
 import org.mrohr.game.Map;
 import org.mrohr.game.MyGameContainer;
 import org.newdawn.slick.Color;

@@ -1,5 +1,6 @@
-package org.mrohr.game;
+package org.mrohr.game.states;
 
+import org.mrohr.game.Driver;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;

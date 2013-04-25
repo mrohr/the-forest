@@ -1,11 +1,11 @@
 package org.mrohr.game;
 
 
+import org.mrohr.game.states.GameplayState;
+import org.mrohr.game.states.MainMenuState;
+import org.mrohr.game.states.MenuState;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.transition.FadeInTransition;
-import org.newdawn.slick.state.transition.FadeOutTransition;
-import org.newdawn.slick.state.transition.Transition;
 
 import java.lang.reflect.Field;
 

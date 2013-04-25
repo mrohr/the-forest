@@ -1,19 +1,14 @@
-package org.mrohr.game;
+package org.mrohr.game.states;
 
-import org.mrohr.game.entities.Block;
-import org.mrohr.game.entities.Item;
-import org.mrohr.game.entities.Player;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.util.ResourceLoader;
 
-import javax.print.DocFlavor;
 import java.awt.Font;
 import java.io.InputStream;
 import java.util.LinkedList;

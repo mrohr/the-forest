@@ -1,11 +1,12 @@
-package org.mrohr.game.entities;
+package org.mrohr.game.entities.items;
 
 import org.mrohr.game.MyGameContainer;
+import org.mrohr.game.entities.Block;
+import org.mrohr.game.entities.CollidableEntity;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 
 /**
  * Created with IntelliJ IDEA.

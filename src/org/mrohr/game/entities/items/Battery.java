@@ -1,10 +1,11 @@
-package org.mrohr.game.entities;
+package org.mrohr.game.entities.items;
 
 import org.mrohr.game.MyGameContainer;
+import org.mrohr.game.entities.CollidableEntity;
+import org.mrohr.game.entities.Player;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,21 +14,21 @@ import org.newdawn.slick.geom.Shape;
  * Time: 4:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Medkit extends Item {
-    private int healingAmount;
+public class Battery extends Item {
+    private int charge;
 
-    public Medkit(float x,float y) throws SlickException{
-        super(new Rectangle(x,y,32,32), new Image("res/images/medkit.png"));
-        this.healingAmount = 15;
+    public Battery(float x, float y) throws SlickException{
+        super(new Rectangle(x,y,32,32), new Image("res/images/battery.png"));
+        this.charge = 15;
     }
 
-    public int getHealingAmount(){
-        return this.healingAmount;
+    public int getCharge(){
+        return this.charge;
     }
 
     public void onCollision(CollidableEntity other){
         if(other instanceof Player){
-            ((Player)other).heal(healingAmount);
+            ((Player)other).charge(charge);
         }
 
     }
