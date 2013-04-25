@@ -118,6 +118,10 @@ public class Player extends LivingEntity implements KeyListener {
         if(rightPressed){
             currentX = speed;
         }
+        if(Math.abs(currentX) > 0 && Math.abs(currentY) > 0){
+            currentX /=1.5;
+            currentY /=1.5;
+        }
 
         hungerTimer -= sprinting? i * 3: i;
         if(hungerTimer < 0){
