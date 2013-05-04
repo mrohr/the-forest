@@ -36,7 +36,6 @@ public class Driver extends StateBasedGame{
         gc.setDisplayMode(800,600,false);
         gc.setShowFPS(false);
         gc.start();
-        gc.getInput().addKeyListener(this);
     }
     public static void main(String[] args) throws SlickException{
         try{

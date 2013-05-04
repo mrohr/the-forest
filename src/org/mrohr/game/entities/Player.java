@@ -153,7 +153,8 @@ public class Player extends LivingEntity implements KeyListener {
         if(key ==Input.KEY_LSHIFT || key == Input.KEY_RSHIFT){
             sprinting = true;
         }
-        if((key ==Input.KEY_SPACE  || key==Input.KEY_ENTER )&& battery > 0){
+        if((key == Input.KEY_SPACE  || key==Input.KEY_ENTER )&& battery > 0){
+            System.out.println("toggle light");
             flashlightOn = !flashlightOn;
         }
 
