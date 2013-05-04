@@ -41,7 +41,7 @@ public class GameplayState extends BasicGameState implements KeyListener{
     }
 
     public void init(GameContainer gameContainer,StateBasedGame game) throws SlickException {
-
+        System.out.println("init");
         //To change body of implemented methods use File | Settings | File Templates.
         currentMap = new Map("res/maps/test2.tmx");
         ui = new Image("res/images/ui.png");
@@ -50,12 +50,14 @@ public class GameplayState extends BasicGameState implements KeyListener{
         this.player = player;
         currentMap.setPlayer(player);
         message = "Where am I? (WASD to move, look with mouse)";
-
+        Music music = new Music("res/sounds/music.ogg");
+        music.loop();
 
 
 
         player.init((MyGameContainer)gameContainer);
         currentMap.init((MyGameContainer)gameContainer);
+
 
 
 
@@ -105,6 +107,8 @@ public class GameplayState extends BasicGameState implements KeyListener{
     }
 
     public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
+        System.out.println("enter");
+        container.getInput().removeAllKeyListeners();
         container.getInput().addKeyListener(this);
     }
 
@@ -113,10 +117,12 @@ public class GameplayState extends BasicGameState implements KeyListener{
     }
 
     public void keyPressed(int key,char c){
+        System.out.println("key pressed");
         player.keyPressed(key,c);
         if(key == Input.KEY_ESCAPE){
             showMenu = true;
         }
+        System.out.println("done");
     }
 
     public void keyReleased(int key,char c){

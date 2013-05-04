@@ -20,6 +20,7 @@ public class LivingTree extends EntityFollower{
     private int sheetYOffset = 0;
     private float x;
     private float y;
+    private boolean moving = false;
     public LivingTree(float x, float y,SpriteSheet tileset,Player poi){
         super(new Rectangle(x, y, Block.width * 3, Block.height * 4), true,poi);
         this.x = x;
@@ -50,9 +51,11 @@ public class LivingTree extends EntityFollower{
         if(!this.getPoi().flashlightOn  || !facingPoi()){
             calcMovementHeading();
             calcSpeeds();
+            moving = true;
         }
         else{
             this.setSpeed(0,0);
+            moving = false;
         }
         super.update(gameContainer, i);
 
@@ -72,6 +75,10 @@ public class LivingTree extends EntityFollower{
         graphics.drawImage(sheet.getSubImage(sheetXOffset ,sheetYOffset + 2),   x+Block.width *0,y+ Block.height *2);
         graphics.drawImage(sheet.getSubImage(sheetXOffset +1,sheetYOffset + 2), x+Block.width *1,y+ Block.height *2);
         graphics.drawImage(sheet.getSubImage(sheetXOffset +2,sheetYOffset + 2), x+Block.width *2,y+ Block.height *2);
+
+        if(moving){
+            graphics.drawImage(sheet.getSubImage(6,7),x+Block.width *1,y+ Block.height *2);
+        }
     }
 
     public void renderBottom(MyGameContainer gameContainer, Graphics graphics) throws SlickException {
@@ -79,6 +86,7 @@ public class LivingTree extends EntityFollower{
         graphics.drawImage(sheet.getSubImage(sheetXOffset ,sheetYOffset + 3),   x+Block.width *0,y+ Block.height *3);
         graphics.drawImage(sheet.getSubImage(sheetXOffset +1,sheetYOffset + 3), x+Block.width *1,y+ Block.height *3);
         graphics.drawImage(sheet.getSubImage(sheetXOffset +2,sheetYOffset + 3), x+Block.width *2,y+ Block.height *3);
+
     }
 
     @Override

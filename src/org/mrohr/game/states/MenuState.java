@@ -102,7 +102,6 @@ public abstract class MenuState extends BasicGameState implements KeyListener{
     }
 
     public void keyPressed(int key,char c){
-        System.out.println(key);
         if(key == Input.KEY_UP || key == Input.KEY_W){
             selectedIndex --;
             if(selectedIndex <0) selectedIndex = 0;
