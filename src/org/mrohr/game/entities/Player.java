@@ -6,6 +6,7 @@ import org.mrohr.game.entities.items.Food;
 import org.mrohr.game.entities.items.Item;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.util.ResourceLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class Player extends LivingEntity implements KeyListener {
     private boolean sprinting;
     public boolean flashlightOn;
     private List<Item> inventory;
+    private Sound damageSound;
 
     private int hunger;
     private int battery;
@@ -43,10 +45,10 @@ public class Player extends LivingEntity implements KeyListener {
         inventory = new ArrayList<Item>();
         hunger = 100;
         battery = 100;
-        damage(10);
         flashlightOn = true;
         hungerTimer = hungerTimerPeriod;
         batteryTimer = batteryTimerPeriod;
+        //damageSound = new Sound("res/sounds/damage.ogg");
     }
 
     public void eat(Food item){
@@ -69,6 +71,7 @@ public class Player extends LivingEntity implements KeyListener {
     @Override
     public void onDamaged(int amount) {
         //To change body of implemented methods use File | Settings | File Templates.
+        //damageSound.play();
     }
 
     @Override
@@ -79,7 +82,11 @@ public class Player extends LivingEntity implements KeyListener {
     @Override
     public void onDeath() {
         //To change body of implemented methods use File | Settings | File Templates.
-        System.exit(0);
+        try{
+            currentMap.playerDeath();
+        }catch(SlickException e){
+
+        }
     }
 
     @Override
@@ -169,6 +176,9 @@ public class Player extends LivingEntity implements KeyListener {
         }
         if(key ==Input.KEY_D || key == Input.KEY_RIGHT){
             rightPressed = true;
+        }
+        if(key == Input.KEY_P){
+            this.damage(1000);
         }
     }
 

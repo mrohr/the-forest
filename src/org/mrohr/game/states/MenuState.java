@@ -22,15 +22,18 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class MenuState extends BasicGameState implements KeyListener{
-    TrueTypeFont fontSmall;
-    TrueTypeFont fontMedium;
-    TrueTypeFont fontBig;
+    protected TrueTypeFont fontSmall;
+    protected TrueTypeFont fontMedium;
+    protected TrueTypeFont fontBig;
+    protected TrueTypeFont fontHuge;
 
-    String title;
-    List<String> options;
-    int rootStateId;
-    int selectedIndex;
-    boolean showMenu;
+    protected String title;
+    protected String[] text;
+    protected List<String> options;
+    protected int rootStateId;
+    protected int selectedIndex;
+    protected boolean showMenu;
+    protected Music music;
 
     StateBasedGame game;
     public MenuState(String title,int rootStateId){
@@ -38,12 +41,15 @@ public abstract class MenuState extends BasicGameState implements KeyListener{
       this.title = title;
       this.rootStateId = rootStateId;
       options = new LinkedList<String>();
+      text = new String[0];
       selectedIndex = 0;
+
     }
 
     public void init(GameContainer gameContainer,StateBasedGame game) throws SlickException {
         // load font from a .ttf file
         this.game = game;
+        music = new Music("res/sounds/nature.ogg");
         try {
 
 
@@ -59,6 +65,9 @@ public abstract class MenuState extends BasicGameState implements KeyListener{
             Font largeFont = baseFont.deriveFont(42f); // set font size
             fontBig = new TrueTypeFont(largeFont, false);
 
+            Font hugeFont = baseFont.deriveFont(80f);
+            fontHuge = new TrueTypeFont(hugeFont,false);
+
 
 
 
@@ -70,17 +79,30 @@ public abstract class MenuState extends BasicGameState implements KeyListener{
 
     public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
         container.getInput().addKeyListener(this);
+        music.play();
     }
 
     public void leave(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
         container.getInput().removeKeyListener(this);
+        music.stop();
     }
 
     public void render(GameContainer gameContainer,StateBasedGame game, Graphics graphics) throws SlickException {
 
         graphics.setColor(Color.white);
+        int widest = fontBig.getWidth(title);
+        for(int i=0;i<text.length;i++){
+            int width =fontSmall.getWidth(text[i]);
+            widest = width > widest? width:widest;
+        }
+        if(text.length > 0){
+            fontBig.drawString(gameContainer.getWidth() - widest + ((widest - fontBig.getWidth(title)) / 2) -10, 0, title);
+        }
+        for(int i = 0; i < text.length; i++){
+            fontSmall.drawString(gameContainer.getWidth() - widest + ((widest - fontSmall.getWidth(text[i])) / 2) -10,
+                    fontSmall.getHeight() * (i + 2),text[i]);
+        }
 
-        fontBig.drawString((gameContainer.getWidth() / 2) - fontBig.getWidth(title) / 2, 0, title);
 
         int count = 0;
         graphics.setFont(fontMedium);

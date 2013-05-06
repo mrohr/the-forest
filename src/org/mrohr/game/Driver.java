@@ -1,6 +1,7 @@
 package org.mrohr.game;
 
 
+import org.mrohr.game.states.GameOverState;
 import org.mrohr.game.states.GameplayState;
 import org.mrohr.game.states.MainMenuState;
 import org.mrohr.game.states.MenuState;
@@ -28,7 +29,8 @@ public class Driver extends StateBasedGame{
 
     public enum GameStates{
         GAMEPLAY,
-        MAIN_MENU
+        MAIN_MENU,
+        GAME_OVER;
     }
 
     public void init()throws SlickException{
@@ -58,5 +60,9 @@ public class Driver extends StateBasedGame{
         MenuState menu = new MainMenuState(getTitle(),GameStates.GAMEPLAY.ordinal());
         menu.init(gameContainer,this);
         addState(menu);
+
+        MenuState gameover = new GameOverState();
+        gameover.init(gameContainer,this);
+        addState(gameover);
     }
 }

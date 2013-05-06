@@ -1,9 +1,8 @@
 package org.mrohr.game.states;
 
 import org.mrohr.game.Driver;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -14,17 +13,17 @@ import org.newdawn.slick.state.StateBasedGame;
  * Time: 3:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MainMenuState extends MenuState {
-    public MainMenuState(String title, int rootStateId) {
-        super(title, rootStateId);
-        options.add("Return");
+public class GameOverState extends MenuState {
+    public GameOverState() {
+        super("You Have Died", Driver.GameStates.GAMEPLAY.ordinal());
+        options.add("Try Again");
         options.add("Exit Game");
 
     }
 
     @Override
     public void optionSelected(String option) {
-        if(option.equals("Return")){
+        if(option.equals("Try Again")){
             leaveMenu();
         }
 
@@ -35,11 +34,15 @@ public class MainMenuState extends MenuState {
     }
     public void init(GameContainer gameContainer,StateBasedGame game) throws SlickException {
         super.init(gameContainer, game);
-        this.text = new String[]{"Created by Matt Rohr","Radford University Spring 2013", "Advanced Game Development Individual Project"};
+        this.text = new String[]{"You could not escape the forest...","Try again?"};
+    }
+    public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
+        super.enter(container, stateBasedGame);
+        new Music("res/sounds/gameover.ogg").play();
     }
     @Override
     public int getID() {
-        return Driver.GameStates.MAIN_MENU.ordinal();  //To change body of implemented methods use File | Settings | File Templates.
+        return Driver.GameStates.GAME_OVER.ordinal();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

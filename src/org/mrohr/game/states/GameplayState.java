@@ -26,11 +26,15 @@ import org.newdawn.slick.util.ResourceLoader;
  */
 public class GameplayState extends BasicGameState implements KeyListener{
     Map currentMap;
+    Music music;
+    Music gameOverMusic;
+    float musicPausePos = -1;
     Player player;
     Image ui;
     TrueTypeFont font;
     public static String message;
     boolean showMenu;
+    boolean gameOver = false;
     public GameplayState(){
       super();
     }
@@ -43,15 +47,15 @@ public class GameplayState extends BasicGameState implements KeyListener{
     public void init(GameContainer gameContainer,StateBasedGame game) throws SlickException {
         System.out.println("init");
         //To change body of implemented methods use File | Settings | File Templates.
-        currentMap = new Map("res/maps/test2.tmx");
+        currentMap = new Map("res/maps/test2.tmx",this);
         ui = new Image("res/images/ui.png");
-
+        music = new Music("res/sounds/music.ogg");
+        gameOverMusic = new Music("res/sounds/gameover.ogg");
         Player player = new Player(100,100);
         this.player = player;
         currentMap.setPlayer(player);
         message = "Where am I? (WASD to move, look with mouse)";
-        Music music = new Music("res/sounds/music.ogg");
-        music.loop();
+
 
 
 
@@ -83,6 +87,14 @@ public class GameplayState extends BasicGameState implements KeyListener{
                     new FadeOutTransition(Color.black, 200), new FadeInTransition(Color.black, 200));
         }
 
+        if(gameOver){
+            this.init(gameContainer, game);
+            game.enterState(Driver.GameStates.GAME_OVER.ordinal(),
+                    new FadeOutTransition(Color.red,0), new FadeInTransition(Color.red,6000));
+            gameOver = false;
+
+        }
+
     }
 
     public void render(GameContainer gameContainer,StateBasedGame game, Graphics graphics) throws SlickException {
@@ -106,14 +118,30 @@ public class GameplayState extends BasicGameState implements KeyListener{
        //         String.valueOf((int)player.getBoundingBox().getCenterY()),5,20);
     }
 
+    public void gameOver() throws SlickException{
+        gameOver=  true;
+
+    }
     public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
         System.out.println("enter");
         container.getInput().removeAllKeyListeners();
         container.getInput().addKeyListener(this);
+        if(musicPausePos > 0){
+            music.loop();
+            music.setPosition(musicPausePos);
+
+        }else{
+            music.loop();
+        }
     }
 
     public void leave(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
         container.getInput().removeKeyListener(this);
+        if(!gameOver){
+            music.pause();
+            musicPausePos = music.getPosition();
+        }
+
     }
 
     public void keyPressed(int key,char c){
