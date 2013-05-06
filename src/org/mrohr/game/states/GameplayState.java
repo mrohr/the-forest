@@ -57,6 +57,10 @@ public class GameplayState extends BasicGameState implements KeyListener{
         currentMap.setPlayer(player);
         message = "Where am I? (WASD to move, look with mouse)";
 
+        if(game instanceof Driver){
+            ((Driver) game).loadStates();
+        }
+
 
 
 
@@ -125,7 +129,8 @@ public class GameplayState extends BasicGameState implements KeyListener{
 
     }
     public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
-        System.out.println("enter");
+
+
         container.getInput().removeAllKeyListeners();
         container.getInput().addKeyListener(this);
         if(musicPausePos > 0){

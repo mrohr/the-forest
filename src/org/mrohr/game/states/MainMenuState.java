@@ -6,6 +6,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +20,7 @@ public class MainMenuState extends MenuState {
     public MainMenuState(String title, int rootStateId) {
         super(title, rootStateId);
         options.add("Return");
+        options.add("Controls");
         options.add("Exit Game");
 
     }
@@ -28,6 +31,9 @@ public class MainMenuState extends MenuState {
             leaveMenu();
         }
 
+        if(options.equals("Controls")){
+            game.enterState(Driver.GameStates.CONTROLS.ordinal(),new FadeOutTransition(Color.black,200),new FadeInTransition(Color.black,200));
+        }
         if(option.equals("Exit Game")){
             System.exit(0);
         }

@@ -1,10 +1,7 @@
 package org.mrohr.game;
 
 
-import org.mrohr.game.states.GameOverState;
-import org.mrohr.game.states.GameplayState;
-import org.mrohr.game.states.MainMenuState;
-import org.mrohr.game.states.MenuState;
+import org.mrohr.game.states.*;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -29,7 +26,9 @@ public class Driver extends StateBasedGame{
 
     public enum GameStates{
         GAMEPLAY,
+        TITLE_SCREEN,
         MAIN_MENU,
+        CONTROLS,
         GAME_OVER;
     }
 
@@ -38,7 +37,10 @@ public class Driver extends StateBasedGame{
         gc.setDisplayMode(800,600,false);
         gc.setShowFPS(false);
         gc.setMouseGrabbed(true);
+        gc.setSoundVolume(0);
+        gc.setMusicVolume(0);
         gc.start();
+
     }
     public static void main(String[] args) throws SlickException{
         try{
@@ -49,13 +51,26 @@ public class Driver extends StateBasedGame{
         }catch(Exception e){
             e.printStackTrace();
         }
-        Driver driver = new Driver("Top Down Shooter");
+        Driver driver = new Driver("The Forest");
         driver.init();
 
+
+    }
+
+    public void loadStates() throws SlickException{
+        for(int i = 0; i < GameStates.values().length; i++){
+            getState(GameStates.values()[i].ordinal()).enter(gc,this);
+        }
+        enterState(GameStates.TITLE_SCREEN.ordinal());
+        gc.setMusicVolume(1);
+        gc.setSoundVolume(1);
     }
 
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
+        TitleState title= new TitleState("The Forest",GameStates.GAMEPLAY.ordinal());
+        title.init(gameContainer,this);
+        addState(title);
         addState(new GameplayState());
 
         MenuState menu = new MainMenuState(getTitle(),GameStates.GAMEPLAY.ordinal());
@@ -65,5 +80,9 @@ public class Driver extends StateBasedGame{
         MenuState gameover = new GameOverState();
         gameover.init(gameContainer,this);
         addState(gameover);
+
+        MenuState controls = new ControlsMenuState(GameStates.MAIN_MENU.ordinal());
+        controls.init(gameContainer,this);
+        addState(controls);
     }
 }
