@@ -1,5 +1,6 @@
 package org.mrohr.game.states;
 
+import org.mrohr.game.Driver;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
@@ -21,28 +22,21 @@ import java.util.List;
  * Time: 4:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class MenuState extends BasicGameState implements KeyListener{
-    protected TrueTypeFont fontSmall;
-    protected TrueTypeFont fontMedium;
+public class TitleState extends BasicGameState implements KeyListener{
+
     protected TrueTypeFont fontBig;
     protected TrueTypeFont fontHuge;
 
     protected String title;
-    protected String[] text;
-    protected List<String> options;
-    protected int rootStateId;
-    protected int selectedIndex;
-    protected boolean showMenu;
     protected Music music;
+    protected int rootStateId;
 
     StateBasedGame game;
-    public MenuState(String title,int rootStateId){
+    public TitleState(String title, int rootStateId){
       super();
       this.title = title;
       this.rootStateId = rootStateId;
-      options = new LinkedList<String>();
-      text = new String[0];
-      selectedIndex = 0;
+
 
     }
 
@@ -56,11 +50,6 @@ public abstract class MenuState extends BasicGameState implements KeyListener{
             InputStream inputStream = ResourceLoader.getResourceAsStream("res/fonts/beer money.ttf");
             Font baseFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
 
-            Font smallFont = baseFont.deriveFont(24f); // set font size
-            fontSmall = new TrueTypeFont(smallFont, false);
-
-            Font mediumFont = baseFont.deriveFont(30f); // set font size
-            fontMedium = new TrueTypeFont(mediumFont, false);
 
             Font largeFont = baseFont.deriveFont(42f); // set font size
             fontBig = new TrueTypeFont(largeFont, false);
@@ -90,32 +79,14 @@ public abstract class MenuState extends BasicGameState implements KeyListener{
     public void render(GameContainer gameContainer,StateBasedGame game, Graphics graphics) throws SlickException {
 
         graphics.setColor(Color.white);
-        int widest = fontBig.getWidth(title);
-        for(int i=0;i<text.length;i++){
-            int width =fontSmall.getWidth(text[i]);
-            widest = width > widest? width:widest;
-        }
-        if(text.length > 0){
-            fontBig.drawString(gameContainer.getWidth() - widest + ((widest - fontBig.getWidth(title)) / 2) -10, 0, title);
-        }
-        for(int i = 0; i < text.length; i++){
-            fontSmall.drawString(gameContainer.getWidth() - widest + ((widest - fontSmall.getWidth(text[i])) / 2) -10,
-                    fontSmall.getHeight() * (i + 2),text[i]);
-        }
 
+        fontHuge.drawString((gameContainer.getWidth() - fontHuge.getWidth(title)) / 2, 0, title);
+        fontBig.drawString((gameContainer.getWidth() - fontBig.getWidth("Press Enter to Start...")) / 2,fontHuge.getHeight() + 5,"Press Enter to Start..." );
+    }
 
-        int count = 0;
-        graphics.setFont(fontMedium);
-        for(String option:options){
-            if(count ==selectedIndex){
-                graphics.setColor(Color.red);
-            }else{
-                graphics.setColor(Color.white);
-            }
-            graphics.drawString("- " + option,20,fontBig.getHeight() * 2 + fontMedium.getHeight() * count);
-
-            count++;
-        }
+    @Override
+    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void leaveMenu(){
@@ -124,24 +95,7 @@ public abstract class MenuState extends BasicGameState implements KeyListener{
     }
 
     public void keyPressed(int key,char c){
-        System.out.println("index before: " + selectedIndex);
-        if(key == Input.KEY_UP || key == Input.KEY_W){
-            selectedIndex --;
-            if(selectedIndex <0) selectedIndex = 0;
-        }
-
-        if(key == Input.KEY_DOWN || key == Input.KEY_S){
-            selectedIndex ++;
-            if(selectedIndex >= options.size()) selectedIndex = options.size() - 1;
-        }
-        if(key == Input.KEY_ENTER || key == Input.KEY_SPACE){
-            optionSelected(options.get(selectedIndex));
-        }
-        if(key == Input.KEY_ESCAPE){
-            leaveMenu();
-        }
-
-        System.out.println("index after: " + selectedIndex);
+        leaveMenu();
     }
 
     public void keyReleased(int key,char c){
@@ -161,6 +115,11 @@ public abstract class MenuState extends BasicGameState implements KeyListener{
     public void inputEnded() {
     }
 
+    @Override
+    public int getID() {
+        return Driver.GameStates.TITLE_SCREEN.ordinal();  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 
     /**
      * unused
@@ -169,7 +128,6 @@ public abstract class MenuState extends BasicGameState implements KeyListener{
     public void inputStarted() {
     }
 
-    public abstract void optionSelected(String option);
 
 
 
