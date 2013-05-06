@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -113,6 +114,7 @@ public class GameplayState extends BasicGameState implements KeyListener{
             graphics.drawImage(item.getRenderedImage(),(Block.width *16) + (Block.width * i),gameContainer.getHeight() - (Block.height * 2) + 8);
             i++;
         }
+        graphics.fill(new Circle(gameContainer.getInput().getMouseX(),gameContainer.getInput().getMouseY(),2));
 
        // graphics.drawString(String.valueOf((int)player.getBoundingBox().getCenterX()) + "," +
        //         String.valueOf((int)player.getBoundingBox().getCenterY()),5,20);
