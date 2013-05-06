@@ -37,6 +37,7 @@ public class Driver extends StateBasedGame{
         gc = new MyGameContainer(this,debug);
         gc.setDisplayMode(800,600,false);
         gc.setShowFPS(false);
+        gc.setMouseGrabbed(true);
         gc.start();
     }
     public static void main(String[] args) throws SlickException{
