@@ -47,10 +47,12 @@ public class Map extends GameObject implements MouseListener {
     static final int NUM_MEDKITS = 5;
     static final int NUM_BATTERIES = 5;
 
+    private GameplayState parentState;
+    Sound laugh;
     int livingTimer;
     public final int livingTimerPeriod = 30000;
 
-    public Map(String tiledFile)throws SlickException{
+    public Map(String tiledFile,GameplayState gameplaystate)throws SlickException{
         tiled = new TiledMapPlus(ResourceLoader.getResourceAsStream(tiledFile),"res/tilesets");
         height = tiled.getHeight();
         width = tiled.getWidth();
@@ -60,6 +62,7 @@ public class Map extends GameObject implements MouseListener {
         doodads = new LinkedList<Doodad>();
         worldItems = new LinkedList<Item>();
         livingTimer = livingTimerPeriod;
+        this.parentState = gameplaystate;
     }
 
     public void setPlayer(Player p){
@@ -102,6 +105,8 @@ public class Map extends GameObject implements MouseListener {
                 }
             }
         }
+
+        laugh = new Sound("res/sounds/laugh.ogg");
         flashlightMap = new Image("res/alphamap/flashlight.png");
         flashlightMap = flashlightMap.getScaledCopy(6);
 
@@ -323,6 +328,7 @@ public class Map extends GameObject implements MouseListener {
             Tree tree = trees.remove(r.nextInt(numTrees));
             LivingTree livingTree = new LivingTree(tree.getBoundingBox().getX(),tree.getBoundingBox().getY(),tileset,player);
             livingTrees.add(livingTree);
+            laugh.play();
         }
         if(!treeTurned){
             GameplayState.message = "What was that? I saw something move...";
@@ -589,5 +595,9 @@ public class Map extends GameObject implements MouseListener {
 
     public void finishMap(){
         System.exit(0);
+    }
+
+    public void playerDeath() throws SlickException{
+        parentState.gameOver();
     }
 }
