@@ -4,6 +4,8 @@ import org.mrohr.game.entities.*;
 import org.mrohr.game.entities.items.*;
 import org.mrohr.game.states.GameplayState;
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.TiledMapPlus;
 import org.newdawn.slick.util.ResourceLoader;
@@ -116,27 +118,23 @@ public class Map extends GameObject implements MouseListener {
         rain = new Animation(new SpriteSheet(new Image("res/images/rainss.tga"),32,32),200);
 
         tileset = new SpriteSheet("res/tilesets/dark_forest.png",(int)Block.height,(int)Block.width);
-        cam.init(gameContainer);
 
+
+        //world generation
         generateDoodads();
-        caveEntrance = generateCaveEnterance();
-        List<CollidableEntity> things = generateKeys(caveEntrance);
-        things = generateTrees(things);
-        for(Tree t: trees){
-            t.init(gameContainer);
+
+        List<CollidableEntity> things = new LinkedList<CollidableEntity>();
+        Shape caveShape = generateShape(things,(int)Block.width * 7,(int)Block.height * 4);
+        caveEntrance = new CaveEntrance(caveShape.getX(),caveShape.getY(),tileset,this);
+
+        if(debugging){
+            System.out.println("Cave at " + caveEntrance.getBoundingBox().getCenterX() + "," + caveEntrance.getBoundingBox().getCenterY());
         }
-        things = generateItems(things);
-    }
-
-    private List<CollidableEntity> generateKeys(CaveEntrance cave){
         Key[] keys = new Key[4];
-        ArrayList<CollidableEntity> things = new ArrayList<CollidableEntity>();
-
-        things.add(cave);
-
         for(int i=0;i<4;i++){
             Key.KeyColor color = Key.KeyColor.values()[i];
-            Key key = generateKey(things,color);
+            Shape shape = generateShape(things,(int)Block.width,(int)Block.height);
+            Key key = new Key((int)shape.getX(),(int)shape.getY(),color,tileset);
             keys[i] = key;
             things.add(key);
             worldItems.add(key);
@@ -145,155 +143,68 @@ public class Map extends GameObject implements MouseListener {
                 System.out.println(color.name() + " Key at " + key.getBoundingBox().getCenterX() + "," + key.getBoundingBox().getCenterY());
             }
         }
-        cave.setKeys(keys);
-        System.out.println(keys.length);
+        caveEntrance.setKeys(keys);
 
-        return things;
-    }
-    private Key generateKey(List<CollidableEntity> things,Key.KeyColor color){
-        Random random = new Random();
-        int minX = (int)cam.cameraBB.getWidth();
-
-        int maxX = (int)(getWidth() * Block.width) - (int)Block.width * 2 - (int)(Block.width * 2);
-
-        int minY = (int)cam.cameraBB.getHeight();
-        int maxY = (int)(getHeight() * Block.height) - (int)Block.height * 2 - (int)(Block.height * 2);
-
-        int x = random.nextInt(maxX - minX) + minX;
-        int y = random.nextInt(maxY - minY) + minY;
-        Key key = new Key(x,y,color,tileset);
-        for(CollidableEntity t :things){
-            if(key.getBoundingBox().intersects(t.getBoundingBox()) ||
-                    key.getBoundingBox().intersects(caveEntrance.getBoundingBox())){
-                return generateKey(things, color);
-            }
+        for(int i=0; i<NUM_TREES; i++){
+            Shape shape = generateShape(things,(int)Block.width * 3,(int)Block.height * 4);
+            Tree tree = new Tree(shape.getX(),shape.getY(),tileset);
+            trees.add(tree);
+            things.add(tree);
+            tree.init(gameContainer);
         }
-        return key;
-    }
-
-    private List<CollidableEntity> generateItems(List<CollidableEntity> things) throws SlickException{
 
         for(int i=0;i<NUM_BERRIES;i++){
-            Berry berry = generateBerry(things);
+            Shape shape = generateShape(things,(int)Block.width,(int)Block.height);
+            Berry berry = new Berry((int)shape.getX(),(int)shape.getY());
             worldItems.add(berry);
             things.add(berry);
         }
 
         for(int i=0;i<NUM_MEDKITS;i++){
-            Medkit medkit = generateMedkit(things);
+            Shape shape = generateShape(things,(int)Block.width,(int)Block.height);
+            Medkit medkit = new Medkit((int)shape.getX(),(int)shape.getY());
             worldItems.add(medkit);
             things.add(medkit);
         }
 
         for(int i=0;i<NUM_BATTERIES;i++){
-            Battery battery = generateBattery(things);
-            worldItems.add(battery);
-            things.add(battery);
+            Shape shape = generateShape(things,(int)Block.width,(int)Block.height);
+            Battery b = new Battery((int)shape.getX(),(int)shape.getY());
+            worldItems.add(b);
+            things.add(b);
         }
-        return things;
-    }
 
-    private Battery generateBattery(List<CollidableEntity> things) throws SlickException{
-        Random random = new Random();
-        int minX = (int)cam.cameraBB.getWidth();
+        Shape playerShape = generateShape(things,(int)Block.width,(int)Block.height);
+        this.setPlayer(new Player((int)playerShape.getX(),(int)playerShape.getY()));
+        player.init(gameContainer);
+        cam.init(gameContainer);
 
-        int maxX = (int)(getWidth() * Block.width) - (int)Block.width * 2 - (int)(Block.width * 2);
-
-        int minY = (int)cam.cameraBB.getHeight();
-        int maxY = (int)(getHeight() * Block.height) - (int)Block.height * 2 - (int)(Block.height * 2);
-
-        int x = random.nextInt(maxX - minX) + minX;
-        int y = random.nextInt(maxY - minY) + minY;
-        Battery battery = new Battery(x,y);
-        for(CollidableEntity t :things){
-            if(battery.getBoundingBox().intersects(t.getBoundingBox())){
-                return generateBattery(things);
-            }
-        }
-        return battery;
-    }
-    private Medkit generateMedkit(List<CollidableEntity> things) throws SlickException{
-        Random random = new Random();
-        int minX = (int)cam.cameraBB.getWidth();
-
-        int maxX = (int)(getWidth() * Block.width) - (int)Block.width * 2 - (int)(Block.width * 2);
-
-        int minY = (int)cam.cameraBB.getHeight();
-        int maxY = (int)(getHeight() * Block.height) - (int)Block.height * 2 - (int)(Block.height * 2);
-
-        int x = random.nextInt(maxX - minX) + minX;
-        int y = random.nextInt(maxY - minY) + minY;
-        Medkit medkit = new Medkit(x,y);
-        for(CollidableEntity t :things){
-            if(medkit.getBoundingBox().intersects(t.getBoundingBox())){
-                return generateMedkit(things);
-            }
-        }
-        return medkit;
-    }
-    private Berry generateBerry(List<CollidableEntity> things) throws SlickException{
-        Random random = new Random();
-        int minX = (int)cam.cameraBB.getWidth();
-
-        int maxX = (int)(getWidth() * Block.width) - (int)Block.width * 2 - (int)(Block.width * 2);
-
-        int minY = (int)cam.cameraBB.getHeight();
-        int maxY = (int)(getHeight() * Block.height) - (int)Block.height * 2 - (int)(Block.height * 2);
-
-        int x = random.nextInt(maxX - minX) + minX;
-        int y = random.nextInt(maxY - minY) + minY;
-        Berry berry = new Berry(x,y);
-        for(CollidableEntity t :things){
-            if(berry.getBoundingBox().intersects(t.getBoundingBox())){
-                return generateBerry(things);
-            }
-        }
-        return berry;
-    }
-    private CaveEntrance generateCaveEnterance(){
-        Random random = new Random();
-        int minX = (int)cam.cameraBB.getWidth();
-
-        int maxX = (int)(getWidth() * Block.width) - (int)Block.width * 2 - (int)(Block.width * 7);
-
-        int minY = (int)cam.cameraBB.getHeight();
-        int maxY = (int)(getHeight() * Block.height) - (int)Block.height * 2 - (int)(Block.height * 4);
-
-        int x = random.nextInt(maxX - minX) + minX;
-        int y = random.nextInt(maxY - minY) + minY;
-        CaveEntrance caveEntrance = new CaveEntrance(x,y,tileset,this);
         if(debugging){
-            System.out.println("Enterance at " + x + "," + y);
+            System.out.println("player shape at " + playerShape.getX() + "," + playerShape.getY());
+            System.out.println("Player at " + player.getBoundingBox().getX() + "," + player.getBoundingBox().getY());
         }
-        return caveEntrance;
+
     }
 
-    private List<CollidableEntity> generateTrees(List<CollidableEntity> things){
-        for(int i=0; i<NUM_TREES; i++){
-            Tree tree = generateTree(things);
-            trees.add(tree);
-            things.add(tree);
-        }
-        return things;
-    }
-
-    private Tree generateTree(List<CollidableEntity> things){
+    private Shape generateShape(List<CollidableEntity> things,int width, int height) throws SlickException{
         Random random = new Random();
-        int minX = (int)Block.width * 2;
-        int maxX = (int)(getWidth() * Block.width) - minX - (int)(Block.width * 3);
+        int minX = width * 2;
 
-        int minY = (int)Block.height * 2;
-        int maxY = (int)(getHeight() * Block.height) - minY - (int)(Block.height * 4);
+        int maxX = (tiled.getWidth() * this.tiled.getTileWidth())  - (width * 2);
+
+        int minY = height;
+        int maxY = (tiled.getHeight() * this.tiled.getTileHeight()) - (height * 2);
+        System.out.println("Max is " + maxX);
 
         int x = random.nextInt(maxX - minX) + minX;
         int y = random.nextInt(maxY - minY) + minY;
-        Tree tree = new Tree(x,y,tileset);
+        Shape shape = new Rectangle(x,y,width,height);
         for(CollidableEntity t :things){
-            if(tree.getBoundingBox().intersects(t.getBoundingBox())){
-                return generateTree(things);
+            if(shape.intersects(t.getBoundingBox())){
+                return generateShape(things, width, height);
             }
         }
-        return tree;
+        return shape;
     }
 
     private void generateDoodads(){
@@ -480,9 +391,10 @@ public class Map extends GameObject implements MouseListener {
          }
         }
 
+        //lighting
+
         //reset translation
         graphics.translate(-cam.getX(),-cam.getY());
-        //lighting
 
         graphics.setDrawMode(Graphics.MODE_ALPHA_MAP);
         Image alphamap;
@@ -505,6 +417,8 @@ public class Map extends GameObject implements MouseListener {
         graphics.translate(cam.getX(),cam.getY());
         graphics.fillRect(0,0,gameContainer.getScreenWidth(),gameContainer.getScreenHeight());
         //graphics.fillRect(0,0,tiled.getWidth()*tiled.getTileWidth(),tiled.getHeight()*tiled.getTileHeight());
+
+
         graphics.setDrawMode(Graphics.MODE_NORMAL);
         graphics.translate(-cam.getX(),-cam.getY());
 

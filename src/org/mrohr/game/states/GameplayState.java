@@ -52,16 +52,9 @@ public class GameplayState extends BasicGameState implements KeyListener{
         ui = new Image("res/images/ui.png");
         music = new Music("res/sounds/music.ogg");
         gameOverMusic = new Music("res/sounds/gameover.ogg");
-        Player player = new Player(100,100);
-        this.player = player;
-        currentMap.setPlayer(player);
         message = "Where am I? (WASD to move, look with mouse)";
-
-
-
-
-        player.init((MyGameContainer)gameContainer);
         currentMap.init((MyGameContainer)gameContainer);
+        player = currentMap.getPlayer();
 
 
 
@@ -148,12 +141,10 @@ public class GameplayState extends BasicGameState implements KeyListener{
     }
 
     public void keyPressed(int key,char c){
-        System.out.println("key pressed");
         player.keyPressed(key,c);
         if(key == Input.KEY_ESCAPE){
             showMenu = true;
         }
-        System.out.println("done");
     }
 
     public void keyReleased(int key,char c){

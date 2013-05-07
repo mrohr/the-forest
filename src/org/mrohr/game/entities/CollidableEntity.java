@@ -3,6 +3,7 @@ package org.mrohr.game.entities;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  * Created with IntelliJ IDEA.
@@ -55,6 +56,7 @@ public abstract class CollidableEntity extends Entity {
     }
 
     public void setX(float x){
+        //System.out.println("Setting  " + this.getClass().toString() + " to " + x);
         float prevX = getBoundingBox().getX();
         super.setX(x);
         float newX = getBoundingBox().getX();
@@ -62,6 +64,7 @@ public abstract class CollidableEntity extends Entity {
     }
 
     public void setY(float y){
+
         float prevY = getBoundingBox().getY();
         super.setY(y);
         float newY = getBoundingBox().getY();
