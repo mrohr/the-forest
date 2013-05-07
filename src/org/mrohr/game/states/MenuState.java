@@ -124,7 +124,6 @@ public abstract class MenuState extends BasicGameState implements KeyListener{
     }
 
     public void keyPressed(int key,char c){
-        System.out.println("index before: " + selectedIndex);
         if(key == Input.KEY_UP || key == Input.KEY_W){
             selectedIndex --;
             if(selectedIndex <0) selectedIndex = 0;
@@ -141,7 +140,6 @@ public abstract class MenuState extends BasicGameState implements KeyListener{
             leaveMenu();
         }
 
-        System.out.println("index after: " + selectedIndex);
     }
 
     public void keyReleased(int key,char c){
