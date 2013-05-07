@@ -36,6 +36,7 @@ public class GameplayState extends BasicGameState implements KeyListener{
     public static String message;
     boolean showMenu;
     boolean gameOver = false;
+    boolean finish = false;
     public GameplayState(){
       super();
     }
@@ -88,6 +89,14 @@ public class GameplayState extends BasicGameState implements KeyListener{
             gameOver = false;
 
         }
+        if(finish){
+            this.init(gameContainer, game);
+            game.enterState(Driver.GameStates.FINISH.ordinal(),
+                    new FadeOutTransition(Color.black,2000), new FadeInTransition(Color.black,2000));
+            finish = false;
+
+        }
+
 
     }
 
@@ -115,7 +124,9 @@ public class GameplayState extends BasicGameState implements KeyListener{
 
     public void gameOver() throws SlickException{
         gameOver=  true;
-
+    }
+    public void finishGame() throws SlickException{
+        finish=  true;
     }
     public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
 
@@ -144,6 +155,12 @@ public class GameplayState extends BasicGameState implements KeyListener{
         player.keyPressed(key,c);
         if(key == Input.KEY_ESCAPE){
             showMenu = true;
+        }
+        if(key == Input.KEY_P){
+            player.damage(1000);
+        }
+        if(key == Input.KEY_O){
+            finish = true;
         }
     }
 

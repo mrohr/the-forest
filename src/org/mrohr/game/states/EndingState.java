@@ -12,7 +12,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import java.awt.Font;
 import java.io.InputStream;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,28 +22,41 @@ import java.util.List;
  * Time: 4:47 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TitleState extends BasicGameState implements KeyListener{
+public class EndingState extends BasicGameState implements KeyListener{
 
     protected TrueTypeFont fontBig;
     protected TrueTypeFont fontHuge;
 
-    protected String title;
     protected Music music;
-    protected int rootStateId;
+    protected Music gameover;
+    protected boolean done = false;
+
+    int currentText = 0;
+    List<String> text;
 
     StateBasedGame game;
-    public TitleState(String title, int rootStateId){
+    public EndingState(){
       super();
-      this.title = title;
-      this.rootStateId = rootStateId;
-
-
+      text = new ArrayList<String>();
+      text.add("As you enter the cave, you feel uneasy");
+      text.add("All you can hear is the rain from outside..");
+      text.add("Suddenly, the gate closes behind you and your flashlight goes out");
+      text.add("The cave is pitch black, no sound coming from inside");
+      text.add("All you can hear is the rain from outside...");
+      text.add("Suddenly, you are lightheaded, and fall to the ground");
+      text.add("All you can hear is the rain from outside...");
+      text.add("But as you fall asleep, you think you hear a familiar laughter");
+      text.add("...");
+      text.add("All you can hear is the rain from outside...");
+      text.add("....");
+      text.add("You slowly awake, to the feeling of rain...");
     }
 
     public void init(GameContainer gameContainer,StateBasedGame game) throws SlickException {
         // load font from a .ttf file
         this.game = game;
         music = new Music("res/sounds/nature.ogg");
+        gameover = new Music("res/sounds/gameover.ogg");
         try {
 
 
@@ -51,7 +64,7 @@ public class TitleState extends BasicGameState implements KeyListener{
             Font baseFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
 
 
-            Font largeFont = baseFont.deriveFont(42f); // set font size
+            Font largeFont = baseFont.deriveFont(28f); // set font size
             fontBig = new TrueTypeFont(largeFont, false);
 
             Font hugeFont = baseFont.deriveFont(50f);
@@ -67,6 +80,8 @@ public class TitleState extends BasicGameState implements KeyListener{
 
 
     public void enter(GameContainer container, StateBasedGame stateBasedGame) throws SlickException {
+        currentText = 0;
+        done = false;
         container.getInput().addKeyListener(this);
         music.play();
     }
@@ -77,14 +92,21 @@ public class TitleState extends BasicGameState implements KeyListener{
     }
 
     public void render(GameContainer gameContainer,StateBasedGame game, Graphics graphics) throws SlickException {
-        graphics.setColor(Color.red);
-        graphics.setFont(fontHuge);
-        graphics.drawString(title, (gameContainer.getWidth() - fontHuge.getWidth(title)) / 2, 0);
 
         graphics.setColor(Color.white);
 
+        if(currentText < text.size()){
+        String string = text.get(currentText);
+            int y =  (gameContainer.getHeight() - fontBig.getHeight(string)) / 2;
+        fontBig.drawString((gameContainer.getWidth() - fontBig.getWidth(string)) / 2,
+                y, string);
+            if(done){
+                graphics.setColor(Color.red);
+                graphics.setFont(fontHuge);
+                graphics.drawString(game.getTitle(),(gameContainer.getWidth() - fontHuge.getWidth(game.getTitle())) / 2,y - fontHuge.getHeight() - 5);
+            }
+        }
 
-        fontBig.drawString((gameContainer.getWidth() - fontBig.getWidth("You slowly awake, to the feeling of rain...")) / 2,fontHuge.getHeight() + 5,"You slowly awake, to the feeling of rain..." );
     }
 
     @Override
@@ -93,12 +115,22 @@ public class TitleState extends BasicGameState implements KeyListener{
     }
 
     public void leaveMenu(){
-        game.enterState(rootStateId,
-                new FadeOutTransition(Color.black, 200), new FadeInTransition(Color.black, 2000));
+        game.enterState(Driver.GameStates.GAMEPLAY.ordinal(),
+                new FadeOutTransition(Color.black, 3000), new FadeInTransition(Color.black, 2000));
     }
 
     public void keyPressed(int key,char c){
-        leaveMenu();
+        currentText ++;
+
+        if(currentText == text.size() - 1 ){
+            gameover.play();
+
+        }
+        if(currentText == text.size()){
+            done = true;
+            leaveMenu();
+            currentText --;
+        }
     }
 
     public void keyReleased(int key,char c){
@@ -120,7 +152,7 @@ public class TitleState extends BasicGameState implements KeyListener{
 
     @Override
     public int getID() {
-        return Driver.GameStates.TITLE_SCREEN.ordinal();  //To change body of implemented methods use File | Settings | File Templates.
+        return Driver.GameStates.FINISH.ordinal();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
 

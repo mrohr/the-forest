@@ -177,9 +177,7 @@ public class Player extends LivingEntity implements KeyListener {
         if(key ==Input.KEY_D || key == Input.KEY_RIGHT){
             rightPressed = true;
         }
-        if(key == Input.KEY_P){
-            this.damage(1000);
-        }
+
     }
 
     public void keyReleased(int key,char c){

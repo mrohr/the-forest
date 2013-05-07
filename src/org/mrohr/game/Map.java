@@ -96,6 +96,12 @@ public class Map extends GameObject implements MouseListener {
     @Override
     public void init(MyGameContainer gameContainer) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
+        blocks = new LinkedList<Entity>();
+        trees = new LinkedList<Tree>();
+        livingTrees = new LinkedList<LivingTree>();
+        doodads = new LinkedList<Doodad>();
+        worldItems = new LinkedList<Item>();
+        livingTimer = livingTimerPeriod;
         gameContainer.getInput().addMouseListener(this);
         Layer collisions = tiled.getLayer("Collision");
         for(int i = 0;i<tiled.getWidth();i++){
@@ -507,8 +513,8 @@ public class Map extends GameObject implements MouseListener {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void finishMap(){
-        System.exit(0);
+    public void finishMap() throws SlickException{
+        parentState.finishGame();
     }
 
     public void playerDeath() throws SlickException{
