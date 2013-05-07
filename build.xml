@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="topdownshooter" default="all">
+<project name="the-forest" default="all">
   
   
-  <property file="topdownshooter.properties"/>
+  <property file="the-forest.properties"/>
   <!-- Uncomment the following property if no tests compilation is needed -->
   <!--                         w
   <property name="skip.tests" value="true"/>
