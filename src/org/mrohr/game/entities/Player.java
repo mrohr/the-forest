@@ -48,7 +48,7 @@ public class Player extends LivingEntity implements KeyListener {
         flashlightOn = true;
         hungerTimer = hungerTimerPeriod;
         batteryTimer = batteryTimerPeriod;
-        //damageSound = new Sound("res/sounds/damage.ogg");
+
     }
 
     public void eat(Food item){
@@ -71,7 +71,7 @@ public class Player extends LivingEntity implements KeyListener {
     @Override
     public void onDamaged(int amount) {
         //To change body of implemented methods use File | Settings | File Templates.
-        //damageSound.play();
+        damageSound.play();
     }
 
     @Override
@@ -101,6 +101,7 @@ public class Player extends LivingEntity implements KeyListener {
     public void init(MyGameContainer gameContainer) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
         //super.init(gameContainer);
+        damageSound = new Sound("res/sounds/hurt.ogg");
 
 
     }
