@@ -103,6 +103,7 @@ public class GameplayState extends BasicGameState implements KeyListener{
     public void render(GameContainer gameContainer,StateBasedGame game, Graphics graphics) throws SlickException {
         //To change body of implemented methods use File | Settings | File Templates.
         currentMap.render((MyGameContainer)gameContainer,graphics);
+        graphics.translate(0,-5);
         graphics.drawImage(ui, 0, 0);
         graphics.setColor(Color.white);
         graphics.setFont(font);
@@ -117,7 +118,7 @@ public class GameplayState extends BasicGameState implements KeyListener{
             i++;
         }
         graphics.fill(new Circle(gameContainer.getInput().getMouseX(),gameContainer.getInput().getMouseY(),2));
-
+        graphics.translate(0,5);
        // graphics.drawString(String.valueOf((int)player.getBoundingBox().getCenterX()) + "," +
        //         String.valueOf((int)player.getBoundingBox().getCenterY()),5,20);
     }

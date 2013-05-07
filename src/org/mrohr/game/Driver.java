@@ -29,6 +29,7 @@ public class Driver extends StateBasedGame{
         TITLE_SCREEN,
         MAIN_MENU,
         CONTROLS,
+        OPTIONS,
         GAME_OVER,
         FINISH;
     }
@@ -77,6 +78,10 @@ public class Driver extends StateBasedGame{
         MenuState controls = new ControlsMenuState(GameStates.MAIN_MENU.ordinal());
         controls.init(gameContainer,this);
         addState(controls);
+
+        MenuState options = new OptionsMenuState(GameStates.MAIN_MENU.ordinal());
+        options.init(gameContainer,this);
+        addState(options);
 
         EndingState finish = new EndingState();
         finish.init(gameContainer,this);
