@@ -1,4 +1,4 @@
-Top Down Shooter
+The Forest (aka Top-Down-Shooter)
 Created by Matthew Rohr
 
 Individual Project for Radford University's Spring 2013 ITEC480 Advanced Game Development
@@ -12,13 +12,9 @@ ant run
 ------------------------------------------------------------------
 
 Controls:
-  Movement:
-  W - up
-  A - left
-  S - down
-  D - right
-  Shift - sprint
-  Space - toggle flashlight
+  Movement:WASD or arrow keys
+  Sprint: Shift
+  Toggle Flashlight: Space or Enter
 
   Mouse to aim
 
