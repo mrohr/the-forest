@@ -29,12 +29,13 @@ public class Driver extends StateBasedGame{
         TITLE_SCREEN,
         MAIN_MENU,
         CONTROLS,
-        GAME_OVER;
+        GAME_OVER,
+        FINISH;
     }
 
     public void init()throws SlickException{
         gc = new MyGameContainer(this,debug);
-        gc.setDisplayMode(800,600,false);
+        gc.setDisplayMode(800,600,true);
         gc.setShowFPS(false);
         gc.setMouseGrabbed(true);
         gc.setSoundVolume(0);
@@ -75,5 +76,9 @@ public class Driver extends StateBasedGame{
         MenuState controls = new ControlsMenuState(GameStates.MAIN_MENU.ordinal());
         controls.init(gameContainer,this);
         addState(controls);
+
+        EndingState finish = new EndingState();
+        finish.init(gameContainer,this);
+        addState(finish);
     }
 }

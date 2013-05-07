@@ -100,7 +100,11 @@ public class CaveEntrance extends CollidableEntity{
                 other.onCollision(this);
                 return true;
             }else{
+                try{
                 map.finishMap();
+                }catch(SlickException e){
+                    e.printStackTrace();
+                }
                 return true;
             }
         }
