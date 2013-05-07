@@ -95,7 +95,6 @@ public class CaveEntrance extends CollidableEntity{
         }
         if(entrance.intersects(other.getCollidableShape())){
             if(locked){
-                System.out.println("Still Locked!");
                 onCollision(other);
                 other.onCollision(this);
                 return true;

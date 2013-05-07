@@ -21,6 +21,7 @@ public class MainMenuState extends MenuState {
         super(title, rootStateId);
         options.add("Return");
         options.add("Controls");
+        options.add("Options");
         options.add("Exit Game");
 
     }
@@ -33,6 +34,9 @@ public class MainMenuState extends MenuState {
 
         if(option.equals("Controls")){
             game.enterState(Driver.GameStates.CONTROLS.ordinal(),new FadeOutTransition(Color.black,200),new FadeInTransition(Color.black,200));
+        }
+        if(option.equals("Options")){
+            game.enterState(Driver.GameStates.OPTIONS.ordinal(),new FadeOutTransition(Color.black,200),new FadeInTransition(Color.black,200));
         }
         if(option.equals("Exit Game")){
             System.exit(0);
