@@ -26,6 +26,7 @@ public class TitleState extends BasicGameState implements KeyListener{
 
     protected TrueTypeFont fontBig;
     protected TrueTypeFont fontHuge;
+    protected TrueTypeFont fontMedium;
 
     protected String title;
     protected Music music;
@@ -50,6 +51,8 @@ public class TitleState extends BasicGameState implements KeyListener{
             InputStream inputStream = ResourceLoader.getResourceAsStream("res/fonts/beer money.ttf");
             Font baseFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
 
+            Font mediumFont = baseFont.deriveFont(30f); // set font size
+            fontMedium = new TrueTypeFont(mediumFont, false);
 
             Font largeFont = baseFont.deriveFont(42f); // set font size
             fontBig = new TrueTypeFont(largeFont, false);
@@ -85,6 +88,7 @@ public class TitleState extends BasicGameState implements KeyListener{
 
 
         fontBig.drawString((gameContainer.getWidth() - fontBig.getWidth("You slowly awake, to the feeling of rain...")) / 2,fontHuge.getHeight() + 5,"You slowly awake, to the feeling of rain..." );
+        fontMedium.drawString((gameContainer.getWidth() - fontMedium.getWidth("(Any key to continue)")) / 2,fontHuge.getHeight() * 2 + 5,"(Any key to continue)" );
     }
 
     @Override
