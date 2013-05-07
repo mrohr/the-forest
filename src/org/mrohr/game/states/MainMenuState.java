@@ -31,7 +31,7 @@ public class MainMenuState extends MenuState {
             leaveMenu();
         }
 
-        if(options.equals("Controls")){
+        if(option.equals("Controls")){
             game.enterState(Driver.GameStates.CONTROLS.ordinal(),new FadeOutTransition(Color.black,200),new FadeInTransition(Color.black,200));
         }
         if(option.equals("Exit Game")){
