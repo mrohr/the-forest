@@ -74,7 +74,7 @@ public class Camera extends GameObject {
 
 
         float maxX = map.getWidth() * map.tiled.getTileWidth() - cameraBB.getWidth();
-        float maxY = map.getHeight() * map.tiled.getTileHeight() - cameraBB.getHeight();
+        float maxY = map.getHeight() * map.tiled.getTileHeight() + map.tiled.getTileHeight() * 2 - cameraBB.getHeight();
         if(cameraBB.getX() > maxX){
             cameraBB.setX(maxX);
         }
