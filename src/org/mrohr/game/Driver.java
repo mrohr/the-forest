@@ -36,7 +36,7 @@ public class Driver extends StateBasedGame{
 
     public void init()throws SlickException{
         gc = new MyGameContainer(this,debug);
-        gc.setDisplayMode(800,600,true);
+        gc.setDisplayMode(800,600,false);
         gc.setShowFPS(false);
         gc.setMouseGrabbed(true);
         gc.setSoundVolume(0);

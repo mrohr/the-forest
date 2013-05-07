@@ -158,7 +158,7 @@ public class GameplayState extends BasicGameState implements KeyListener{
             showMenu = true;
         }
         if(key == Input.KEY_P){
-            player.damage(1000);
+            player.damage(20);
         }
         if(key == Input.KEY_O){
             finish = true;
