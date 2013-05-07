@@ -45,14 +45,14 @@ public class Driver extends StateBasedGame{
     }
     public static void main(String[] args) throws SlickException{
         //this code is used for the non-fat jar.  Should only be commented out on the fat branch
-        try{
+        /*try{
         System.setProperty("java.library.path","natives");
         Field fieldSysPath = ClassLoader.class.getDeclaredField( "sys_paths" );
         fieldSysPath.setAccessible( true );
         fieldSysPath.set( null, null );
         }catch(Exception e){
             e.printStackTrace();
-        }
+        }*/
         Driver driver = new Driver("The Forest");
         driver.init();
 
