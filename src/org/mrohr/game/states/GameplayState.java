@@ -57,10 +57,6 @@ public class GameplayState extends BasicGameState implements KeyListener{
         currentMap.setPlayer(player);
         message = "Where am I? (WASD to move, look with mouse)";
 
-        if(game instanceof Driver){
-            ((Driver) game).loadStates();
-        }
-
 
 
 
