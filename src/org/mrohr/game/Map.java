@@ -186,7 +186,6 @@ public class Map extends GameObject implements MouseListener {
         cam.init(gameContainer);
 
         if(debugging){
-            System.out.println("player shape at " + playerShape.getX() + "," + playerShape.getY());
             System.out.println("Player at " + player.getBoundingBox().getX() + "," + player.getBoundingBox().getY());
         }
 
@@ -200,7 +199,6 @@ public class Map extends GameObject implements MouseListener {
 
         int minY = height;
         int maxY = (tiled.getHeight() * this.tiled.getTileHeight()) - (height * 2);
-        System.out.println("Max is " + maxX);
 
         int x = random.nextInt(maxX - minX) + minX;
         int y = random.nextInt(maxY - minY) + minY;
