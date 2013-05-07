@@ -57,15 +57,6 @@ public class Driver extends StateBasedGame{
 
     }
 
-    public void loadStates() throws SlickException{
-        for(int i = 0; i < GameStates.values().length; i++){
-            getState(GameStates.values()[i].ordinal()).enter(gc,this);
-        }
-        enterState(GameStates.TITLE_SCREEN.ordinal());
-        gc.setMusicVolume(1);
-        gc.setSoundVolume(1);
-    }
-
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
         TitleState title= new TitleState("The Forest",GameStates.GAMEPLAY.ordinal());
